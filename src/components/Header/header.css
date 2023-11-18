@@ -1,0 +1,60 @@
+/* header.css */
+
+header {
+  text-align: center;
+  margin-bottom: 75px;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo-text {
+  flex-grow: 0;
+}
+
+.logo-text h1 {
+  margin: 0;
+  font-size: 24px;
+  color: #1a1aff; 
+}
+
+.topnav {
+    overflow: hidden;
+  }
+  
+  .topnav a {
+    float: left;
+    display: block;
+    color: #000000;
+    text-align: center;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-size: 17px;
+  }
+  
+  .topnav a:hover {
+    color: black;
+  }
+  
+  @media screen and (max-width: 1200px) {
+    .topnav.responsive {position: relative;}
+    .topnav.responsive .icon {
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+    .topnav.responsive a {
+      float: none;
+      display: block;
+      text-align: right;
+    }
+ }
+
+.auth-button {
+  display: flex;
+  align-items: center;
+  text-align: right;
+}

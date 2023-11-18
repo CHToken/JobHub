@@ -1,0 +1,62 @@
+@font-face {
+    font-family: 'Paytone One';
+    src: local('Paytone One'), url('./fonts/PaytoneOne-Regular.ttf') format('truetype'), local('Allerta'), url('./fonts/Allerta-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+  
+
+body {
+    background-color: #ffffff;
+    color: #000000;
+    font-family: 'Allerta','Poppins';
+  }
+  
+  .app-container {
+    max-width: 1250px;
+    margin: 0 auto;
+    padding: 15px;
+  }
+  
+  .wallet-connection {
+    display: flex;
+    align-items: center;
+  }
+  
+  .wallet-connection p {
+    margin-right: 10px;
+  }
+  
+  .wallet-connection button {
+    text-decoration: none;
+    padding: 10px 20px;
+    background-color: #1a1aff;
+    color: #ffffff;
+    font-size: 16px;
+    border: 1.5px;
+    font-weight: bold;
+    border-radius: 5px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    cursor: pointer;
+  }
+
+  .connected-message {
+    margin: 0;
+    font-weight: bold;
+  }
+  
+  .description-container {
+    padding: 20px;
+    background-color: #ffffff;
+    color: #000;
+  }
+  
+  .description-text {
+    color: #ffffff;
+    position: absolute;
+    padding: 3vw;
+    margin-right: 0px;
+    font-size: 40px;
+    flex-grow: 0;
+    font-family: "Allerta","Poppins";
+  }

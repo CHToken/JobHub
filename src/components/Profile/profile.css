@@ -1,0 +1,103 @@
+.profile-icon {
+  margin-right: 20px;
+  cursor: pointer;
+  position: relative;
+  max-width: 35px;
+}
+
+.profile-icon img {
+  border-radius: 50%;
+  max-width: 35px!important;
+}
+
+.profile-menu {
+  position: absolute;
+  top: 80px;
+  right: 30;
+  text-transform: capitalize;
+  text-align: center;
+  text-decoration: none;
+  font-size: 18px;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  width: 150px;
+  z-index: 1;
+  border-radius: 8px;
+}
+
+.profile-menu a {
+  display: block;
+  color: #000000;
+  text-decoration: none;
+  padding: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.profile-menu a:hover {
+  background-color: #f1f1f1;
+  border-radius: 5px;
+}
+
+.profile-menu p {
+  margin: 0;
+  padding: 8px;
+  cursor: pointer;
+}
+
+/* New css */
+.profile-container {
+  padding: 20px;
+  max-width: 100%;
+  width: 450px;
+  background-color: #f1f1f1;
+  border-radius: 8px;
+  display: inline-block;
+}
+
+.profile-container h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.profile-container div {
+  margin-bottom: 15px;
+}
+
+.profile-container label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.profile-container input {
+  width: -webkit-fill-available;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.profile-container button {
+  background-color: #1a1aff;
+  color: #ffffff;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.profile-container button:hover {
+  background-color: #0000ff;
+}
+
+.back-link {
+  display: block;
+  margin-top: 10px;
+  text-decoration: none;
+  color: #000000;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
