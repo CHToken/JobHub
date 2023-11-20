@@ -15,7 +15,10 @@ body {
   .app-container {
     max-width: 1250px;
     margin: 0 auto;
+    display: flex;
     padding: 15px;
+    flex-direction: column;
+    align-items: center;
   }
   
   .wallet-connection {

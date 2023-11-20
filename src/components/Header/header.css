@@ -3,6 +3,9 @@
 header {
   text-align: center;
   margin-bottom: 75px;
+  width: 1050px;
+  display: flex;
+  flex-direction: column;
 }
 
 .header-container {

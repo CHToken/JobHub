@@ -15,6 +15,7 @@ import { MetaMaskProvider } from "@metamask/sdk-react";
 import "./global.css";
 import "./components/Header/header.css";
 import "./components/Profile/profile.css";
+import './components/AboutSection/aboutsettings.css';
 import "./components/PastProjectSection/pastproject.css";
 import "./components/SocialMediaSection/socialmedia.css";
 import "./components/WalletInfoSection/walletinfo.css";
