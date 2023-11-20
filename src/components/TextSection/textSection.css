@@ -6,7 +6,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
   width: 100%;
   background-color: #ffffff;
   color: #000;
@@ -14,15 +13,14 @@
 }
 
 .text-section {
-    display: flex;
-    /* margin: 20px; */
-    height: 60vh;
-    background-color: #ffffff;
-    color: #000;
-    justify-content: space-between;
-    align-items: stretch;
-    padding: 25px;
-    width: 100%;
+  display: flex;
+  /* margin: 20px; */
+  background-color: #ffffff;
+  color: #000;
+  justify-content: space-between;
+  align-items: stretch;
+  padding: 25px;
+  width: 100%;
   }
   
   .left-section,
@@ -80,9 +78,11 @@
   
   .separator {
     width: 0.5px;
-    height: 50vh;
+    height: auto;
+    display: flex;
     margin: 0 20px;
     background-color: #000000;
     border: none;
+    justify-content: center;
   }
   

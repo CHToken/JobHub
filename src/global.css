@@ -1,65 +1,84 @@
 @font-face {
-    font-family: 'Paytone One';
-    src: local('Paytone One'), url('./fonts/PaytoneOne-Regular.ttf') format('truetype'), local('Allerta'), url('./fonts/Allerta-Regular.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-  }
-  
+  font-family: 'Paytone One';
+  src: local('Paytone One'), url('./fonts/PaytoneOne-Regular.ttf') format('truetype'), local('Allerta'), url('./fonts/Allerta-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
 
 body {
-    background-color: #ffffff;
-    color: #000000;
-    font-family: 'Allerta','Poppins';
-  }
-  
-  .app-container {
-    max-width: 1250px;
-    margin: 0 auto;
-    display: flex;
-    padding: 15px;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .wallet-connection {
-    display: flex;
-    align-items: center;
-  }
-  
-  .wallet-connection p {
-    margin-right: 10px;
-  }
-  
-  .wallet-connection button {
-    text-decoration: none;
-    padding: 10px 20px;
-    background-color: #1a1aff;
-    color: #ffffff;
-    font-size: 16px;
-    border: 1.5px;
-    font-weight: bold;
-    border-radius: 5px;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    cursor: pointer;
+  background-color: #ffffff;
+  color: #000000;
+  font-family: 'Poppins', sans-serif; /* Set Poppins as the primary font */
+}
+
+.app-container {
+  width: 100%;
+  max-width: 1250px;
+  margin: 0 auto;
+  display: flex;
+  align-content: center;
+  padding: 15px;
+  box-sizing: border-box;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Adjustments for Description Text */
+.description-text {
+  font-size: 24px; /* Adjust font size for better mobile readability */
+  padding: 20px; /* Change padding for mobile */
+  text-align: center; /* Center align for mobile */
+}
+
+/* Media Query for Mobile responsiveness */
+@media (max-width: 768px) {
+  .description-container {
+    padding: 10px; /* Adjust padding for smaller screens */
   }
 
-  .connected-message {
-    margin: 0;
-    font-weight: bold;
-  }
-  
-  .description-container {
-    padding: 20px;
-    background-color: #ffffff;
-    color: #000;
-  }
-  
   .description-text {
-    color: #ffffff;
-    position: absolute;
-    padding: 3vw;
-    margin-right: 0px;
-    font-size: 40px;
-    flex-grow: 0;
-    font-family: "Allerta","Poppins";
+    font-size: 18px; /* Further reduce font size for smaller screens */
   }
+}
+.wallet-connection {
+  display: flex;
+  align-items: center;
+}
+
+.wallet-connection p {
+  margin-right: 10px;
+}
+
+.wallet-connection button {
+  text-decoration: none;
+  padding: 10px 20px;
+  background-color: #1a1aff;
+  color: #ffffff;
+  font-size: 16px;
+  border: 1.5px;
+  font-weight: bold;
+  border-radius: 5px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  cursor: pointer;
+}
+
+.connected-message {
+  margin: 0;
+  font-weight: bold;
+}
+
+/* .description-container {
+  padding: 20px;
+  background-color: #ffffff;
+  color: #000;
+}
+
+.description-text {
+  color: #ffffff;
+  position: absolute;
+  padding: 3vw;
+  margin-right: 0px;
+  font-size: 40px;
+  flex-grow: 0;
+  font-family: "Allerta", "Poppins";
+} */

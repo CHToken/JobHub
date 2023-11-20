@@ -145,6 +145,7 @@ const UserProfile = ({ isConnected }) => {
   };
 
   return (
+    <div className="Profile-container">
     <>
       {isConnected ? (
         <>
@@ -359,6 +360,7 @@ const UserProfile = ({ isConnected }) => {
         <p>Please connect your wallet to view your profile.</p>
       )}
     </>
+    </div>
   );
 };
 
