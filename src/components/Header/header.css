@@ -17,8 +17,13 @@ header {
 
 .logo-text h1 {
   margin: 0;
-  font-size: 24px;
+  font-size: 20px;
+  text-decoration: none;
   color: #1a1aff; 
+}
+
+.logo-text a {
+  text-decoration: none;
 }
 
 .topnav {

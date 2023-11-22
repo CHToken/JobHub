@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 // import UserProfile from '../ProfileSection/profile'; 
 import userImage from '../../assets/img/account-svgrepo-com.png';
 
-const AuthButton = ({ isConnected, connectWallet }) => {
+const AuthButton = ({ isConnected, connectWallet, disconnectWallet }) => {
   const [showProfileMenu, setShowProfileMenu] = useState(false);
 
   const handleProfileHover = () => {
@@ -22,7 +22,7 @@ const AuthButton = ({ isConnected, connectWallet }) => {
 
   function openMobileMenu() {
     var topMenu = document.querySelector('#topnav');
-    if (topMenu.style.display == 'none') {
+    if (topMenu.style.display === 'none') {
       topMenu.style.display = 'flex';
     } else {
       topMenu.style.display = 'none';
@@ -31,7 +31,7 @@ const AuthButton = ({ isConnected, connectWallet }) => {
 
   return (
     <div className="auth-button">
-      <i class="fas fa-bars hamburger" onClick={openMobileMenu}></i>
+      <i className="fas fa-bars hamburger" onClick={openMobileMenu}></i>
       <div className="profile-icon" onMouseEnter={handleProfileHover}>
         <img src={userImage} alt="Profile" />
         {showProfileMenu && (
@@ -43,7 +43,7 @@ const AuthButton = ({ isConnected, connectWallet }) => {
           </div>
         )}
       </div>
-      <WalletConnection isConnected={isConnected} connectWallet={connectWallet} />
+      <WalletConnection isConnected={isConnected} connectWallet={connectWallet} disconnectWallet={disconnectWallet} />
     </div>
   );
 };

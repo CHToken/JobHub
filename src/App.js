@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import {
   BrowserRouter as Router,
   Route,
   Routes,
-  Outlet,
 } from "react-router-dom";
 import UserProfile from "./components/Profile/profile";
 import HeaderContainer from "./components/Header/header";
@@ -13,7 +12,6 @@ import HomeCategories from "./components/Home/Categories";
 import HomeJobs from "./components/Home/Jobs";
 import Subscribe from "./components/Home/Subscribe";
 import HeroSection from "./components/HeroSection/HeroSection";
-import GridSection from "./components/GridSection/GridSection";
 import { MetaMaskProvider } from "@metamask/sdk-react";
 
 import "./global.css";
@@ -29,7 +27,7 @@ import "./components/GridSection/gridSection.css";
 const App = () => {
   const [isConnected, setConnected] = useState(false);
 
-  const connectWallet = async () => {
+  const connectWallet = useCallback(async () => {
     try {
       // Connect to MetaMask
       await window.ethereum.request({ method: "eth_requestAccounts" });
@@ -37,7 +35,13 @@ const App = () => {
     } catch (error) {
       console.error("Failed to connect to MetaMask:", error);
     }
-  };
+  }, []);
+  
+  const disconnectWallet = useCallback(() => {
+    setConnected(false);
+    window.location.reload();
+  }, []);
+  
 
   return (
     <MetaMaskProvider
@@ -56,27 +60,23 @@ const App = () => {
             <HeaderContainer
               isConnected={isConnected}
               connectWallet={connectWallet}
+              disconnectWallet={disconnectWallet}
             />
           </header>
-        </div>
-
-        <div className="app-container">
           <Routes>
-            <Route
-              path="/profile"
-              element={<UserProfile isConnected={isConnected}/>}
-            />
-            {/* <Route path="/listings" element={<JobListings />} /> */}
-            <Route path="/" element={
-                <div>
-                  <HeroSection />
-                </div>
-              }
-            />
+            <Route path="/profile" element={<UserProfile isConnected={isConnected} />} />
+            <Route path="/" element={<Home />} />
           </Routes>
-          <Outlet />
         </div>
+        <Footer />
+      </Router>
+    </MetaMaskProvider>
+  );
+};
           
+const Home = () => {
+  return (
+    <div>
         <div className="head-1">
           <h1>Discover more than <br /> <span className="navyblue">8000+ jobs</span></h1>
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
@@ -89,8 +89,6 @@ const App = () => {
         </div>
 
         <div className="app-container">
-
-
           <div className="d-flex align-items-center justify-content-center mb-5">
             <div className="counter-section">
               <div className="row">
@@ -130,21 +128,16 @@ const App = () => {
               </div>
             </div>
           </div>
-          
           <TextSection />
           <HomeCategories />
-
         </div>
           
         <HomeJobs />
-
+        <HeroSection />
         <Subscribe />
-        <Footer />
-
-      </Router>
-    </MetaMaskProvider>
-  );
-};
-
+        </div>
+        );
+      };
+      
 export default App;
 

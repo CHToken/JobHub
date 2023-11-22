@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const ProfileSettings = ({ userData, onSave }) => {
+const ProfileSettings = ({ userData, onSave, onBack }) => {
   const [ProfileSettingsData, setProfileSettingsData] = useState({
     name: userData.name,
     username: userData.username,
@@ -12,6 +12,10 @@ const ProfileSettings = ({ userData, onSave }) => {
 
   const handleSaveClick = () => {
     onSave(ProfileSettingsData);
+  };
+
+  const handleBackClick = () => {
+    onBack();
   };
 
   useEffect(() => {
@@ -74,6 +78,7 @@ const ProfileSettings = ({ userData, onSave }) => {
         />
       </div>
       <button onClick={handleSaveClick}>Save</button>
+      <button onClick={handleBackClick}>Back</button>
     </div>
   );
 };
