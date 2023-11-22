@@ -59,6 +59,23 @@ const App = () => {
             />
           </header>
         </div>
+
+        <div className="app-container">
+          <Routes>
+            <Route
+              path="/profile"
+              element={<UserProfile isConnected={isConnected}/>}
+            />
+            {/* <Route path="/listings" element={<JobListings />} /> */}
+            <Route path="/" element={
+                <div>
+                  <HeroSection />
+                </div>
+              }
+            />
+          </Routes>
+          <Outlet />
+        </div>
           
         <div className="head-1">
           <h1>Discover more than <br /> <span className="navyblue">8000+ jobs</span></h1>
@@ -120,24 +137,6 @@ const App = () => {
         </div>
           
         <HomeJobs />
-
-
-        <div className="app-container">
-          <Routes>
-            <Route
-              path="/profile"
-              element={<UserProfile isConnected={isConnected}/>}
-            />
-            {/* <Route path="/listings" element={<JobListings />} /> */}
-            <Route path="/" element={
-                <div>
-                  <HeroSection />
-                </div>
-              }
-            />
-          </Routes>
-          <Outlet />
-        </div>
 
         <Subscribe />
         <Footer />
