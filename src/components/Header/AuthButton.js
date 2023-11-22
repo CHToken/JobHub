@@ -20,8 +20,18 @@ const AuthButton = ({ isConnected, connectWallet }) => {
     setShowProfileMenu(false);
   };
 
+  function openMobileMenu() {
+    var topMenu = document.querySelector('#topnav');
+    if (topMenu.style.display == 'none') {
+      topMenu.style.display = 'flex';
+    } else {
+      topMenu.style.display = 'none';
+    }
+  }
+
   return (
     <div className="auth-button">
+      <i class="fas fa-bars hamburger" onClick={openMobileMenu}></i>
       <div className="profile-icon" onMouseEnter={handleProfileHover}>
         <img src={userImage} alt="Profile" />
         {showProfileMenu && (

@@ -5,6 +5,7 @@ const ProfileSettings = ({ userData, onSave }) => {
     name: userData.name,
     username: userData.username,
     gender: userData.gender,
+    aboutuser: userData.aboutuser,
     skills: userData.skills,
   });
 
@@ -19,6 +20,7 @@ const ProfileSettings = ({ userData, onSave }) => {
       name: userData.name,
       username: userData.username,
       gender: userData.gender,
+      aboutuser: userData.aboutuser,
       skills: userData.skills,
     });
   }, [userData]);
@@ -54,12 +56,12 @@ const ProfileSettings = ({ userData, onSave }) => {
         />
       </div>
       <div>
-        <label htmlFor="profession">Profession:</label>
+        <label htmlFor="aboutuser">About:</label>
         <input
           type="text"
-          id="profession"
-          value={ProfileSettingsData.profession}
-          onChange={(e) => setProfileSettingsData({ ...ProfileSettingsData, profession: e.target.value })}
+          id="aboutuser"
+          value={ProfileSettingsData.aboutuser}
+          onChange={(e) => setProfileSettingsData({ ...ProfileSettingsData, aboutuser: e.target.value })}
         />
       </div>
       <div>

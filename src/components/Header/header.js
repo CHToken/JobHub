@@ -8,7 +8,7 @@ const HeaderContainer = ({ isConnected, connectWallet }) => {
       <div className="logo-text">
         <h1>JobHub</h1>
       </div>
-      <div className="topnav">
+      <div className="topnav" id="topnav">
       <Link to="#jobposter">Job Poster</Link>
       <Link to="#jobseeker">Job Seeker</Link>
       <Link to="#buygem">Buy Gem</Link>

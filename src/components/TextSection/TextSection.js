@@ -4,12 +4,12 @@ import { Link } from 'react-router-dom';
 const TextSection = () => {
   return (
     <div className='text-container'>
-    <div className="text-section">
-      <div className="left-section">
+    <div className="text-section row">
+      <div className="left-section col-md-6">
         <h2>Connecting Talents to Opportunities</h2>
       </div>
       <hr className="separator" />
-      <div className="right-section">
+      <div className="col-md-6">
         <p>JobHub has made it easy for everyone on the blockchain to get job easily with our latest Dapp that includes AI features for job recommendation and security.</p>
         <div className="buttons-section">
           <Link to="/get-started" className="get-started-button">

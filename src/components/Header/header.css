@@ -3,11 +3,6 @@
 header {
   text-align: center;
   margin-bottom: 75px;
-  display: flex;
-  margin-right: 5px;
-  margin-left: 5px;
-  flex-direction: column;
-  justify-content: space-between;
 }
 
 .header-container {
