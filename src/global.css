@@ -259,9 +259,11 @@ body {
     background: white;
     height: 70vh;
   }
+  .head-1 > h1 {font-size: 40px;}
   .head-1 p{
     width: 90%;
   }
+  .searchBox > input{width: 160px;}
   .col-md-4, .col-md-6{
     margin-bottom: 20px;
   }
