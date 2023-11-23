@@ -1,49 +1,28 @@
-// server.js
 const express = require("express");
-const mongoose = require("mongoose");
-const cors = require("cors");
+const bodyParser = require("body-parser");
+const { db } = require("./firebase");
 
 const app = express();
-const port = 3001; // You can use any port you prefer
-app.use(cors());
+app.use(bodyParser.json());
 
-// Connect to MongoDB
-mongoose.connect("mongodb+srv://dayojohnson76:p5qKl1g593h8YIcy@cluster0.trk1hkg.mongodb.net/", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-
-// Define MongoDB Schema
-const userProfileSchema = new mongoose.Schema({
-  name: String,
-  username: String,
-  email: String,
-  gender: String,
-});
-
-const UserProfile = mongoose.model("UserProfile", userProfileSchema);
-
-// API endpoint to handle profile updates
-app.post("/api/updateProfile", async (req, res) => {
-  const { user, userProfile } = req.body;
-
+// API route to handle job postings
+app.post("/api/jobs", async (req, res) => {
   try {
-    // Update the profile in MongoDB
-    const updatedProfile = await UserProfile.findOneAndUpdate(
-      { user: user },
-      { $set: userProfile },
-      { new: true }
-    );
+    const { jobTitle, jobDescription } = req.body;
 
-    // Send the updated profile as the response
-    res.json(updatedProfile);
+    // Add a new document to the "jobs" collection in Firestore
+    const jobsCollection = db.collection("jobs");
+    await jobsCollection.add({ jobTitle, jobDescription });
+
+    res.status(201).json({ success: true, message: "Job posted successfully" });
   } catch (error) {
-    console.error("Error updating profile:", error);
-    res.status(500).json({ error: "Failed to update profile." });
+    console.error("Error posting job:", error);
+    res.status(500).json({ success: false, message: "Internal server error" });
   }
 });
 
 // Start the server
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });

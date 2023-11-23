@@ -26,12 +26,6 @@ const SocialMedia = ({ userData, onSave }) => {
         value={socialMediaData.telegram}
         onChange={(e) => handleSocialMediaChange('telegram', e.target.value)}
       />
-      <label>Whatsapp:</label>
-      <input
-        type="text"
-        value={socialMediaData.whatsapp}
-        onChange={(e) => handleSocialMediaChange('whatsapp', e.target.value)}
-      />
       <label>Twitter:</label>
       <input
         type="text"

@@ -12,8 +12,8 @@ const HeaderContainer = ({ isConnected, connectWallet, disconnectWallet }) => {
         </Link>
       </div>
       <div className="topnav" id="topnav">
-      <Link to="#jobposter">Job Poster</Link>
-      <Link to="#jobseeker">Job Seeker</Link>
+      <Link to="postjob">Post a Job</Link>
+      {/* <Link to="#jobseeker">Job Seeker</Link> */}
       <Link to="#buygem">Buy Gem</Link>
       <Link to="#about">About</Link>
       </div>

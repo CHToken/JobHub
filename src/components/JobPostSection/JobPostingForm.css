@@ -1,0 +1,66 @@
+.job-posting-form {
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+.job-label {
+    display: block;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.job-input,
+.job-textarea,
+.job-select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.job-label div {
+    display: flex;
+    align-items: center;
+}
+
+.job-label div span {
+    margin-right: 10px;
+}
+
+.job-button {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.job-button:hover {
+    background-color: #007bff;
+}
+
+/* Responsive Styles */
+@media only screen and (max-width: 600px) {
+    .job-posting-form {
+        padding: 15px;
+    }
+
+    .job-input,
+    .job-textarea,
+    .job-select {
+        padding: 8px;
+    }
+
+    .job-button {
+        padding: 10px 15px;
+    }
+}

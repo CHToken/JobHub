@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import './aboutsettings.css';
 
-const AboutUserSettings = ({ aboutuser, onSave }) => {
+const AboutUserSettings = ({ aboutuser, onSave, onBack }) => {
   const [editedAboutUser, setEditedAboutUser] = useState(aboutuser);
 
   const handleSaveClick = () => {
     onSave(editedAboutUser);
+  };
+
+  const handleBackClick = () => {
+    onBack();
   };
 
   const handleAboutUserChange = (event) => {
@@ -26,6 +30,7 @@ const AboutUserSettings = ({ aboutuser, onSave }) => {
         <button onClick={handleSaveClick} className="save-button">
           Save
         </button>
+        <button onClick={handleBackClick}>Back</button>
       </div>
       </div>
   );
