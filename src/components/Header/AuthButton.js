@@ -37,9 +37,9 @@ const AuthButton = ({ isConnected, connectWallet, disconnectWallet }) => {
         {showProfileMenu && (
           <div className="profile-menu" onMouseEnter={handleMenuHover} onMouseLeave={handleMenuLeave}>
             <Link to="/profile">Profile</Link>
-            <Link to="/wallets">Wallets</Link>
-            <Link to="/watchlist">Watchlist</Link>
-            <Link to="/settings">Settings</Link>
+            <Link to="/jobboard">JobBoard</Link>
+            {/* <Link to="/watchlist">Watchlist</Link> */}
+            {/* <Link to="/settings">Settings</Link> */}
           </div>
         )}
       </div>

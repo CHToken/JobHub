@@ -7,12 +7,12 @@ const JobPostingForm = ({isConnected, onSubmit }) => {
   const jobCategoryList = [
     "Dapp",
     "Smart Contract",
-    "CA Bug Fixing",
+    "CA Bug Fix",
     "Web Dev",
     "CA Audit",
-    "Graphic Design",
+    "Design",
     "NFT",
-    "Mobile App/IOS",
+    "Mobile App",
     "TG Bot",
   ];
 

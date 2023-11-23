@@ -13,7 +13,7 @@ const HomeCategories = () => {
         <button className="btn btn-outline">All Categories</button>
         </div>
     </div>
-    <div className="row mt-3">
+    <div className="row mt-3 job-category">
         <div className="col-md-4">
         <div className="card category-box">
             <div className="row">
@@ -31,10 +31,10 @@ const HomeCategories = () => {
         <div className="card category-box">
             <div className="row">
             <div className="col-6 d-flex align-items-center justify-content-center">
-                <i className="fa fa-volume-up" style={{background:"#453FE0", color: "#FFF"}}></i>
+                <i className="fa fa-laptop-code" style={{background:"#453FE0", color: "#FFF"}}></i>
             </div>
             <div className="col-6 d-flex flex-column align-items-start justify-content-center pr-4">
-                <h2>Marketing</h2>
+                <h2>Dapp</h2>
                 <p className="opacity-75">150+ Jobs Available</p>
             </div>
             </div>
@@ -44,10 +44,10 @@ const HomeCategories = () => {
         <div className="card category-box">
             <div className="row">
             <div className="col-6 d-flex align-items-center justify-content-center">
-                <i className="fa fa-dollar-sign" style={{background:"#FBEEFC", color: "#D343E0"}}></i>
+                <i className="fa fa-robot" style={{background:"#FBEEFC", color: "#D343E0"}}></i>
             </div>
             <div className="col-6 d-flex flex-column align-items-start justify-content-center pr-4">
-                <h2>Finance</h2>
+                <h2>TG Bot</h2>
                 <p className="opacity-75">150+ Jobs Available</p>
             </div>
             </div>

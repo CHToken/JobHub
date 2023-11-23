@@ -92,7 +92,7 @@ input:focus-visible {
 }
 
 .mt-10{
-  margin-top: 10pc;
+  margin-top: 16pc;
 }
 
 .btn-outline{
@@ -105,11 +105,14 @@ input:focus-visible {
 
 .btn-secondary{
   background: #EBEFF7;
-  color: #4B46E1;
-  font-family: 'poppins', sans-serif;
-  font-weight: 600;
-  padding: 15px;
-  border: 1px solid #DEDDFA;
+    color: #4B46E1;
+    font-family: 'poppins', sans-serif;
+    font-weight: 600;
+    padding: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 30px;
+    border: 1px solid #DEDDFA;
 }
 
 .category-box{
@@ -127,21 +130,23 @@ input:focus-visible {
 }
 
 .category-box i {
-  font-size: 35px;
-  padding: 40px;
+  font-size: 30px;
+    padding: 25px;
   border-radius: 20px;
 }
 
 .bg-second{
   background-color: #EBEFF7;
   padding: 80px;
+  margin-top: 7pc;
+  margin-bottom: 5pc;
 }
 
 .bg-third{
   background: url(assets/img/bg-pattern-triangles.png) no-repeat;
   background-color: #FAFAFC;
   background-size: cover;
-  padding: 80px;
+  padding: inherit;
   height: 60vh;
   display: flex;
   flex-direction: column;
@@ -280,7 +285,7 @@ body {
     width: 80%;
   }
   .bg-third p{
-    width: 95% !important;
+    width: 100% !important;
   }
   .left-section h2{
     font-size: 40px !important;
@@ -290,4 +295,35 @@ body {
   .underlined{display: unset; }
   .buttons-section{flex-direction: column;}
   .text-section{height: 45vh!important;}
+}
+
+.counter {
+  margin-bottom: 8pc!important;
+}
+
+.counter h4 {
+  font-family: 'Poppins';
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.job-category h2 {
+  font-size: 24px;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: bold;
+}
+.job-category p {
+  font-size: 15px;
+}
+
+.jobs-list h3 {
+  font-size: 20px;
+    font-family: 'Poppins';
+    font-weight: bold;
+}
+
+.jobs-list img {
+  border: outset;
+    border-block-color: #4B46E1;
 }

@@ -10,7 +10,7 @@ const Homepage = () => {
     <div>
       <div className="head-1">
         <h1>
-          Discover more than <br /> <span className="navyblue">8000+ jobs</span>
+          Discover more than <br /> <span className="navyblue">250+ jobs</span>
         </h1>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
         <div className="searchContainer">
@@ -23,7 +23,7 @@ const Homepage = () => {
       </div>
 
       <div className="app-container">
-          <div className="d-flex align-items-center justify-content-center mb-5">
+          <div className="d-flex align-items-center justify-content-center mb-5 counter">
             <div className="counter-section">
               <div className="row">
                 <div className="col-md-4">
@@ -32,7 +32,7 @@ const Homepage = () => {
                       <i className="fas fa-briefcase" style={{color: "#2FA1FF"}}></i>
                     </div>
                     <div className="col-6">
-                      <h1 className="navyblue">8k+</h1>
+                      <h1 className="navyblue">150+</h1>
                       <h4 className="opacity-75">JOBS</h4>
                     </div>
                   </div>
@@ -43,7 +43,7 @@ const Homepage = () => {
                       <i className="fab fa-trello" style={{color: "#FF8B3D"}}></i>
                     </div>
                     <div className="col-6">
-                      <h1 className="navyblue">400+</h1>
+                      <h1 className="navyblue">50+</h1>
                       <h4 className="opacity-75">STARTUPS</h4>
                     </div>
                   </div>
@@ -54,7 +54,7 @@ const Homepage = () => {
                       <i className="fas fa-users" style={{color: "#D343E0"}}></i>
                     </div>
                     <div className="col-6">
-                      <h1 className="navyblue">20k+</h1>
+                      <h1 className="navyblue">250+</h1>
                       <h4 className="opacity-75">TALENT</h4>
                     </div>
                   </div>

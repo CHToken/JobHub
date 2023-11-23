@@ -13,16 +13,16 @@ const HomeJobs = () => {
             <button className="btn btn-outline bg-white">See All Jobs</button>
         </div>
         </div>
-        <div className="row mt-5">
+        <div className="row mt-5 jobs-list">
         <div className="col-md-4">
             <div className="card">
             <div className="row">
                 <div className="col-6">
-                <img src="https://source.unsplash.com/512x512/?beauty,woman" className="mb-4 rounded-circle" width={"80%"} />
+                <img src="https://source.unsplash.com/512x512/?beauty,woman" className="mb-4 rounded-circle" width={"80%"} alt=''/>
                 </div>
                 <div className="col-6 d-flex flex-column align-items-start justify-content-center">
                 <h3>John Doe</h3>
-                <p>Remote Job</p>
+                <p>Remote</p>
                 <small className="opacity-75">$1k/month</small>
                 </div>
             </div>
@@ -39,11 +39,11 @@ const HomeJobs = () => {
             <div className="card">
             <div className="row">
                 <div className="col-6">
-                <img src="https://source.unsplash.com/512x512/?beauty,man" className="mb-4 rounded-circle" width={"80%"} />
+                <img src="https://source.unsplash.com/512x512/?beauty,man" className="mb-4 rounded-circle" width={"80%"} alt=''/>
                 </div>
                 <div className="col-6 d-flex flex-column align-items-start justify-content-center">
                 <h3>John Doe</h3>
-                <p>Remote Job</p>
+                <p>Remote</p>
                 <small className="opacity-75">$1k/month</small>
                 </div>
             </div>
@@ -60,11 +60,11 @@ const HomeJobs = () => {
             <div className="card">
             <div className="row">
                 <div className="col-6">
-                <img src="https://source.unsplash.com/512x512/?beauty,old" className="mb-4 rounded-circle" width={"80%"} />
+                <img src="https://source.unsplash.com/512x512/?beauty,old" className="mb-4 rounded-circle" width={"80%"} alt=''/>
                 </div>
                 <div className="col-6 d-flex flex-column align-items-start justify-content-center">
                 <h3>John Doe</h3>
-                <p>Remote Job</p>
+                <p>Remote</p>
                 <small className="opacity-75">$1k/month</small>
                 </div>
             </div>

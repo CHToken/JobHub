@@ -35,7 +35,7 @@
 }
 
 .job-button {
-    background-color: #007bff;
+    background-color: blue;
     color: white;
     padding: 12px 20px;
     border: none;
@@ -45,7 +45,7 @@
 }
 
 .job-button:hover {
-    background-color: #007bff;
+    background-color: blue;
 }
 
 /* Responsive Styles */

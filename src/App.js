@@ -1,15 +1,12 @@
 import React, { useState, useCallback } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import UserProfile from "./components/Profile/profile";
 import HeaderContainer from "./components/Header/header";
 import Footer from "./components/Footer/Footer";
 import { MetaMaskProvider } from "@metamask/sdk-react";
 import Homepage from "./components/Home/homepage";
 import JobPostingForm from "./components/JobPostSection/JobPostForm";
+import JobBoard from "./components/JobBoard/JobBoard";
 
 import "./global.css";
 import "./components/Header/header.css";
@@ -19,7 +16,7 @@ import "./components/SocialMediaSection/socialmedia.css";
 import "./components/WalletInfoSection/walletinfo.css";
 import "./components/TextSection/textSection.css";
 import "./components/HeroSection/heroSection.css";
-import './components/JobPostSection/JobPostingForm.css';
+import "./components/JobPostSection/JobPostingForm.css";
 
 const App = () => {
   const [isConnected, setConnected] = useState(false);
@@ -33,17 +30,17 @@ const App = () => {
       console.error("Failed to connect to MetaMask:", error);
     }
   }, []);
-  
+
   const disconnectWallet = useCallback(() => {
     setConnected(false);
     window.location.reload();
   }, []);
-  
-    // Define the onSubmit function
-    const handleJobSubmit = (jobData) => {
-      console.log("Job submitted:", jobData);
-      // You can add any additional logic here
-    };
+
+  // Define the onSubmit function
+  const handleJobSubmit = (jobData) => {
+    console.log("Job submitted:", jobData);
+    // You can add any additional logic here
+  };
 
   return (
     <MetaMaskProvider
@@ -66,12 +63,21 @@ const App = () => {
             />
           </header>
           <Routes>
-            <Route path="/profile" element={<UserProfile isConnected={isConnected} />} />
+            <Route
+              path="/profile"
+              element={<UserProfile isConnected={isConnected} />}
+            />
             <Route path="/" element={<Homepage />} />
             <Route
-  path="/postjob"
-  element={<JobPostingForm isConnected={isConnected} onSubmit={handleJobSubmit} />}
-/>
+              path="/postjob"
+              element={
+                <JobPostingForm
+                  isConnected={isConnected}
+                  onSubmit={handleJobSubmit}
+                />
+              }
+            />
+            <Route path="/jobboard" element={<JobBoard />} />
           </Routes>
         </div>
         <Footer />
@@ -80,6 +86,4 @@ const App = () => {
   );
 };
 
-      
 export default App;
-

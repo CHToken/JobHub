@@ -94,7 +94,7 @@ h2 {
 }
 
 .profilesettings button {
-  background-color: #007bff;
+  background-color: blue;
   color: #fff;
   padding: 10px;
   border: none;
@@ -124,7 +124,7 @@ h2 {
   position: absolute;
   top: 10px;
   right: 10px;
-  background-color: #007bff;
+  background-color: blue;
   color: #fff;
   padding-right: 10px;
   border: none;
