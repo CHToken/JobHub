@@ -7,17 +7,20 @@ import { MetaMaskProvider } from "@metamask/sdk-react";
 import Homepage from "./components/Home/homepage";
 import JobPostingForm from "./components/JobPostSection/JobPostForm";
 import JobBoard from "./components/JobBoard/JobBoard";
+import JobDetails from './components/Jobs/JobsDetails';
 
 import "./global.css"
 
 const App = () => {
   const [isConnected, setConnected] = useState(false);
+  const [walletAddress, setWalletAddress] = useState(null);
 
   const connectWallet = useCallback(async () => {
     try {
-      // Connect to MetaMask
-      await window.ethereum.request({ method: "eth_requestAccounts" });
+      // Connect to MetaMask and get the accounts
+      const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
       setConnected(true);
+      setWalletAddress(accounts[0]);
     } catch (error) {
       console.error("Failed to connect to MetaMask:", error);
     }
@@ -25,6 +28,7 @@ const App = () => {
 
   const disconnectWallet = useCallback(() => {
     setConnected(false);
+    setWalletAddress(null);
     window.location.reload();
   }, []);
 
@@ -70,6 +74,10 @@ const App = () => {
               }
             />
             <Route path="/jobboard" element={<JobBoard />} />
+            <Route
+        path="/jobs/:jobId"
+        element={<JobDetails isConnected={isConnected} walletAddress={walletAddress} />}
+      />
           </Routes>
         </div>
         <Footer />

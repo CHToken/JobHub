@@ -3,6 +3,7 @@ import AboutUserSettings from "../AboutSection/aboutsettings";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import SkillsSettings from "../SkillsSection/skillssettings";
+import AppliedJobsList from "../Jobs/AppliedJobsList"; 
 
 const UserProfileView = ({
   userData,
@@ -203,6 +204,12 @@ const UserProfileView = ({
         <div>
           <strong>ETH Wallet: </strong> {userData.ethwalletAddress}
         </div>
+      </div>
+    </div>
+  {/* Applied Jobs Section */}
+  <div className="card-container">
+      <div className="card">
+        <AppliedJobsList walletAddress={userData.bnbwalletAddress} />
       </div>
     </div>
   </>

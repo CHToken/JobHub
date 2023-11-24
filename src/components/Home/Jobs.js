@@ -97,14 +97,16 @@ const HomeJobs = () => {
               </small>
               <br />
               <div>
-                <p className="opacity-75">
-                  {truncateDescription(job.jobDescription, 150)}
-                </p>
-                <Link to={`/job/${job.id}`} className="btn btn-secondary">
-                  Read More
-                </Link>
-                <button className="btn btn-primary ml-1">Apply Now</button>
-              </div>
+  <p className="opacity-75">
+    {truncateDescription(job.jobDescription, 150)}
+  </p>
+  <Link to={`/jobs/${job.id}`} className="btn btn-secondary">
+    Read More
+  </Link>
+  <Link to={`/jobs/${job.id}`} className="btn btn-primary ml-1">
+    Apply Now
+  </Link>
+</div>
             </div>
           </div>
         ))}

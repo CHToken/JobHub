@@ -3,7 +3,7 @@ import WalletConnection from '../walletconnection';
 import { Link } from 'react-router-dom';
 import userImage from '../../assets/img/account-svgrepo-com.png';
 
-const AuthButton = ({ isConnected, connectWallet, disconnectWallet }) => {
+const AuthButton = ({ isConnected, connectWallet, disconnectWallet, walletAddress }) => {
   const [showProfileMenu, setShowProfileMenu] = useState(false);
 
   const handleProfileHover = () => {
@@ -43,6 +43,7 @@ const AuthButton = ({ isConnected, connectWallet, disconnectWallet }) => {
         )}
       </div>
       <WalletConnection isConnected={isConnected} connectWallet={connectWallet} disconnectWallet={disconnectWallet} />
+      {/* <JobDetails isConnected={isConnected} walletAddress={walletAddress} /> */}
     </div>
   );
 };
