@@ -1,83 +1,114 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { db } from '../../firebase';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { collection, getDocs } from 'firebase/firestore';
 
 const HomeJobs = () => {
+  const [jobs, setJobs] = useState([]);
+
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        const jobsCollection = collection(db, 'jobs');
+        const snapshot = await getDocs(jobsCollection);
+
+        const jobsData = await Promise.all(
+          snapshot.docs.map(async (doc) => {
+            const job = {
+              id: doc.id,
+              ...doc.data(),
+            };
+
+            return job;
+          })
+        );
+
+        setJobs(jobsData);
+      } catch (error) {
+        console.error('Error fetching jobs:', error);
+      }
+    };
+
+    fetchJobs();
+  }, []);
+
+  const truncateDescription = (description, maxLength) => {
+    return description.length > maxLength
+      ? `${description.substring(0, maxLength)}...`
+      : description;
+  };
+
   return (
     <div className="mt-10 bg-second">
-        <div className="row">
+      <div className="row">
         <div className="col-6">
-            <h1><span className="underlined">Popular Jobs</span> for you</h1>
-            <p>Yeah categories are here!! :)</p>
+          <h1>
+            <span className="underlined">Popular Jobs</span> for you
+          </h1>
+          <p>Yeah categories are here!! :)</p>
         </div>
         <div className="col-6 d-flex justify-content-end align-items-center">
-          <Link to="/jobboard" className="btn btn-outline bg-white">See All Jobs</Link>
+          <Link to="/jobboard" className="btn btn-outline bg-white">
+            See All Jobs
+          </Link>
         </div>
-        </div>
-        <div className="row mt-5 jobs-list">
-        <div className="col-md-4">
+      </div>
+      <div className="row mt-5 jobs-list">
+        {jobs.map((job) => (
+          <div key={job.id} className="col-md-4">
             <div className="card">
-            <div className="row">
+              <div className="row">
                 <div className="col-6">
-                <img src="https://source.unsplash.com/512x512/?beauty,woman" className="mb-4 rounded-circle" width={"80%"} alt=''/>
+                  {job.profilePicture ? (
+                    <img
+                      src={job.profilePicture}
+                      alt="Profile"
+                      style={{
+                        width: '100px',
+                        height: '100px',
+                        borderRadius: '50%',
+                      }}
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      icon={faUser}
+                      style={{
+                        width: '60px',
+                        height: '60px',
+                        borderRadius: '50%',
+                        border: '5px outset',
+                        borderBlockColor: '#4B46E1',
+                        padding: '15px'
+                      }}
+                    />
+                  )}
                 </div>
                 <div className="col-6 d-flex flex-column align-items-start justify-content-center">
-                <h3>John Doe</h3>
-                <p>Remote</p>
-                <small className="opacity-75">$1k/month</small>
+                  <h3>{job.company_name}</h3>
+                  <p>{job.jobtype}</p>
+                  <small className="opacity-75">{job.budget}</small>
                 </div>
+              </div>
+              <h3>{job.jobTitle}</h3>
+              <small className="opacity-75">
+                {job.timestamp} • {job.timeAgo}
+              </small>
+              <br />
+              <div>
+                <p className="opacity-75">
+                  {truncateDescription(job.jobDescription, 150)}
+                </p>
+                <Link to={`/job/${job.id}`} className="btn btn-secondary">
+                  Read More
+                </Link>
+                <button className="btn btn-primary ml-1">Apply Now</button>
+              </div>
             </div>
-            <h3>This Job</h3>
-            <small className="opacity-75">This time • 2 Days Ago</small>
-            <br />
-            <div>
-                <p className="opacity-75">We are looking for a well skilled developer, who can do loads of stuffs quickly and ASAP</p>
-                <button className="btn btn-secondary">Apply Now</button>
-            </div>
-            </div>
-        </div>
-        <div className="col-md-4">
-            <div className="card">
-            <div className="row">
-                <div className="col-6">
-                <img src="https://source.unsplash.com/512x512/?beauty,man" className="mb-4 rounded-circle" width={"80%"} alt=''/>
-                </div>
-                <div className="col-6 d-flex flex-column align-items-start justify-content-center">
-                <h3>John Doe</h3>
-                <p>Remote</p>
-                <small className="opacity-75">$1k/month</small>
-                </div>
-            </div>
-            <h3>This Job</h3>
-            <small className="opacity-75">This time • 2 Days Ago</small>
-            <br />
-            <div>
-                <p className="opacity-75">We are looking for a well skilled developer, who can do loads of stuffs quickly and ASAP</p>
-                <button className="btn btn-secondary">Apply Now</button>
-            </div>
-            </div>
-        </div>
-        <div className="col-md-4">
-            <div className="card">
-            <div className="row">
-                <div className="col-6">
-                <img src="https://source.unsplash.com/512x512/?beauty,old" className="mb-4 rounded-circle" width={"80%"} alt=''/>
-                </div>
-                <div className="col-6 d-flex flex-column align-items-start justify-content-center">
-                <h3>John Doe</h3>
-                <p>Remote</p>
-                <small className="opacity-75">$1k/month</small>
-                </div>
-            </div>
-            <h3>This Job</h3>
-            <small className="opacity-75">This time • 2 Days Ago</small>
-            <br />
-            <div>
-                <p className="opacity-75">We are looking for a well skilled developer, who can do loads of stuffs quickly and ASAP</p>
-                <button className="btn btn-secondary">Apply Now</button>
-            </div>
-            </div>
-        </div>
-        </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

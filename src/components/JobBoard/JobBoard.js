@@ -16,8 +16,11 @@ const jobColors = [
   "#ffd6ad",
 ];
 
+const itemsPerPage = 9;
+
 const JobBoard = () => {
   const [jobs, setJobs] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -41,16 +44,33 @@ const JobBoard = () => {
     fetchJobs();
   }, []);
 
+  const totalItems = jobs.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  const handleNextPage = () => {
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+  };
+
+  const handlePrevPage = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  };
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+
+  const displayedJobs = jobs.slice(startIndex, endIndex);
+
   return (
     <div className="job-board-container">
       <h2>Job Board</h2>
       <div className="job-posts-container">
-        {jobs.map((job) => (
+        {displayedJobs.map((job) => (
           <div key={job.id} className="job-post-card">
             <div className="layout1" style={{ backgroundColor: job.backgroundColor }}>
               <div className="job-timestamp">
                 <p>{job.timestamp}</p>
               </div>
+              <div className="job-cname"><p>{job.company_name}</p></div>
               <div className="job-role"><p>{job.role}</p></div>
               <div className="job-title"><h3>{job.jobTitle}</h3></div>
               <div className="job-type"><p>{job.jobtype}</p></div>
@@ -70,6 +90,15 @@ const JobBoard = () => {
             </div>
           </div>
         ))}
+      </div>
+      <div className="pagination-buttons">
+        <button onClick={handlePrevPage} disabled={currentPage === 1} className="pagination-button">
+          Prev
+        </button>
+        <span>{`Page ${currentPage} of ${totalPages}`}</span>
+        <button onClick={handleNextPage} disabled={currentPage === totalPages} className="pagination-button">
+          Next
+        </button>
       </div>
     </div>
   );

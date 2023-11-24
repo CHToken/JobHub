@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { db } from "../../firebase";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, getDoc, doc } from "firebase/firestore";
 import "./JobPostingForm.css";
 
-const JobPostingForm = ({isConnected, onSubmit }) => {
-  // Define predefined lists for Job Category and Role
+const JobPostingForm = ({ isConnected, onSubmit }) => {
   const jobCategoryList = [
     "Dapp",
     "Smart Contract",
@@ -21,35 +20,58 @@ const JobPostingForm = ({isConnected, onSubmit }) => {
   const roleList = ["Owner", "MiddleMan"];
 
   const [jobData, setJobData] = useState({
+    company_name: "",
     jobTitle: "",
     jobDescription: "",
     role: roleList[0],
     budget: "",
     jobtype: "Remote",
     jobcategory: jobCategoryList[0],
+    profilePicture: "", // Add a new field to store the user's profile picture
   });
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        if (isConnected) {
+          const walletAddress = window.ethereum.selectedAddress.toLowerCase();
+          const userDocRef = doc(db, "users", walletAddress);
+          const userDocSnap = await getDoc(userDocRef);
+
+          if (userDocSnap.exists()) {
+            const userData = userDocSnap.data();
+            setJobData((prevData) => ({ ...prevData, profilePicture: userData.profilePicture }));
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, [isConnected]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-     // Check if the user is connected
-  if (!isConnected) {
-    alert("Please connect your wallet before posting a job.");
-    return;
-  }
+    if (!isConnected) {
+      alert("Please connect your wallet before posting a job.");
+      return;
+    }
 
-    // Destructuring jobData for validation
     const {
+      company_name,
       jobTitle,
       jobDescription,
       role,
       budget,
       jobtype,
       jobcategory,
+      profilePicture, // Include the user's profile picture in the job data
     } = jobData;
 
-    // Validate form fields
     if (
+      !company_name ||
       !jobTitle ||
       !jobDescription ||
       !role ||
@@ -62,19 +84,16 @@ const JobPostingForm = ({isConnected, onSubmit }) => {
     }
 
     try {
-      // Get the current date and time
       const currentDate = new Date();
-
-      // Format the date and time as a string
       const formattedDate = currentDate.toLocaleString("en-US", {
         year: "numeric",
         month: "2-digit",
         day: "2-digit",
       });
 
-      // Add the job to Firestore
       const jobsCollection = collection(db, "jobs");
       const newJobDoc = await addDoc(jobsCollection, {
+        company_name,
         jobTitle,
         jobDescription,
         role,
@@ -83,9 +102,11 @@ const JobPostingForm = ({isConnected, onSubmit }) => {
         jobtype,
         jobcategory,
         jobstatus: "Active",
+        profilePicture, // Include the user's profile picture in the job data
       });
 
       onSubmit({
+        company_name,
         jobTitle,
         jobDescription,
         role,
@@ -94,16 +115,18 @@ const JobPostingForm = ({isConnected, onSubmit }) => {
         jobtype,
         jobcategory,
         jobstatus: "Active",
+        profilePicture, // Include the user's profile picture in the job data
       });
 
-      // Reset the form fields
       setJobData({
+        company_name: "",
         jobTitle: "",
         jobDescription: "",
         role: roleList[0],
         budget: "",
         jobtype: "Remote",
         jobcategory: jobCategoryList[0],
+        profilePicture: "", // Reset the profile picture field
       });
 
       alert("Job posted successfully!");
@@ -111,12 +134,20 @@ const JobPostingForm = ({isConnected, onSubmit }) => {
       console.log("Job posted successfully with ID:", newJobDoc.id);
     } catch (error) {
       console.error("Error posting job:", error);
-      // Handle error
     }
   };
 
   return (
     <form className="job-posting-form" onSubmit={handleSubmit}>
+      <label className="job-label">
+        Company/Project Name
+        <input
+          type="text"
+          value={jobData.company_name}
+          onChange={(e) => setJobData({ ...jobData, company_name: e.target.value })}
+          className="job-input"
+        />
+      </label>
       <label className="job-label">
         Job Title
         <input
@@ -187,6 +218,7 @@ const JobPostingForm = ({isConnected, onSubmit }) => {
           value={jobData.jobtype}
           onChange={(e) => setJobData({ ...jobData, jobtype: e.target.value })}
           disabled
+          className="job-input"
         />
       </label>
       <button type="submit" className="job-button">Post Job</button>

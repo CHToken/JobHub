@@ -160,6 +160,7 @@ input:focus-visible {
 .card{
   padding:20px;
   border-radius: 10px;
+  margin-top: 10px;
 }
 
 footer{
@@ -303,6 +304,6 @@ footer{
 }
 
 .jobs-list img {
-  border: outset;
-    border-block-color: #4B46E1;
+  border: 5px outset;
+  border-block-color: #4B46E1;
 }
