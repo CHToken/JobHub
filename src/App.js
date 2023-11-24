@@ -8,15 +8,7 @@ import Homepage from "./components/Home/homepage";
 import JobPostingForm from "./components/JobPostSection/JobPostForm";
 import JobBoard from "./components/JobBoard/JobBoard";
 
-import "./global.css";
-import "./components/Header/header.css";
-import "./components/Profile/profile.css";
-import "./components/PastProjectSection/pastproject.css";
-import "./components/SocialMediaSection/socialmedia.css";
-import "./components/WalletInfoSection/walletinfo.css";
-import "./components/TextSection/textSection.css";
-import "./components/HeroSection/heroSection.css";
-import "./components/JobPostSection/JobPostingForm.css";
+import "./global.css"
 
 const App = () => {
   const [isConnected, setConnected] = useState(false);

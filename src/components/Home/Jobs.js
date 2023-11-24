@@ -10,7 +10,7 @@ const HomeJobs = () => {
             <p>Yeah categories are here!! :)</p>
         </div>
         <div className="col-6 d-flex justify-content-end align-items-center">
-            <button className="btn btn-outline bg-white">See All Jobs</button>
+          <Link to="/jobboard" className="btn btn-outline bg-white">See All Jobs</Link>
         </div>
         </div>
         <div className="row mt-5 jobs-list">

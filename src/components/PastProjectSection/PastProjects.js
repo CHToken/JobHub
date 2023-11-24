@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import "./pastproject.css";
 
 const PastProjects = ({ userData, onSave }) => {
   const [pastProjectsData, setPastProjectsData] = useState([...userData.pastProjects]);

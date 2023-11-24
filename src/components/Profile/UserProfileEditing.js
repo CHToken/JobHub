@@ -22,11 +22,11 @@ const UserProfileEditing = ({
     <>
       {editMode === "profilesettings" && (
         <ProfileSettings
-          userData={userData}
-          onSave={onProfileSettingsSave}
-          onBack={() => setIsEditing(false)}
-          onProfilePictureChange={onProfilePictureChange}
-        />
+        userData={userData}
+        onSave={onProfileSettingsSave}
+        onBack={() => setIsEditing(false)}
+        onProfilePictureChange={onProfilePictureChange}
+      />      
       )}
       {editMode === "pastProjects" && (
         <PastProjects userData={userData} onSave={onProjectsSave} />

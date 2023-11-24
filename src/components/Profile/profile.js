@@ -4,13 +4,14 @@ import UserProfileView from "./UserProfileView";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage } from "../../firebase";
+import "./profile.css";
 
 const UserProfile = ({ isConnected }) => {
   const [userData, setUserData] = useState({
     profilePicture: "",
     name: "",
+    role: "",
     username: "",
-    gender: "",
     profession: "",
     status: "",
     aboutuser: "",
@@ -43,8 +44,8 @@ const UserProfile = ({ isConnected }) => {
             const initialUserData = {
               profilePicture: "",
               name: "",
+              role: "",
               username: "",
-              gender: "",
               profession: "",
               status: "",
               aboutuser: "",

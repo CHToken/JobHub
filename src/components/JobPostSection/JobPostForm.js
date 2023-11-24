@@ -1,18 +1,20 @@
 import React, { useState } from "react";
 import { db } from "../../firebase";
 import { collection, addDoc } from "firebase/firestore";
+import "./JobPostingForm.css";
 
 const JobPostingForm = ({isConnected, onSubmit }) => {
   // Define predefined lists for Job Category and Role
   const jobCategoryList = [
     "Dapp",
     "Smart Contract",
+    "Callers",
     "CA Bug Fix",
-    "Web Dev",
+    "Website Dev",
     "CA Audit",
     "Design",
     "NFT",
-    "Mobile App",
+    "Mobile Apps",
     "TG Bot",
   ];
 
@@ -68,8 +70,6 @@ const JobPostingForm = ({isConnected, onSubmit }) => {
         year: "numeric",
         month: "2-digit",
         day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
       });
 
       // Add the job to Firestore

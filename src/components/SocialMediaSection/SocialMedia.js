@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import "./socialmedia.css";
 
 const SocialMedia = ({ userData, onSave }) => {
   const [socialMediaData, setSocialMediaData] = useState({ ...userData.socialMedia });
