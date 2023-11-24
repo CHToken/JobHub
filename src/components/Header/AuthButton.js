@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import WalletConnection from '../walletconnection';
 import { Link } from 'react-router-dom';
-// import UserProfile from '../ProfileSection/profile'; 
 import userImage from '../../assets/img/account-svgrepo-com.png';
 
 const AuthButton = ({ isConnected, connectWallet, disconnectWallet }) => {
@@ -37,7 +36,7 @@ const AuthButton = ({ isConnected, connectWallet, disconnectWallet }) => {
         {showProfileMenu && (
           <div className="profile-menu" onMouseEnter={handleMenuHover} onMouseLeave={handleMenuLeave}>
             <Link to="/profile">Profile</Link>
-            <Link to="/jobboard">JobBoard</Link>
+            {/* <Link to="/jobboard">JobBoard</Link> */}
             {/* <Link to="/watchlist">Watchlist</Link> */}
             {/* <Link to="/settings">Settings</Link> */}
           </div>

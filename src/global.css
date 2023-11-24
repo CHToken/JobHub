@@ -1,3 +1,6 @@
+/* Import Poppins font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
 h1{
   font-family: 'poppins', sans-serif;
   font-weight: 800;
@@ -183,18 +186,10 @@ footer{
   font-weight: 600;
 }
 
-@font-face {
-    font-family: 'Paytone One';
-    src: local('Paytone One'), url('./fonts/PaytoneOne-Regular.ttf') format('truetype'), local('Allerta'), url('./fonts/Allerta-Regular.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-  }
-  
-
 body {
     background-color: #ffffff;
     color: #000000;
-    font-family: 'Allerta','Poppins';
+    font-family: 'Poppins', sans-serif;
   }
   
   .app-container {
