@@ -15,7 +15,11 @@ const SkillsSettings = ({ skills, onSave, onBack }) => {
 
   return (
     <div className="skills-settings">
-      <h3>Edit Skills</h3>
+      <div className="card-header d-flex">
+        <i onClick={handleBackClick} className='fa fa-arrow-left back-arrow'></i>
+        <h3>Edit Skills</h3>
+      </div>
+      <br />
       <div>
         <label htmlFor="editedSkills">Skills:</label>
         <input
@@ -25,8 +29,13 @@ const SkillsSettings = ({ skills, onSave, onBack }) => {
           onChange={(e) => setEditedSkills(e.target.value)}
         />
       </div>
-      <button onClick={handleSaveClick}>Save</button>
-      <button onClick={handleBackClick}>Back</button>
+      <br />
+      <div className='d-flex align-items-center justify-content-around'>
+        <button onClick={handleBackClick} className="save-button btn" style={{width:"20%"}}>Back</button>
+        <button onClick={handleSaveClick} className="btn btn-success" style={{width:"70%"}}>
+          Save
+        </button>
+      </div>
     </div>
   );
 };

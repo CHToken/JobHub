@@ -176,7 +176,7 @@ const UserProfile = ({ isConnected }) => {
                   handleSkillsSettingsSave={handleSkillsSettingsSave}
                 />
                 <>
-                  <button onClick={handleSaveClick}>Save</button>
+                  <button onClick={handleSaveClick} className="btn btn-success" style={{width:"100%"}}>Save</button>
                 </>
               </>
             )}
