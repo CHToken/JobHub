@@ -185,12 +185,6 @@ footer{
   font-family: 'poppins', sans-serif;
   font-weight: 600;
 }
-
-body {
-    background-color: #ffffff;
-    color: #000000;
-    font-family: 'Poppins', sans-serif;
-  }
   
   .app-container {
     max-width: 1250px;
