@@ -40,26 +40,31 @@
     width: auto;
     margin-bottom: 10px;
   }
-  .layout1 {
-    #job-title {
-    font-family: 'Poppins';
-    font-size: 24px;
-    font-weight: 700;
+    .job-title h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 26px;
+    text-transform: capitalize;
+    font-weight: bold;
     }
-    #job-type {
-      font-size: 15px;
+    .job-type p {
+    font-size: 15px;
     font-weight: 400;
-    font-family: 'Poppins';
-    }#job-category {
-      font-family: 'Poppins';
+    font-family: 'Poppins', sans-serif;
+    }
+    .job-category p {
+      font-family: 'Poppins', sans-serif;
     font-size: 15px;
     }
-    #job-budget{
-      font-family: 'Poppins';
+    .job-budget p {
+    font-family: 'Poppins', sans-serif;
     font-size: 15px;
     font-weight: bold;
     }
-}
+    .job-role p {
+      font-size: 15px;
+    font-weight: 400;
+    font-family: 'Poppins', sans-serif;
+    }
 
   .jobDescription {
     padding: 10px;
@@ -70,6 +75,10 @@
     align-items: center;
     flex-direction: column;
     justify-content: center;
+  }
+
+  @media (max-width: 768px) {
+
   }
   
   /* Use -webkit-line-clamp for better compatibility */
@@ -93,7 +102,7 @@
     font-size: 20px;
     font-family: 'Poppins';
     font-weight: 700;
-    border-radius: 15px;
+    border-radius: 20px;
     text-transform: capitalize;
     cursor: unset;
   }
@@ -105,7 +114,7 @@
     font-weight: bold;
     font-family: 'Poppins';
     text-transform: capitalize;
-    border-radius: 15px;
+    border-radius: 20px;
     font-weight: 700;
     cursor: pointer;
   }

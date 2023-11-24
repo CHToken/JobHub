@@ -51,11 +51,11 @@ const JobBoard = () => {
               <div className="job-timestamp">
                 <p>{job.timestamp}</p>
               </div>
-              <p id="job-role">{job.role}</p>
-              <h3 id="job-title">{job.jobTitle}</h3>
-              <p id="job-type">{job.jobtype}</p>
-              <p id="job-budget">{job.budget}</p>
-              <p id="job-category">{job.jobcategory}</p>
+              <div className="job-role"><p>{job.role}</p></div>
+              <div className="job-title"><h3>{job.jobTitle}</h3></div>
+              <div className="job-type"><p>{job.jobtype}</p></div>
+              <div className="job-budget"><p>{job.budget}</p></div>
+              <div className="job-category"><p>{job.jobcategory}</p></div>
             </div>
             <div className="jobDescription">
               <p className="clamp-text">{job.jobDescription}</p>
