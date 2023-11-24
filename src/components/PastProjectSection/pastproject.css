@@ -1,33 +1,38 @@
 /* Styles for the PastProjects component */
 .past-projects {
-    margin-bottom: 20px;
-  }
-  
-  .past-projects h3 {
-    font-size: 20px;
-    color: #333;
-    margin-bottom: 10px;
-  }
-  
-  .past-projects label {
-    display: block;
-    margin-bottom: 5px;
-    color: #333;
-  }
-  
-  .past-projects input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-bottom: 10px;
-  }
-  
-  .past-projects button {
-    background-color: blue;
-    color: #fff;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.past-projects h3 {
+  font-size: 20px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.past-projects label {
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.past-projects input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.past-projects button {
+  background-color: blue;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-success{
+  background-color: #22b14c!important;
+}
