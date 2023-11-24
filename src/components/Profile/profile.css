@@ -1,6 +1,6 @@
 /* profile.css */
 .cover-image{
-  height: 320px;
+  height: 180px;
   width: 100%;
   object-fit: cover;
 }
@@ -188,6 +188,20 @@ h2 {
   padding-left: 10px;
   border-radius: 5px;
   cursor: pointer;
+  transition: 0.3;
+}
+
+.edit-button:hover{
+  color: white;
+  background-color: rgba(0, 0, 255, 0.651);
+  transition: 0.3;
+}
+
+.eclipse {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
 }
 
 .github-color {
@@ -203,11 +217,12 @@ h2 {
 }
 
 .social-icons{
-  font-size: 50px;
+  font-size: 30px;
 }
 
 /* Responsive 📱 */
 @media (max-width: 767px) {
   .card-container,.aboutuser-settings { width: 100%; }
   .aboutuser-settings { max-width: 320px; }
+  .Profile-container { padding: 0px; }
 }

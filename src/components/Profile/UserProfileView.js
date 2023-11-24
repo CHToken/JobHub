@@ -195,13 +195,15 @@ const UserProfileView = ({
         <div className="row">
           <div className="col-md-4 card m-2">
             <strong id="bnbwallet">BNB Wallet: </strong>{" "}
-            {userData.bnbwalletAddress}
+            <p className="eclipse">{userData.bnbwalletAddress}</p>
           </div>
           <div className="col-md-4 card m-2">
-            <strong>USDT Wallet: </strong> {userData.usdtwalletAddress}
+            <strong>USDT Wallet: </strong>
+            <p className="eclipse">{userData.usdtwalletAddress}</p>
           </div>
           <div className="col-md-4 card m-2">
-            <strong>ETH Wallet: </strong> {userData.ethwalletAddress}
+            <strong>ETH Wallet: </strong>
+            <p className="eclipse">{userData.ethwalletAddress}</p>
           </div>
         </div>
       </div>
