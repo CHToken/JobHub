@@ -27,6 +27,7 @@ const UserProfile = ({ isConnected }) => {
   const [selectedProfilePicture, setSelectedProfilePicture] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [editMode, setEditMode] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -85,6 +86,7 @@ const UserProfile = ({ isConnected }) => {
 
   const handleSaveClick = async () => {
     try {
+      setIsLoading(true);
       const walletAddress = window.ethereum.selectedAddress.toLowerCase();
       const docRef = doc(db, "users", walletAddress);
 
@@ -104,8 +106,11 @@ const UserProfile = ({ isConnected }) => {
       }
 
       setIsEditing(false);
+      alert("Your profile has been saved successfully!");
     } catch (error) {
       console.error("Error saving user data", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -169,6 +174,7 @@ const UserProfile = ({ isConnected }) => {
               <>
                 <UserProfileView
                   userData={userData}
+                  isConnected={isConnected}
                   isEditing={isEditing}
                   editMode={editMode}
                   handleEditClick={handleEditClick}
@@ -176,7 +182,14 @@ const UserProfile = ({ isConnected }) => {
                   handleSkillsSettingsSave={handleSkillsSettingsSave}
                 />
                 <>
-                  <button onClick={handleSaveClick} className="btn btn-success" style={{width:"100%"}}>Save</button>
+                 {/* Display loading spinner when isLoading is true */}
+                 {isLoading ? (
+                    <div className="loading-spinner">Loading...</div>
+                  ) : (
+                    <button onClick={handleSaveClick} className="btn btn-success" style={{ width: "100%" }}>
+                      Save
+                    </button>
+                  )}
                 </>
               </>
             )}

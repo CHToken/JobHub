@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faCamera } from '@fortawesome/free-solid-svg-icons';
 
-const ProfileSettings = ({ userData, onSave, onBack, onProfilePictureChange }) => {
+const ProfileSettings = ({ userData, onSave, onBack, onProfilePictureChange: propOnProfilePictureChange }) => {
   const [ProfileSettingsData, setProfileSettingsData] = useState({
     name: userData.name,
     role: userData.role,
     username: userData.username,
   });
+
+  const [profilePicturePreview, setProfilePicturePreview] = useState(null);
 
   const handleSaveClick = () => {
     onSave(ProfileSettingsData);
@@ -18,8 +20,24 @@ const ProfileSettings = ({ userData, onSave, onBack, onProfilePictureChange }) =
   };
 
   const handleProfilePictureClick = () => {
-    // Trigger the file input click when the profile picture is clicked
     document.getElementById('profilePictureInput').click();
+  };
+
+  const onProfilePictureChange = (event) => {
+    const file = event.target.files[0];
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfilePicturePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+
+      // Call the prop function if provided
+      if (propOnProfilePictureChange) {
+        propOnProfilePictureChange(event);
+      }
+    }
   };
 
   useEffect(() => {
@@ -39,7 +57,18 @@ const ProfileSettings = ({ userData, onSave, onBack, onProfilePictureChange }) =
       </div>
       <img src="https://placehold.co/600x400/000000/FFFFFF?text=Welcome&font=montserrat" className="cover-image" alt=''/>
       <div className="profile-area" onClick={handleProfilePictureClick}>
-        {userData.profilePicture ? (
+        {profilePicturePreview ? (
+          <div className="image-edit-container">
+            <img
+              src={profilePicturePreview}
+              alt="Profile Preview"
+              className="circle-profile-Image"
+            />
+            <div className="image-edit-overlay">
+              <FontAwesomeIcon icon={faCamera} className="camera-icon" />
+            </div>
+          </div>
+        ) : userData.profilePicture ? (
           <div className="image-edit-container">
             <img
               src={userData.profilePicture}
@@ -56,9 +85,9 @@ const ProfileSettings = ({ userData, onSave, onBack, onProfilePictureChange }) =
               icon={faUser}
               className="circle-profile-Image"
               style={{
-                width: "100px",
-                height: "100px",
-                borderRadius: "50%",
+                width: '100px',
+                height: '100px',
+                borderRadius: '50%',
               }}
             />
             <div className="image-edit-overlay">

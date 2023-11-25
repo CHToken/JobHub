@@ -4,22 +4,10 @@ import { db } from '../../firebase';
 import { doc, getDoc, updateDoc, collection, addDoc, getDocs, query, where } from 'firebase/firestore';
 import "./JobsDetails.css";
 
-const generateUniqueApplicantId = () => {
-  // Generate a timestamp string
-  const timestamp = new Date().toISOString().replace(/\D/g, '');
-
-  // Generate a random string
-  const randomString = Math.random().toString(36).substring(2, 8);
-
-  // Combine the timestamp and random string to create a unique ID
-  const uniqueId = `applicant_${timestamp}_${randomString}`;
-
-  return uniqueId;
-};
-
 const JobDetails = ({ isConnected, walletAddress }) => {
   const { jobId } = useParams();
   const [jobDetails, setJobDetails] = useState(null);
+  const [applicantUsername, setApplicantUsername] = useState(null);
 
   useEffect(() => {
     const fetchJobDetails = async () => {
@@ -40,54 +28,89 @@ const JobDetails = ({ isConnected, walletAddress }) => {
       }
     };
 
+    const fetchUsername = async () => {
+      try {
+        const usersQuery = collection(db, 'users');
+        const userDoc = await getDoc(doc(usersQuery, walletAddress));
+
+        if (userDoc.exists()) {
+          setApplicantUsername(userDoc.data().username);
+        } else {
+          console.error('User not found');
+        }
+      } catch (error) {
+        console.error('Error fetching username:', error);
+      }
+    };
+
     fetchJobDetails();
-  }, [jobId]);
+    if (walletAddress) {
+      fetchUsername();
+    }
+  }, [jobId, walletAddress]);
 
   const handleApplyNow = async () => {
-    if (!jobDetails) {
-      console.error('Job details not available.');
+    // Check if the user is connected to their wallet
+    if (!isConnected) {
+      alert('Please connect your wallet to apply for the job.');
       return;
     }
-  
-      // Ensure walletAddress is defined
-      if (!walletAddress) {
-        console.error('Wallet address is undefined.');
-        return;
-      }
 
-      // Check if the user is the job poster
+    // Check if the applicantUsername is not found
+    if (!applicantUsername) {
+      alert('Please update your profile to apply for the job.');
+      return;
+    }
+
+    if (!jobDetails || !applicantUsername) {
+      console.error('Job details or applicant username not available.');
+      return;
+    }
+
+    // Ensure walletAddress is defined
+    if (!walletAddress) {
+      console.error('Wallet address is undefined.');
+      return;
+    }
+
+    // Check if the job status is "Active" before allowing users to apply
+  if (jobDetails.jobstatus !== 'Active') {
+    alert('This job is currently not accepting applications.');
+    return;
+  }
+
+    // Check if the user is the job poster
     if (walletAddress === jobDetails.walletAddress) {
       alert("You cannot apply for the job you posted.");
       return;
     }
-  
-      // Check if the user has already applied for this job
-      const appliedJobsQuery = collection(db, 'appliedJobs');
-      const querySnapshot = await getDocs(query(appliedJobsQuery, where('jobId', '==', jobDetails.id), where('walletAddress', '==', walletAddress)));
-  
-      if (!querySnapshot.empty) {
-        alert('You have already applied for this job.');
-        return;
-      }
-  
-     // Use the connected wallet address as the primary key for the applied job
-    const applicantId = generateUniqueApplicantId();
+
+    // Check if the user has already applied for this job
+    const appliedJobsQuery = collection(db, 'appliedJobs');
+    const querySnapshot = await getDocs(query(appliedJobsQuery, where('jobId', '==', jobDetails.id), where('walletAddress', '==', walletAddress)));
+
+    if (!querySnapshot.empty) {
+      alert('You have already applied for this job.');
+      return;
+    }
+
+    // Use the connected wallet address as the primary key for the applied job
     await addDoc(collection(db, 'appliedJobs'), {
       jobId: jobDetails.id,
       walletAddress,
-      applicantId,
+      applicantId: walletAddress,
+      applicantUsername,
       appliedAt: new Date(),
     });
-  
-      await updateDoc(doc(db, 'jobs', jobDetails.id), {
-        jobstatus: 'Applied',
-      });
-  
-      // Show a success alert
-      alert('Job applied successfully!');
-    }; 
-   
-  
+
+    await updateDoc(doc(db, 'jobs', jobDetails.id), {
+      jobstatus: 'Applied',
+    });
+
+    // Show a success alert
+    alert('Job applied successfully!');
+  };
+
   if (!jobDetails) {
     return <div>Loading...</div>;
   }

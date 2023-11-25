@@ -5,9 +5,13 @@ import "./JobPostingForm.css";
 
 const JobPostingForm = ({ isConnected, onSubmit }) => {
   const jobCategoryList = [
-    "Dapp",
+    "Dapp Dev",
     "Smart Contract",
     "Callers",
+    "Bug Fix",
+    "Software",
+    "TG Mod",
+    "AMA Host",
     "CA Bug Fix",
     "Website Dev",
     "CA Audit",

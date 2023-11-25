@@ -7,6 +7,7 @@ import AppliedJobsList from "../Jobs/AppliedJobsList";
 
 const UserProfileView = ({
   userData,
+  isConnected,
   isEditing,
   editMode,
   handleEditClick,
@@ -209,10 +210,11 @@ const UserProfileView = ({
         </div>
       </div>
     </div>
-  {/* Applied Jobs Section */}
-  <div className="card-container">
+{/* Applied Jobs Section */}
+<div className="card-container">
       <div className="card">
-        <AppliedJobsList walletAddress={userData.bnbwalletAddress} />
+        {/* Pass the connected wallet address directly */}
+        <AppliedJobsList walletAddress={isConnected ? window.ethereum.selectedAddress.toLowerCase() : null} />
       </div>
     </div>
   </>
