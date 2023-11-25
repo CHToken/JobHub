@@ -22,11 +22,11 @@ const UserProfileEditing = ({
     <>
       {editMode === "profilesettings" && (
         <ProfileSettings
-        userData={userData}
-        onSave={onProfileSettingsSave}
-        onBack={() => setIsEditing(false)}
-        onProfilePictureChange={onProfilePictureChange}
-      />      
+          userData={userData}
+          onSave={onProfileSettingsSave}
+          onBack={() => setIsEditing(false)}
+          onProfilePictureChange={onProfilePictureChange}
+        />
       )}
       {editMode === "pastProjects" && (
         <PastProjects userData={userData} onSave={onProjectsSave} />
@@ -38,12 +38,26 @@ const UserProfileEditing = ({
           onBack={() => setIsEditing(false)}
         />
       )}
-      {editMode === "wallet" && <WalletInfo userData={userData} onSave={onWalletSave} onBack={() => setIsEditing(false)}/>}
+      {editMode === "wallet" && (
+        <WalletInfo
+          userData={userData}
+          onSave={onWalletSave}
+          onBack={() => setIsEditing(false)}
+        />
+      )}
       {editMode === "aboutsettings" && (
-        <AboutUserSettings aboutuser={userData.aboutuser} onSave={onAboutUserSave} onBack={() => setIsEditing(false)}/>
+        <AboutUserSettings
+          aboutuser={userData.aboutuser}
+          onSave={onAboutUserSave}
+          onBack={() => setIsEditing(false)}
+        />
       )}
       {editMode === "skillssettings" && (
-        <SkillsSettings skills={userData.skills} onSave={onSkillsSettingsSave} onBack={() => setIsEditing(false)}/>
+        <SkillsSettings
+          skills={userData.skills}
+          onSave={onSkillsSettingsSave}
+          onBack={() => setIsEditing(false)}
+        />
       )}
     </>
   );

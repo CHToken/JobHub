@@ -1,8 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faCamera } from '@fortawesome/free-solid-svg-icons';
+import React, { useState, useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser, faCamera } from "@fortawesome/free-solid-svg-icons";
 
-const ProfileSettings = ({ userData, onSave, onBack, onProfilePictureChange: propOnProfilePictureChange }) => {
+const ProfileSettings = ({
+  userData,
+  onSave,
+  onBack,
+  onProfilePictureChange: propOnProfilePictureChange,
+}) => {
   const [ProfileSettingsData, setProfileSettingsData] = useState({
     name: userData.name,
     role: userData.role,
@@ -20,7 +25,7 @@ const ProfileSettings = ({ userData, onSave, onBack, onProfilePictureChange: pro
   };
 
   const handleProfilePictureClick = () => {
-    document.getElementById('profilePictureInput').click();
+    document.getElementById("profilePictureInput").click();
   };
 
   const onProfilePictureChange = (event) => {
@@ -33,7 +38,6 @@ const ProfileSettings = ({ userData, onSave, onBack, onProfilePictureChange: pro
       };
       reader.readAsDataURL(file);
 
-      // Call the prop function if provided
       if (propOnProfilePictureChange) {
         propOnProfilePictureChange(event);
       }
@@ -41,7 +45,6 @@ const ProfileSettings = ({ userData, onSave, onBack, onProfilePictureChange: pro
   };
 
   useEffect(() => {
-    // Update state when userData changes
     setProfileSettingsData({
       name: userData.name,
       role: userData.role,
@@ -52,10 +55,17 @@ const ProfileSettings = ({ userData, onSave, onBack, onProfilePictureChange: pro
   return (
     <div className="profilesettings card">
       <div className="card-header d-flex">
-        <i onClick={handleBackClick} className='fa fa-arrow-left back-arrow'></i>
+        <i
+          onClick={handleBackClick}
+          className="fa fa-arrow-left back-arrow"
+        ></i>
         <h3>Profile Settings</h3>
       </div>
-      <img src="https://placehold.co/600x400/000000/FFFFFF?text=Welcome&font=montserrat" className="cover-image" alt=''/>
+      <img
+        src="https://placehold.co/600x400/000000/FFFFFF?text=Welcome&font=montserrat"
+        className="cover-image"
+        alt=""
+      />
       <div className="profile-area" onClick={handleProfilePictureClick}>
         {profilePicturePreview ? (
           <div className="image-edit-container">
@@ -85,9 +95,9 @@ const ProfileSettings = ({ userData, onSave, onBack, onProfilePictureChange: pro
               icon={faUser}
               className="circle-profile-Image"
               style={{
-                width: '100px',
-                height: '100px',
-                borderRadius: '50%',
+                width: "100px",
+                height: "100px",
+                borderRadius: "50%",
               }}
             />
             <div className="image-edit-overlay">
@@ -101,7 +111,7 @@ const ProfileSettings = ({ userData, onSave, onBack, onProfilePictureChange: pro
         type="file"
         accept="image/*"
         onChange={onProfilePictureChange}
-        style={{ display: 'none' }}
+        style={{ display: "none" }}
         id="profilePictureInput"
       />
       <br />
@@ -111,7 +121,12 @@ const ProfileSettings = ({ userData, onSave, onBack, onProfilePictureChange: pro
           type="text"
           id="name"
           value={ProfileSettingsData.name}
-          onChange={(e) => setProfileSettingsData({ ...ProfileSettingsData, name: e.target.value })}
+          onChange={(e) =>
+            setProfileSettingsData({
+              ...ProfileSettingsData,
+              name: e.target.value,
+            })
+          }
         />
       </div>
       <div>
@@ -120,7 +135,12 @@ const ProfileSettings = ({ userData, onSave, onBack, onProfilePictureChange: pro
           type="text"
           id="role"
           value={ProfileSettingsData.role}
-          onChange={(e) => setProfileSettingsData({ ...ProfileSettingsData, role: e.target.value })}
+          onChange={(e) =>
+            setProfileSettingsData({
+              ...ProfileSettingsData,
+              role: e.target.value,
+            })
+          }
         />
       </div>
       <div>
@@ -129,13 +149,28 @@ const ProfileSettings = ({ userData, onSave, onBack, onProfilePictureChange: pro
           type="text"
           id="username"
           value={ProfileSettingsData.username}
-          onChange={(e) => setProfileSettingsData({ ...ProfileSettingsData, username: e.target.value })}
+          onChange={(e) =>
+            setProfileSettingsData({
+              ...ProfileSettingsData,
+              username: e.target.value,
+            })
+          }
         />
       </div>
       <br />
-      <div className='d-flex align-items-center justify-content-around'>
-        <button onClick={handleBackClick} className="save-button btn" style={{width:"20%"}}>Back</button>
-        <button onClick={handleSaveClick} className="btn btn-success" style={{width:"70%"}}>
+      <div className="d-flex align-items-center justify-content-around">
+        <button
+          onClick={handleBackClick}
+          className="save-button btn"
+          style={{ width: "20%" }}
+        >
+          Back
+        </button>
+        <button
+          onClick={handleSaveClick}
+          className="btn btn-success"
+          style={{ width: "70%" }}
+        >
           Save
         </button>
       </div>

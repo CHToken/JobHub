@@ -44,7 +44,10 @@ const JobPostingForm = ({ isConnected, onSubmit }) => {
 
           if (userDocSnap.exists()) {
             const userData = userDocSnap.data();
-            setJobData((prevData) => ({ ...prevData, profilePicture: userData.profilePicture }));
+            setJobData((prevData) => ({
+              ...prevData,
+              profilePicture: userData.profilePicture,
+            }));
           }
         }
       } catch (error) {
@@ -154,7 +157,9 @@ const JobPostingForm = ({ isConnected, onSubmit }) => {
             <input
               type="text"
               value={jobData.company_name}
-              onChange={(e) => setJobData({ ...jobData, company_name: e.target.value })}
+              onChange={(e) =>
+                setJobData({ ...jobData, company_name: e.target.value })
+              }
               className="job-input"
             />
           </label>
@@ -165,7 +170,9 @@ const JobPostingForm = ({ isConnected, onSubmit }) => {
             <input
               type="text"
               value={jobData.jobTitle}
-              onChange={(e) => setJobData({ ...jobData, jobTitle: e.target.value })}
+              onChange={(e) =>
+                setJobData({ ...jobData, jobTitle: e.target.value })
+              }
               className="job-input"
             />
           </label>
@@ -224,7 +231,9 @@ const JobPostingForm = ({ isConnected, onSubmit }) => {
         Budget
         <div class="input-group mb-3">
           <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon1">$</span>
+            <span class="input-group-text" id="basic-addon1">
+              $
+            </span>
           </div>
           <input
             type="number"
@@ -244,7 +253,9 @@ const JobPostingForm = ({ isConnected, onSubmit }) => {
           className="job-input"
         />
       </label>
-      <button type="submit" className="job-button">Post Job</button>
+      <button type="submit" className="job-button">
+        Post Job
+      </button>
     </form>
   );
 };

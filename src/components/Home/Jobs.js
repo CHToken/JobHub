@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { db } from '../../firebase';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, query, limit } from 'firebase/firestore';
 
 const HomeJobs = () => {
   const [jobs, setJobs] = useState([]);
@@ -12,7 +12,10 @@ const HomeJobs = () => {
     const fetchJobs = async () => {
       try {
         const jobsCollection = collection(db, 'jobs');
-        const snapshot = await getDocs(jobsCollection);
+        // Use the query function to apply a limit to the number of jobs fetched
+        const limitedJobsQuery = query(jobsCollection, limit(5));
+
+        const snapshot = await getDocs(limitedJobsQuery);
 
         const jobsData = await Promise.all(
           snapshot.docs.map(async (doc) => {

@@ -1,7 +1,6 @@
-import React from 'react';
+import React from "react";
 
 const WalletConnection = ({ isConnected, connectWallet, disconnectWallet }) => {
-
   const handleButtonClick = () => {
     if (isConnected) {
       disconnectWallet();
@@ -13,7 +12,7 @@ const WalletConnection = ({ isConnected, connectWallet, disconnectWallet }) => {
   return (
     <div className="wallet-connection">
       <button onClick={handleButtonClick}>
-        {isConnected ? 'Disconnect' : 'Login'}
+        {isConnected ? "Disconnect" : "Login"}
       </button>
     </div>
   );

@@ -7,10 +7,10 @@ import { MetaMaskProvider } from "@metamask/sdk-react";
 import Homepage from "./components/Home/homepage";
 import JobPostingForm from "./components/JobPostSection/JobPostForm";
 import JobBoard from "./components/JobBoard/JobBoard";
-import JobDetails from './components/Jobs/JobsDetails';
-import ManageJobs from './components/Jobs/managejobs';
+import JobDetails from "./components/Jobs/JobsDetails";
+import ManageJobs from "./components/Jobs/managejobs";
 
-import "./global.css"
+import "./global.css";
 
 const App = () => {
   const [isConnected, setConnected] = useState(false);
@@ -19,7 +19,9 @@ const App = () => {
   const connectWallet = useCallback(async () => {
     try {
       // Connect to MetaMask and get the accounts
-      const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+      const accounts = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
       setConnected(true);
       setWalletAddress(accounts[0]);
     } catch (error) {
@@ -80,9 +82,14 @@ const App = () => {
               element={<ManageJobs walletAddress={walletAddress} />}
             />
             <Route
-        path="/jobs/:jobId"
-        element={<JobDetails isConnected={isConnected} walletAddress={walletAddress} />}
-      />
+              path="/jobs/:jobId"
+              element={
+                <JobDetails
+                  isConnected={isConnected}
+                  walletAddress={walletAddress}
+                />
+              }
+            />
           </Routes>
         </div>
         <Footer />

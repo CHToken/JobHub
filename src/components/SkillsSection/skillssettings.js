@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import "./skills.css";
 
 const SkillsSettings = ({ skills, onSave, onBack }) => {
-  const [editedSkills, setEditedSkills] = useState(skills.join(', '));
+  const [editedSkills, setEditedSkills] = useState(skills.join(", "));
 
   const handleSaveClick = () => {
-    const newSkills = editedSkills.split(',').map(skill => skill.trim());
+    const newSkills = editedSkills.split(",").map((skill) => skill.trim());
     onSave(newSkills);
   };
 
@@ -16,7 +16,10 @@ const SkillsSettings = ({ skills, onSave, onBack }) => {
   return (
     <div className="skills-settings">
       <div className="card-header d-flex">
-        <i onClick={handleBackClick} className='fa fa-arrow-left back-arrow'></i>
+        <i
+          onClick={handleBackClick}
+          className="fa fa-arrow-left back-arrow"
+        ></i>
         <h3>Edit Skills</h3>
       </div>
       <br />
@@ -30,9 +33,19 @@ const SkillsSettings = ({ skills, onSave, onBack }) => {
         />
       </div>
       <br />
-      <div className='d-flex align-items-center justify-content-around'>
-        <button onClick={handleBackClick} className="save-button btn" style={{width:"20%"}}>Back</button>
-        <button onClick={handleSaveClick} className="btn btn-success" style={{width:"70%"}}>
+      <div className="d-flex align-items-center justify-content-around">
+        <button
+          onClick={handleBackClick}
+          className="save-button btn"
+          style={{ width: "20%" }}
+        >
+          Back
+        </button>
+        <button
+          onClick={handleSaveClick}
+          className="btn btn-success"
+          style={{ width: "70%" }}
+        >
           Save
         </button>
       </div>

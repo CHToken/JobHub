@@ -1,40 +1,41 @@
 .job-details-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    width: 650px;
-  }
-  @media (max-width: 768px) {
-    .job-details-container {
-        width: auto;
-    }
-  }
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  width: 650px;
+}
 
-  .job-details-card {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 20px;
-    padding: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease-in-out;
+@media (max-width: 768px) {
+  .job-details-container {
+    width: auto;
   }
+}
 
-  .status-details-section h4 {
-    padding: 10px;
-    background-color: #b1ffad;
-    font-size: 20px;
-    padding-right: 20px;
-    padding-left: 20px;
-    font-family: 'Poppins';
-    font-weight: 700;
-    border-radius: 20px;
-    text-transform: capitalize;
-    cursor: unset;
-  }
+.job-details-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+}
 
-  .jobsdetails-btn {
-    text-align: center;
-    margin: auto;
-    display: flex;
-    justify-content: center;
-  }
+.status-details-section h4 {
+  padding: 10px;
+  background-color: #b1ffad;
+  font-size: 20px;
+  padding-right: 20px;
+  padding-left: 20px;
+  font-family: 'Poppins';
+  font-weight: 700;
+  border-radius: 20px;
+  text-transform: capitalize;
+  cursor: unset;
+}
+
+.jobsdetails-btn {
+  text-align: center;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+}

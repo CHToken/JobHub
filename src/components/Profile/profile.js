@@ -182,11 +182,15 @@ const UserProfile = ({ isConnected }) => {
                   handleSkillsSettingsSave={handleSkillsSettingsSave}
                 />
                 <>
-                 {/* Display loading spinner when isLoading is true */}
-                 {isLoading ? (
+                  {/* Display loading spinner when isLoading is true */}
+                  {isLoading ? (
                     <div className="loading-spinner">Loading...</div>
                   ) : (
-                    <button onClick={handleSaveClick} className="btn btn-success" style={{ width: "100%" }}>
+                    <button
+                      onClick={handleSaveClick}
+                      className="btn btn-success"
+                      style={{ width: "100%" }}
+                    >
                       Save
                     </button>
                   )}

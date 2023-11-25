@@ -1,18 +1,21 @@
 /* profile.css */
-.cover-image{
+.cover-image {
   height: 180px;
   width: 100%;
   object-fit: cover;
 }
+
 .profile-area {
   margin-top: -30px;
 }
-.circle-profile-Image{
-  width: 140px!important;
-  height: 140px!important;
+
+.circle-profile-Image {
+  width: 140px !important;
+  height: 140px !important;
   border-radius: 50%;
   border: 5px solid white;
 }
+
 .image-edit-container {
   position: relative;
   display: inline-block;
@@ -191,7 +194,7 @@ h2 {
   transition: 0.3;
 }
 
-.edit-button:hover{
+.edit-button:hover {
   color: white;
   background-color: rgba(0, 0, 255, 0.651);
   transition: 0.3;
@@ -216,15 +219,30 @@ h2 {
   color: #1D9BF0;
 }
 
-.social-icons{
+.social-icons {
   font-size: 30px;
 }
 
 /* Responsive 📱 */
 @media (max-width: 767px) {
-  .card-container,.aboutuser-settings { width: 100%; }
-  .aboutuser-settings { max-width: 320px; }
-  .Profile-container { padding: 0px; }
-  .wallet-row {flex-direction: column;padding: 10px;}
-  .wallet-row>.col-md-4{margin: 15px 0px 0px 0px!important;}
+  .card-container, .aboutuser-settings {
+    width: 100%;
+  }
+
+  .aboutuser-settings {
+    max-width: 320px;
+  }
+
+  .Profile-container {
+    padding: 0px;
+  }
+
+  .wallet-row {
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  .wallet-row>.col-md-4 {
+    margin: 15px 0px 0px 0px !important;
+  }
 }

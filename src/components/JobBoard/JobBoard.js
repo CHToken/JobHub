@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import { db } from "../../firebase";
 import { collection, getDocs } from "firebase/firestore";
 
@@ -67,16 +67,31 @@ const JobBoard = () => {
       <div className="job-posts-container">
         {displayedJobs.map((job) => (
           <div key={job.id} className="job-post-card">
-            <div className="layout1" style={{ backgroundColor: job.backgroundColor }}>
+            <div
+              className="layout1"
+              style={{ backgroundColor: job.backgroundColor }}
+            >
               <div className="job-timestamp">
                 <p>{job.timestamp}</p>
               </div>
-              <div className="job-cname"><p>{job.company_name}</p></div>
-              <div className="job-role"><p>{job.role}</p></div>
-              <div className="job-title"><h3>{job.jobTitle}</h3></div>
-              <div className="job-type"><p>{job.jobtype}</p></div>
-              <div className="job-budget"><p>{job.budget}</p></div>
-              <div className="job-category"><p>{job.jobcategory}</p></div>
+              <div className="job-cname">
+                <p>{job.company_name}</p>
+              </div>
+              <div className="job-role">
+                <p>{job.role}</p>
+              </div>
+              <div className="job-title">
+                <h3>{job.jobTitle}</h3>
+              </div>
+              <div className="job-type">
+                <p>{job.jobtype}</p>
+              </div>
+              <div className="job-budget">
+                <p>{job.budget}</p>
+              </div>
+              <div className="job-category">
+                <p>{job.jobcategory}</p>
+              </div>
             </div>
             <div className="jobDescription">
               <p className="clamp-text">{job.jobDescription}</p>
@@ -86,20 +101,30 @@ const JobBoard = () => {
                 <h4>{job.jobstatus}</h4>
               </div>
               <div className="details-section">
-              <h4><Link to={`/jobs/${job.id}`} className="btn btn-secondary">
-    View
-  </Link></h4>
+                <h4>
+                  <Link to={`/jobs/${job.id}`} className="btn btn-secondary">
+                    View
+                  </Link>
+                </h4>
               </div>
             </div>
           </div>
         ))}
       </div>
       <div className="pagination-buttons">
-        <button onClick={handlePrevPage} disabled={currentPage === 1} className="pagination-button">
+        <button
+          onClick={handlePrevPage}
+          disabled={currentPage === 1}
+          className="pagination-button"
+        >
           Prev
         </button>
         <span>{`Page ${currentPage} of ${totalPages}`}</span>
-        <button onClick={handleNextPage} disabled={currentPage === totalPages} className="pagination-button">
+        <button
+          onClick={handleNextPage}
+          disabled={currentPage === totalPages}
+          className="pagination-button"
+        >
           Next
         </button>
       </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const WalletInfo = ({ userData, onSave, onBack }) => {
   const [walletData, setWalletData] = useState({
@@ -10,16 +10,18 @@ const WalletInfo = ({ userData, onSave, onBack }) => {
   const handleSaveClick = () => {
     onSave(walletData);
   };
-  
+
   const handleBackClick = () => {
     onBack();
   };
 
-
   return (
     <div className="wallet-info card">
       <div className="card-header d-flex">
-        <i onClick={handleBackClick} className='fa fa-arrow-left back-arrow'></i>
+        <i
+          onClick={handleBackClick}
+          className="fa fa-arrow-left back-arrow"
+        ></i>
         <h3>Wallet Information</h3>
       </div>
       <br />
@@ -28,9 +30,11 @@ const WalletInfo = ({ userData, onSave, onBack }) => {
         <input
           type="text"
           id="bnbWallet"
-          className='form-control'
+          className="form-control"
           value={walletData.bnbwalletAddress}
-          onChange={(e) => setWalletData({ ...walletData, bnbwalletAddress: e.target.value })}
+          onChange={(e) =>
+            setWalletData({ ...walletData, bnbwalletAddress: e.target.value })
+          }
         />
       </div>
       <div>
@@ -38,9 +42,11 @@ const WalletInfo = ({ userData, onSave, onBack }) => {
         <input
           type="text"
           id="usdtWallet"
-          className='form-control'
+          className="form-control"
           value={walletData.usdtwalletAddress}
-          onChange={(e) => setWalletData({ ...walletData, usdtwalletAddress: e.target.value })}
+          onChange={(e) =>
+            setWalletData({ ...walletData, usdtwalletAddress: e.target.value })
+          }
         />
       </div>
       <div>
@@ -48,15 +54,27 @@ const WalletInfo = ({ userData, onSave, onBack }) => {
         <input
           type="text"
           id="ethWallet"
-          className='form-control'
+          className="form-control"
           value={walletData.ethwalletAddress}
-          onChange={(e) => setWalletData({ ...walletData, ethwalletAddress: e.target.value })}
+          onChange={(e) =>
+            setWalletData({ ...walletData, ethwalletAddress: e.target.value })
+          }
         />
       </div>
       <br />
-      <div className='d-flex align-items-center justify-content-around'>
-        <button onClick={handleBackClick} className="save-button btn" style={{width:"20%"}}>Back</button>
-        <button onClick={handleSaveClick} className="btn btn-success" style={{width:"70%"}}>
+      <div className="d-flex align-items-center justify-content-around">
+        <button
+          onClick={handleBackClick}
+          className="save-button btn"
+          style={{ width: "20%" }}
+        >
+          Back
+        </button>
+        <button
+          onClick={handleSaveClick}
+          className="btn btn-success"
+          style={{ width: "70%" }}
+        >
           Save
         </button>
       </div>

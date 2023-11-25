@@ -1,7 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { db } from '../../firebase';
-import { collection, getDocs, doc as firestoreDoc, getDoc } from 'firebase/firestore';
-import './AppliedJobsList.css';
+import React, { useEffect, useState } from "react";
+import { db } from "../../firebase";
+import {
+  collection,
+  getDocs,
+  doc as firestoreDoc,
+  getDoc,
+} from "firebase/firestore";
+import "./AppliedJobsList.css";
 
 const AppliedJobsList = ({ walletAddress }) => {
   const [appliedJobs, setAppliedJobs] = useState([]);
@@ -9,10 +14,10 @@ const AppliedJobsList = ({ walletAddress }) => {
   useEffect(() => {
     const fetchAppliedJobs = async () => {
       try {
-        console.log('Fetching applied jobs for wallet address:', walletAddress);
+        console.log("Fetching applied jobs for wallet address:", walletAddress);
 
         // Fetch applied jobs for the specific wallet address
-        const appliedJobsQuery = collection(db, 'appliedJobs');
+        const appliedJobsQuery = collection(db, "appliedJobs");
         const querySnapshot = await getDocs(appliedJobsQuery);
 
         const jobs = [];
@@ -20,9 +25,12 @@ const AppliedJobsList = ({ walletAddress }) => {
           const data = appliedJobDoc.data();
           const lowercaseWalletAddress = walletAddress.toLowerCase();
 
-          if (data.walletAddress && data.walletAddress.toLowerCase() === lowercaseWalletAddress) {
+          if (
+            data.walletAddress &&
+            data.walletAddress.toLowerCase() === lowercaseWalletAddress
+          ) {
             // Fetch job details using jobId
-            const jobDocRef = firestoreDoc(db, 'jobs', data.jobId);
+            const jobDocRef = firestoreDoc(db, "jobs", data.jobId);
             const jobDoc = await getDoc(jobDocRef);
 
             if (jobDoc.exists()) {
@@ -37,11 +45,11 @@ const AppliedJobsList = ({ walletAddress }) => {
           }
         }
 
-        console.log('Fetched applied jobs:', jobs);
+        console.log("Fetched applied jobs:", jobs);
 
         setAppliedJobs(jobs);
       } catch (error) {
-        console.error('Error fetching applied jobs:', error);
+        console.error("Error fetching applied jobs:", error);
       }
     };
 

@@ -1,9 +1,9 @@
 import React from "react";
 import AboutUserSettings from "../AboutSection/aboutsettings";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 import SkillsSettings from "../SkillsSection/skillssettings";
-import AppliedJobsList from "../Jobs/AppliedJobsList"; 
+import AppliedJobsList from "../Jobs/AppliedJobsList";
 
 const UserProfileView = ({
   userData,
@@ -18,9 +18,13 @@ const UserProfileView = ({
     {/* Profile Picture Section */}
     <div className="card-container">
       <div className="card">
-        <img src="https://placehold.co/600x400/000000/FFFFFF?text=Welcome&font=montserrat" className="cover-image" alt=""/>
+        <img
+          src="https://placehold.co/600x400/000000/FFFFFF?text=Welcome&font=montserrat"
+          className="cover-image"
+          alt=""
+        />
         <div className="profile-area">
-        {userData.profilePicture ? (
+          {userData.profilePicture ? (
             <img
               src={userData.profilePicture}
               alt="Profile"
@@ -28,15 +32,15 @@ const UserProfileView = ({
             />
           ) : (
             <FontAwesomeIcon
-            icon={faUser}
-            className="circle-profile-Image"
-            style={{
-              width: "100px",
-              height: "100px",
-              borderRadius: "50%",
-            }}
-          />
-        )}
+              icon={faUser}
+              className="circle-profile-Image"
+              style={{
+                width: "100px",
+                height: "100px",
+                borderRadius: "50%",
+              }}
+            />
+          )}
         </div>
 
         {/* Personal Details Section */}
@@ -161,7 +165,7 @@ const UserProfileView = ({
             >
               <i className="fab fa-github social-icons"></i>
             </a>
-            
+
             <a
               href={userData.socialMedia.telegram}
               className="telegram-color"
@@ -170,7 +174,7 @@ const UserProfileView = ({
             >
               <i className="fab fa-telegram social-icons"></i>
             </a>
-            
+
             <a
               href={userData.socialMedia.twitter}
               className="twitter-color"
@@ -210,11 +214,15 @@ const UserProfileView = ({
         </div>
       </div>
     </div>
-{/* Applied Jobs Section */}
-<div className="card-container">
+    {/* Applied Jobs Section */}
+    <div className="card-container">
       <div className="card">
         {/* Pass the connected wallet address directly */}
-        <AppliedJobsList walletAddress={isConnected ? window.ethereum.selectedAddress.toLowerCase() : null} />
+        <AppliedJobsList
+          walletAddress={
+            isConnected ? window.ethereum.selectedAddress.toLowerCase() : null
+          }
+        />
       </div>
     </div>
   </>
