@@ -225,4 +225,6 @@ h2 {
   .card-container,.aboutuser-settings { width: 100%; }
   .aboutuser-settings { max-width: 320px; }
   .Profile-container { padding: 0px; }
+  .wallet-row {flex-direction: column;padding: 10px;}
+  .wallet-row>.col-md-4{margin: 15px 0px 0px 0px!important;}
 }

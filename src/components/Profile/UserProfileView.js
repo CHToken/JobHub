@@ -194,7 +194,7 @@ const UserProfileView = ({
           Edit
         </button>
         <h3>Wallets</h3>
-        <div className="row">
+        <div className="row wallet-row">
           <div className="col-md-4 card m-2">
             <strong id="bnbwallet">BNB Wallet: </strong>{" "}
             <p className="eclipse">{userData.bnbwalletAddress}</p>
