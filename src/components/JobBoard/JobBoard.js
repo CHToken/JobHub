@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from 'react-router-dom';
 import { db } from "../../firebase";
 import { collection, getDocs } from "firebase/firestore";
 
@@ -85,7 +86,9 @@ const JobBoard = () => {
                 <h4>{job.jobstatus}</h4>
               </div>
               <div className="details-section">
-                <h4>Details</h4>
+              <h4><Link to={`/jobs/${job.id}`} className="btn btn-secondary">
+    View
+  </Link></h4>
               </div>
             </div>
           </div>

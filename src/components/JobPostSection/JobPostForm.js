@@ -27,7 +27,7 @@ const JobPostingForm = ({ isConnected, onSubmit }) => {
     budget: "",
     jobtype: "Remote",
     jobcategory: jobCategoryList[0],
-    profilePicture: "", // Add a new field to store the user's profile picture
+    profilePicture: "",
   });
 
   useEffect(() => {
@@ -59,6 +59,8 @@ const JobPostingForm = ({ isConnected, onSubmit }) => {
       return;
     }
 
+    const walletAddress = window.ethereum.selectedAddress.toLowerCase();
+
     const {
       company_name,
       jobTitle,
@@ -67,7 +69,7 @@ const JobPostingForm = ({ isConnected, onSubmit }) => {
       budget,
       jobtype,
       jobcategory,
-      profilePicture, // Include the user's profile picture in the job data
+      profilePicture,
     } = jobData;
 
     if (
@@ -93,6 +95,7 @@ const JobPostingForm = ({ isConnected, onSubmit }) => {
 
       const jobsCollection = collection(db, "jobs");
       const newJobDoc = await addDoc(jobsCollection, {
+        walletAddress,
         company_name,
         jobTitle,
         jobDescription,
@@ -102,10 +105,11 @@ const JobPostingForm = ({ isConnected, onSubmit }) => {
         jobtype,
         jobcategory,
         jobstatus: "Active",
-        profilePicture, // Include the user's profile picture in the job data
+        profilePicture,
       });
 
       onSubmit({
+        walletAddress,
         company_name,
         jobTitle,
         jobDescription,
@@ -115,7 +119,7 @@ const JobPostingForm = ({ isConnected, onSubmit }) => {
         jobtype,
         jobcategory,
         jobstatus: "Active",
-        profilePicture, // Include the user's profile picture in the job data
+        profilePicture,
       });
 
       setJobData({
@@ -126,7 +130,7 @@ const JobPostingForm = ({ isConnected, onSubmit }) => {
         budget: "",
         jobtype: "Remote",
         jobcategory: jobCategoryList[0],
-        profilePicture: "", // Reset the profile picture field
+        profilePicture: "",
       });
 
       alert("Job posted successfully!");

@@ -17,7 +17,7 @@ const UserProfileView = ({
     {/* Profile Picture Section */}
     <div className="card-container">
       <div className="card">
-        <img src="https://placehold.co/600x400/000000/FFFFFF?text=Welcome&font=montserrat" className="cover-image" />
+        <img src="https://placehold.co/600x400/000000/FFFFFF?text=Welcome&font=montserrat" className="cover-image" alt=""/>
         <div className="profile-area">
         {userData.profilePicture ? (
             <img

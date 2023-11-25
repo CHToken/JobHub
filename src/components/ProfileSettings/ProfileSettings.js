@@ -37,7 +37,7 @@ const ProfileSettings = ({ userData, onSave, onBack, onProfilePictureChange }) =
         <i onClick={handleBackClick} className='fa fa-arrow-left back-arrow'></i>
         <h3>Profile Settings</h3>
       </div>
-      <img src="https://placehold.co/600x400/000000/FFFFFF?text=Welcome&font=montserrat" className="cover-image" />
+      <img src="https://placehold.co/600x400/000000/FFFFFF?text=Welcome&font=montserrat" className="cover-image" alt=''/>
       <div className="profile-area" onClick={handleProfilePictureClick}>
         {userData.profilePicture ? (
           <div className="image-edit-container">

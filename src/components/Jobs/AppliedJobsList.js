@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { db } from '../../firebase';
 import { collection, getDocs, doc as firestoreDoc, getDoc } from 'firebase/firestore';
+import './AppliedJobsList.css';
 
 const AppliedJobsList = ({ walletAddress }) => {
   const [appliedJobs, setAppliedJobs] = useState([]);
@@ -28,6 +29,7 @@ const AppliedJobsList = ({ walletAddress }) => {
               jobs.push({
                 id: appliedJobDoc.id,
                 jobId: data.jobId,
+                budget: data.budget,
                 jobDetails: jobDoc.data(),
                 appliedAt: data.appliedAt.toDate(),
               });
@@ -54,17 +56,18 @@ const AppliedJobsList = ({ walletAddress }) => {
       {appliedJobs.length === 0 ? (
         <p>No jobs applied yet.</p>
       ) : (
-        <ul>
+        <div className="applied-card-container">
           {appliedJobs.map((job) => (
-            <li key={job.id}>
+            <div key={job.id} className="applied-job-card">
               <p>Job Title: {job.jobDetails.jobTitle}</p>
               <p>Company Name: {job.jobDetails.company_name}</p>
+              <p>Budget: {job.jobDetails.budget}</p>
               <p>Job ID: {job.jobId}</p>
               <p>Timestamp: {job.appliedAt.toLocaleString()}</p>
               <p>Status: {job.jobDetails.jobstatus}</p>
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
       )}
     </div>
   );

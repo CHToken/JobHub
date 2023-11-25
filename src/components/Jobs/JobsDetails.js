@@ -4,6 +4,19 @@ import { db } from '../../firebase';
 import { doc, getDoc, updateDoc, collection, addDoc, getDocs, query, where } from 'firebase/firestore';
 import "./JobsDetails.css";
 
+const generateUniqueApplicantId = () => {
+  // Generate a timestamp string
+  const timestamp = new Date().toISOString().replace(/\D/g, '');
+
+  // Generate a random string
+  const randomString = Math.random().toString(36).substring(2, 8);
+
+  // Combine the timestamp and random string to create a unique ID
+  const uniqueId = `applicant_${timestamp}_${randomString}`;
+
+  return uniqueId;
+};
+
 const JobDetails = ({ isConnected, walletAddress }) => {
   const { jobId } = useParams();
   const [jobDetails, setJobDetails] = useState(null);
@@ -36,35 +49,43 @@ const JobDetails = ({ isConnected, walletAddress }) => {
       return;
     }
   
-    // Ensure walletAddress is defined
-    if (!walletAddress) {
-      console.error('Wallet address is undefined.');
+      // Ensure walletAddress is defined
+      if (!walletAddress) {
+        console.error('Wallet address is undefined.');
+        return;
+      }
+
+      // Check if the user is the job poster
+    if (walletAddress === jobDetails.walletAddress) {
+      alert("You cannot apply for the job you posted.");
       return;
     }
   
-    // Check if the user has already applied for this job
-    const appliedJobsQuery = collection(db, 'appliedJobs');
-    const querySnapshot = await getDocs(query(appliedJobsQuery, where('jobId', '==', jobDetails.id), where('walletAddress', '==', walletAddress)));
+      // Check if the user has already applied for this job
+      const appliedJobsQuery = collection(db, 'appliedJobs');
+      const querySnapshot = await getDocs(query(appliedJobsQuery, where('jobId', '==', jobDetails.id), where('walletAddress', '==', walletAddress)));
   
-    if (!querySnapshot.empty) {
-      alert('You have already applied for this job.');
-      return;
-    }
+      if (!querySnapshot.empty) {
+        alert('You have already applied for this job.');
+        return;
+      }
   
-    // Use the connected wallet address as the primary key for the applied job
+     // Use the connected wallet address as the primary key for the applied job
+    const applicantId = generateUniqueApplicantId();
     await addDoc(collection(db, 'appliedJobs'), {
       jobId: jobDetails.id,
       walletAddress,
+      applicantId,
       appliedAt: new Date(),
     });
   
-    await updateDoc(doc(db, 'jobs', jobDetails.id), {
-      jobstatus: 'Applied',
-    });
+      await updateDoc(doc(db, 'jobs', jobDetails.id), {
+        jobstatus: 'Applied',
+      });
   
-    // Show a success alert
-    alert('Job applied successfully!');
-  };  
+      // Show a success alert
+      alert('Job applied successfully!');
+    }; 
    
   
   if (!jobDetails) {

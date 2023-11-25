@@ -8,6 +8,7 @@ import Homepage from "./components/Home/homepage";
 import JobPostingForm from "./components/JobPostSection/JobPostForm";
 import JobBoard from "./components/JobBoard/JobBoard";
 import JobDetails from './components/Jobs/JobsDetails';
+import ManageJobs from './components/Jobs/managejobs';
 
 import "./global.css"
 
@@ -74,6 +75,10 @@ const App = () => {
               }
             />
             <Route path="/jobboard" element={<JobBoard />} />
+            <Route
+              path="/managejobs"
+              element={<ManageJobs walletAddress={walletAddress} />}
+            />
             <Route
         path="/jobs/:jobId"
         element={<JobDetails isConnected={isConnected} walletAddress={walletAddress} />}
