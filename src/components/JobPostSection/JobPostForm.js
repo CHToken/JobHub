@@ -143,24 +143,30 @@ const JobPostingForm = ({ isConnected, onSubmit }) => {
 
   return (
     <form className="job-posting-form" onSubmit={handleSubmit}>
-      <label className="job-label">
-        Company/Project Name
-        <input
-          type="text"
-          value={jobData.company_name}
-          onChange={(e) => setJobData({ ...jobData, company_name: e.target.value })}
-          className="job-input"
-        />
-      </label>
-      <label className="job-label">
-        Job Title
-        <input
-          type="text"
-          value={jobData.jobTitle}
-          onChange={(e) => setJobData({ ...jobData, jobTitle: e.target.value })}
-          className="job-input"
-        />
-      </label>
+      <div className="row">
+        <div className="col-md-6">
+          <label className="job-label">
+            Company/Project Name
+            <input
+              type="text"
+              value={jobData.company_name}
+              onChange={(e) => setJobData({ ...jobData, company_name: e.target.value })}
+              className="job-input"
+            />
+          </label>
+        </div>
+        <div className="col-md-6">
+          <label className="job-label">
+            Job Title
+            <input
+              type="text"
+              value={jobData.jobTitle}
+              onChange={(e) => setJobData({ ...jobData, jobTitle: e.target.value })}
+              className="job-input"
+            />
+          </label>
+        </div>
+      </div>
       <label className="job-label">
         Job Description
         <textarea
@@ -171,50 +177,59 @@ const JobPostingForm = ({ isConnected, onSubmit }) => {
           className="job-textarea"
         />
       </label>
-      <label className="job-label">
-        Role
-        <select
-          value={jobData.role}
-          onChange={(e) => setJobData({ ...jobData, role: e.target.value })}
-          className="job-select"
-        >
-          <option value="" disabled>
-            Select a role
-          </option>
-          {roleList.map((role) => (
-            <option key={role} value={role}>
-              {role}
-            </option>
-          ))}
-        </select>
-      </label>
+      <div className="row">
+        <div className="col-md-6">
+          <label className="job-label">
+            Role
+            <select
+              value={jobData.role}
+              onChange={(e) => setJobData({ ...jobData, role: e.target.value })}
+              className="job-select"
+            >
+              <option value="" disabled>
+                Select a role
+              </option>
+              {roleList.map((role) => (
+                <option key={role} value={role}>
+                  {role}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
+        <div className="col-md-6">
+          <label className="job-label">
+            Job Category
+            <select
+              value={jobData.jobcategory}
+              className="job-select"
+              onChange={(e) =>
+                setJobData({ ...jobData, jobcategory: e.target.value })
+              }
+            >
+              {jobCategoryList.map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
+      </div>
       <label className="job-label">
         Budget
-        <div>
-          <span>$</span>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">$</span>
+          </div>
           <input
             type="number"
             placeholder="Enter budget"
             value={jobData.budget}
             onChange={(e) => setJobData({ ...jobData, budget: e.target.value })}
-            className="job-input"
+            className="form-control"
           />
         </div>
-      </label>
-      <label className="job-label">
-        Job Category
-        <select
-          value={jobData.jobcategory}
-          onChange={(e) =>
-            setJobData({ ...jobData, jobcategory: e.target.value })
-          }
-        >
-          {jobCategoryList.map((category) => (
-            <option key={category} value={category}>
-              {category}
-            </option>
-          ))}
-        </select>
       </label>
       <label className="job-label">
         Job Type
