@@ -196,7 +196,7 @@ const ManageJobs = ({ walletAddress }) => {
             walletAddress={walletAddress}
             jobDetails={selectedApplicant}
           />
-          <button onClick={() => setSelectedApplicant(null)}>Close Profile</button>
+          <button className="btn btn-secondary" onClick={() => setSelectedApplicant(null)}>Close Profile</button>
         </div>
       )}
     </div>

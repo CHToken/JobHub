@@ -118,7 +118,7 @@ const JobActions = ({ jobId, onJobUpdate, walletAddress, jobDetails }) => {
   };
 
   return (
-    <div>
+    <div className="card mb-2">
       <h3>Applicants</h3>
       {applicants.length === 0 ? (
         <p>No applicants found.</p>
@@ -146,13 +146,13 @@ const JobActions = ({ jobId, onJobUpdate, walletAddress, jobDetails }) => {
                   )
                 )}
               </ul>
-              <button onClick={() => handleAcceptApplicant(applicant.id)}>
+              <button className="btn btn-success m-2" onClick={() => handleAcceptApplicant(applicant.id)}>
                 Accept Applicant
               </button>
-              <button onClick={() => handleRejectApplicant(applicant.id)}>
+              <button className="btn btn-danger m-2" onClick={() => handleRejectApplicant(applicant.id)}>
                 Reject Applicant
               </button>
-              <button onClick={() => handleAssignApplicant(applicant.id)}>
+              <button className="btn btn-info m-2" onClick={() => handleAssignApplicant(applicant.id)}>
                 Assign Applicant
               </button>
             </li>

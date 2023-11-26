@@ -1,32 +1,42 @@
 .manage-jobs-container {
-    margin: 20px;
-  }
-  
-  h2 {
-    color: #333;
-  }
-  
-  .job-list {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .job-item {
-    border: 1px solid #ddd;
-    padding: 10px;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .job-details {
-    flex-grow: 1;
-  }
-  
-  .job-actions button {
-    margin-right: 10px;
-    cursor: pointer;
-  }
+  margin: 20px;
+}
+
+h2 {
+  color: #333;
+}
+
+.job-list {
+  list-style: none;
+  padding: 0;
+}
+
+.job-item {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.job-details {
+  flex-grow: 1;
+}
+
+.job-actions button {
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.job-actions-container {
+  position: absolute;
+  top: 10%;
+  background: white;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid;
+  left: 30%;
+}
 
 /* Add this to your CSS file */
 .applicant-list {
@@ -46,7 +56,7 @@
 
 .applicant-container {
   position: absolute;
-  top: 30%;
+  top: 20px;
   left: 35%;
   background: #ffffffb8;
   backdrop-filter: blur(1px);
@@ -59,8 +69,6 @@
   border: 1px solid #ddd;
   padding: 10px;
   margin-bottom: 10px;
-  display: flex;
-  justify-content: space-between;
 }
 
 .applicant-item button {
@@ -70,4 +78,11 @@
   border: none;
   padding: 5px 10px;
   border-radius: 3px;
+}
+
+footer {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  z-index: -1;
 }
