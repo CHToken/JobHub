@@ -1,0 +1,52 @@
+.manage-jobs-container {
+    margin: 20px;
+  }
+  
+  h2 {
+    color: #333;
+  }
+  
+  .job-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .job-item {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .job-details {
+    flex-grow: 1;
+  }
+  
+  .job-actions button {
+    margin-right: 10px;
+    cursor: pointer;
+  }
+
+/* Add this to your CSS file */
+.applicant-list {
+  list-style: none;
+  padding: 0;
+}
+
+.applicant-item {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.applicant-item button {
+  cursor: pointer;
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+}

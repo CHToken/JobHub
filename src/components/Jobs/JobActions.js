@@ -129,7 +129,9 @@ const JobActions = ({ jobId, onJobUpdate, walletAddress, jobDetails }) => {
               {/* Display applicant information */}
               <p>Applicant ID: {applicant.applicantId}</p>
               <p>Applicant Status: {applicant.applicantStatus}</p>
+              <p>Profession: {applicant.applicantDetails.role}</p>
               <p>About User: {applicant.applicantDetails.aboutuser}</p>
+              <p>Skills: {applicant.applicantDetails.skills}</p>
               <p>Past Projects:</p>
               <ul>
                 {applicant.applicantDetails.pastProjects.map(
