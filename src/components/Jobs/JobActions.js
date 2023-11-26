@@ -7,7 +7,7 @@ import {
   getDocs,
   query,
   where,
-  writeBatch,
+  getDoc,
 } from "firebase/firestore";
 
 const JobActions = ({ jobId, onJobUpdate, walletAddress, jobDetails }) => {
@@ -24,8 +24,16 @@ const JobActions = ({ jobId, onJobUpdate, walletAddress, jobDetails }) => {
         const applicantsData = [];
         for (const applicantDoc of querySnapshot.docs) {
           const data = applicantDoc.data();
+
+          // Fetch applicant information from the 'users' collection
+          const applicantId = data.applicantId;
+          const applicantDocRef = doc(db, "users", applicantId);
+          const applicantDocSnap = await getDoc(applicantDocRef);
+          const applicantDetails = applicantDocSnap.data();
+
           applicantsData.push({
             id: applicantDoc.id,
+            applicantDetails,
             ...data,
           });
         }
@@ -39,28 +47,20 @@ const JobActions = ({ jobId, onJobUpdate, walletAddress, jobDetails }) => {
     fetchApplicants();
   }, [jobId]);
 
-  const handleUpdateJobAndApplicant = async (jobStatus, applicantStatus, applicantId) => {
-    // Check if the current user is the job poster
-    if (walletAddress !== jobDetails.walletAddress) {
-      alert("You do not have permission to update this job.");
-      return;
-    }
-
-    const batch = writeBatch(db);
-
-    const jobDocRef = doc(db, "jobs", jobId);
-    batch.update(jobDocRef, { jobstatus: jobStatus });
-
-    const appliedJobDocRef = doc(db, "appliedJobs", applicantId);
-    batch.update(appliedJobDocRef, { applicantStatus: applicantStatus });
-
-    await batch.commit();
-  };
-
   const handleAcceptApplicant = async (applicantId) => {
     try {
-      await handleUpdateJobAndApplicant("Accepted", "Accepted", applicantId);
+      // Check if the applicant has already been assigned
+      if (jobDetails.jobstatus === "Assigned") {
+        window.alert("This job has already been assigned. You cannot accept or reject applicants.");
+        return;
+      }
+
+      await updateDoc(doc(db, "appliedJobs", applicantId), {
+        applicantStatus: "Accepted",
+      });
+
       onJobUpdate();
+      window.alert("Applicant has been accepted.");
     } catch (error) {
       console.error("Error accepting applicant:", error);
     }
@@ -68,8 +68,19 @@ const JobActions = ({ jobId, onJobUpdate, walletAddress, jobDetails }) => {
 
   const handleRejectApplicant = async (applicantId) => {
     try {
-      await handleUpdateJobAndApplicant("Rejected", "Rejected", applicantId);
+      // Check if the applicant has already been assigned
+      if (jobDetails.jobstatus === "Assigned") {
+        window.alert("This job has already been assigned. You cannot accept or reject applicants.");
+        return;
+      }
+
+      // Update only the appliedJobs collection for assignment
+      await updateDoc(doc(db, "appliedJobs", applicantId), {
+        applicantStatus: "Rejected",
+      });
+
       onJobUpdate();
+      window.alert("Applicant has been rejected.");
     } catch (error) {
       console.error("Error rejecting applicant:", error);
     }
@@ -77,13 +88,22 @@ const JobActions = ({ jobId, onJobUpdate, walletAddress, jobDetails }) => {
 
   const handleAssignApplicant = async (applicantId) => {
     try {
-      // Perform logic for assigning the applicant to the job
-      // You might want to update the job document or create a new collection for assigned jobs
-      // Check if the current user is the job poster
-      if (walletAddress !== jobDetails.walletAddress) {
-        alert("You do not have permission to assign this applicant.");
+      // Check if the applicant has already been assigned
+      if (jobDetails.jobstatus === "Assigned") {
+        window.alert("This job has already been assigned. You cannot assign applicants.");
         return;
       }
+
+      // Check if the current user is the job poster
+      if (walletAddress !== jobDetails.walletAddress) {
+        window.alert("You do not have permission to assign this applicant.");
+        return;
+      }
+
+      const jobDocRef = doc(db, "jobs", jobId);
+      await updateDoc(jobDocRef, {
+        jobstatus: "Assigned",
+      });
 
       // Update only the appliedJobs collection for assignment
       await updateDoc(doc(db, "appliedJobs", applicantId), {
@@ -91,6 +111,7 @@ const JobActions = ({ jobId, onJobUpdate, walletAddress, jobDetails }) => {
       });
 
       onJobUpdate();
+      window.alert("Applicant has been assigned.");
     } catch (error) {
       console.error("Error assigning applicant:", error);
     }
@@ -105,8 +126,24 @@ const JobActions = ({ jobId, onJobUpdate, walletAddress, jobDetails }) => {
         <ul>
           {applicants.map((applicant) => (
             <li key={applicant.id}>
+              {/* Display applicant information */}
               <p>Applicant ID: {applicant.applicantId}</p>
               <p>Applicant Status: {applicant.applicantStatus}</p>
+              <p>About User: {applicant.applicantDetails.aboutuser}</p>
+              <p>Past Projects:</p>
+              <ul>
+                {applicant.applicantDetails.pastProjects.map(
+                  (project, index) => (
+                    <li key={index}>
+                      <p>Title: {project.title}</p>
+                      <p>Description: {project.description}</p>
+                      <p>
+                        Link: <a href={project.link}>{project.link}</a>
+                      </p>
+                    </li>
+                  )
+                )}
+              </ul>
               <button onClick={() => handleAcceptApplicant(applicant.id)}>
                 Accept Applicant
               </button>

@@ -18,6 +18,7 @@ const ProfileSettings = ({
 
   const handleSaveClick = () => {
     onSave(ProfileSettingsData);
+    alert("Profile saved successfully!");
   };
 
   const handleBackClick = () => {
@@ -55,7 +56,7 @@ const ProfileSettings = ({
   return (
     <div className="profilesettings card">
       <div className="card-header d-flex">
-        <i
+      <i
           onClick={handleBackClick}
           className="fa fa-arrow-left back-arrow"
         ></i>
@@ -159,13 +160,6 @@ const ProfileSettings = ({
       </div>
       <br />
       <div className="d-flex align-items-center justify-content-around">
-        <button
-          onClick={handleBackClick}
-          className="save-button btn"
-          style={{ width: "20%" }}
-        >
-          Back
-        </button>
         <button
           onClick={handleSaveClick}
           className="btn btn-success"

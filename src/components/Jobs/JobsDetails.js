@@ -60,8 +60,6 @@ const JobDetails = ({ isConnected, walletAddress }) => {
             ...doc.data(),
           }));
 
-          // setAppliedJobs(appliedJobsData);
-
           // Check if the user has already applied for this job
           const existingApplication = appliedJobsData.find(
             (application) => application.appliedjobstatus === "Applied" || application.jobId
@@ -99,6 +97,11 @@ const JobDetails = ({ isConnected, walletAddress }) => {
 
       if (jobDetails.jobstatus !== "Active") {
         alert("This job is currently not accepting applications.");
+        return;
+      }
+
+      if (jobDetails?.jobstatus === "Assigned") {
+        alert("This job has already been assigned to an applicant.");
         return;
       }
 

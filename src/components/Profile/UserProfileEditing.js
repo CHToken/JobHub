@@ -29,7 +29,7 @@ const UserProfileEditing = ({
         />
       )}
       {editMode === "pastProjects" && (
-        <PastProjects userData={userData} onSave={onProjectsSave} />
+        <PastProjects userData={userData} onSave={onProjectsSave} onBack={() => setIsEditing(false)}/>
       )}
       {editMode === "socialMedia" && (
         <SocialMedia

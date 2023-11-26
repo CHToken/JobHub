@@ -22,6 +22,19 @@ const App = () => {
       const accounts = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
+
+      // Get the chainId from MetaMask
+      const chainId = await window.ethereum.request({
+        method: "eth_chainId",
+      });
+
+      // Check if the supported chainIds include the current chainId
+      const supportedChainIds = ["0x1", "0x38", "42161"]; // Ethereum: 1, BSC: 56, Arbitrum: 42161
+      if (!supportedChainIds.includes(chainId)) {
+        window.alert("Unsupported chain. Please switch to Ethereum (chainId 1) or BSC BEP20 (chainId 56) or Arbitrum (42161).");
+        return;
+      }
+
       setConnected(true);
       setWalletAddress(accounts[0]);
     } catch (error) {

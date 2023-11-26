@@ -7,8 +7,17 @@ const WalletInfo = ({ userData, onSave, onBack }) => {
     ethwalletAddress: userData.ethwalletAddress,
   });
 
+  const capitalize = (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
+
+  const handleInputChange = (field, value) => {
+    setWalletData((prevData) => ({ ...prevData, [field]: value }));
+  };
+
   const handleSaveClick = () => {
     onSave(walletData);
+    alert("WalletInfo saved successfully!");
   };
 
   const handleBackClick = () => {
@@ -18,63 +27,25 @@ const WalletInfo = ({ userData, onSave, onBack }) => {
   return (
     <div className="wallet-info card">
       <div className="card-header d-flex">
-        <i
-          onClick={handleBackClick}
-          className="fa fa-arrow-left back-arrow"
-        ></i>
+        <i onClick={handleBackClick} className="fa fa-arrow-left back-arrow"></i>
         <h3>Wallet Information</h3>
       </div>
       <br />
-      <div>
-        <label htmlFor="bnbWallet">BNB Wallet:</label>
-        <input
-          type="text"
-          id="bnbWallet"
-          className="form-control"
-          value={walletData.bnbwalletAddress}
-          onChange={(e) =>
-            setWalletData({ ...walletData, bnbwalletAddress: e.target.value })
-          }
-        />
-      </div>
-      <div>
-        <label htmlFor="usdtWallet">USDT Wallet:</label>
-        <input
-          type="text"
-          id="usdtWallet"
-          className="form-control"
-          value={walletData.usdtwalletAddress}
-          onChange={(e) =>
-            setWalletData({ ...walletData, usdtwalletAddress: e.target.value })
-          }
-        />
-      </div>
-      <div>
-        <label htmlFor="ethWallet">ETH Wallet:</label>
-        <input
-          type="text"
-          id="ethWallet"
-          className="form-control"
-          value={walletData.ethwalletAddress}
-          onChange={(e) =>
-            setWalletData({ ...walletData, ethwalletAddress: e.target.value })
-          }
-        />
-      </div>
+      {Object.entries(walletData).map(([field, value]) => (
+        <div key={field}>
+          <label htmlFor={`${field}Wallet`}>{`${capitalize(field)} Wallet:`}</label>
+          <input
+            type="text"
+            id={`${field}Wallet`}
+            className="form-control"
+            value={value}
+            onChange={(e) => handleInputChange(field, e.target.value)}
+          />
+        </div>
+      ))}
       <br />
       <div className="d-flex align-items-center justify-content-around">
-        <button
-          onClick={handleBackClick}
-          className="save-button btn"
-          style={{ width: "20%" }}
-        >
-          Back
-        </button>
-        <button
-          onClick={handleSaveClick}
-          className="btn btn-success"
-          style={{ width: "70%" }}
-        >
+        <button onClick={handleSaveClick} className="btn btn-success" style={{ width: "70%" }}>
           Save
         </button>
       </div>

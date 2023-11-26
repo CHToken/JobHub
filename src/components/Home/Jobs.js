@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { db } from '../../firebase';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
-import { collection, getDocs, query, limit } from 'firebase/firestore';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { db } from "../../firebase";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { collection, getDocs, query, limit } from "firebase/firestore";
 
 const HomeJobs = () => {
   const [jobs, setJobs] = useState([]);
@@ -11,7 +11,7 @@ const HomeJobs = () => {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const jobsCollection = collection(db, 'jobs');
+        const jobsCollection = collection(db, "jobs");
         // Use the query function to apply a limit to the number of jobs fetched
         const limitedJobsQuery = query(jobsCollection, limit(5));
 
@@ -30,18 +30,18 @@ const HomeJobs = () => {
 
         setJobs(jobsData);
       } catch (error) {
-        console.error('Error fetching jobs:', error);
+        console.error("Error fetching jobs:", error);
       }
     };
 
     fetchJobs();
   }, []);
 
-  const truncateDescription = (description, maxLength) => {
-    return description.length > maxLength
-      ? `${description.substring(0, maxLength)}...`
-      : description;
-  };
+  // const truncateDescription = (description, maxLength) => {
+  //   return description.length > maxLength
+  //     ? `${description.substring(0, maxLength)}...`
+  //     : description;
+  // };
 
   return (
     <div className="mt-10 bg-second">
@@ -69,21 +69,21 @@ const HomeJobs = () => {
                       src={job.profilePicture}
                       alt="Profile"
                       style={{
-                        width: '100px',
-                        height: '100px',
-                        borderRadius: '50%',
+                        width: "100px",
+                        height: "100px",
+                        borderRadius: "50%",
                       }}
                     />
                   ) : (
                     <FontAwesomeIcon
                       icon={faUser}
                       style={{
-                        width: '60px',
-                        height: '60px',
-                        borderRadius: '50%',
-                        border: '5px outset',
-                        borderBlockColor: '#4B46E1',
-                        padding: '15px'
+                        width: "60px",
+                        height: "60px",
+                        borderRadius: "50%",
+                        border: "5px outset",
+                        borderBlockColor: "#4B46E1",
+                        padding: "15px",
                       }}
                     />
                   )}
@@ -100,16 +100,16 @@ const HomeJobs = () => {
               </small>
               <br />
               <div>
-  <p className="opacity-75">
-    {truncateDescription(job.jobDescription, 150)}
-  </p>
-  <Link to={`/jobs/${job.id}`} className="btn btn-secondary">
-    Read More
-  </Link>
-  <Link to={`/jobs/${job.id}`} className="btn btn-primary ml-1">
-    Apply Now
-  </Link>
-</div>
+                <p className="clamp-text">
+                  {job.jobDescription}
+                </p>
+                <Link to={`/jobs/${job.id}`} className="btn btn-secondary">
+                  Read More
+                </Link>
+                <Link to={`/jobs/${job.id}`} className="btn btn-primary ml-1">
+                  Apply Now
+                </Link>
+              </div>
             </div>
           </div>
         ))}

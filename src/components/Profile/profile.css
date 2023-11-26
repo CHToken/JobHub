@@ -47,15 +47,21 @@
 }
 
 .Profile-container {
-  position: relative;
-  max-width: 600px;
-  margin: 0 auto;
-  display: flex;
-  padding: 20px;
-  box-sizing: border-box;
   align-items: center;
-  justify-content: center;
+  box-sizing: border-box;
+  display: flex;
   flex-direction: column;
+  justify-content: center;
+  margin: 0 auto;
+  max-width: 600px;
+  padding: 20px;
+  position: relative;
+}
+
+@media (max-width: 767px) {
+.projects {
+  flex-direction: column;
+}
 }
 
 .Profile-container p {

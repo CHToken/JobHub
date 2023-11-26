@@ -6,7 +6,6 @@ import {
   getDoc,
   doc,
   updateDoc,
-  deleteDoc,
   query,
   where,
 } from "firebase/firestore";
@@ -22,16 +21,17 @@ const ManageJobs = ({ walletAddress }) => {
         query(jobsQuery, where("walletAddress", "==", walletAddress))
       );
 
-      const jobsData = [];
-      for (const jobDoc of querySnapshot.docs) {
-        const data = jobDoc.data();
-        const applicantsCount = await getApplicantsCount(jobDoc.id);
-        jobsData.push({
-          id: jobDoc.id,
-          ...data,
-          applicantsCount,
-        });
-      }
+      const jobsData = await Promise.all(
+        querySnapshot.docs.map(async (jobDoc) => {
+          const data = jobDoc.data();
+          const applicantsCount = await getApplicantsCount(jobDoc.id);
+          return {
+            id: jobDoc.id,
+            ...data,
+            applicantsCount,
+          };
+        })
+      );
 
       setJobs(jobsData);
     } catch (error) {
@@ -62,53 +62,33 @@ const ManageJobs = ({ walletAddress }) => {
     fetchJobs();
   }, [fetchJobs]);
 
-  const handleDeleteJob = async (jobId) => {
-    try {
-      const jobDocRef = doc(db, "jobs", jobId);
-      const jobSnapshot = await getDoc(jobDocRef);
-      const jobData = jobSnapshot.data();
-      await deleteDoc(jobDocRef);
-      alert(`Job '${jobData.jobTitle}' has been deleted.`);
-
-      // Perform other logic for cleanup (e.g., delete related data in 'appliedJobs' collection)
-      handleJobUpdate();
-    } catch (error) {
-      console.error("Error deleting job:", error);
-    }
-  };
-
-  const handlePauseJob = async (jobId) => {
+  const handleJobAction = async (jobId, action, message) => {
     try {
       const jobDocRef = doc(db, "jobs", jobId);
       const jobSnapshot = await getDoc(jobDocRef);
       const jobData = jobSnapshot.data();
 
       await updateDoc(jobDocRef, {
-        jobstatus: "Paused",
+        jobstatus: action,
       });
-      alert(`Job '${jobData.jobTitle}' has been paused.`);
 
+      alert(`Job '${jobData.jobTitle}' has been ${message}.`);
       handleJobUpdate();
     } catch (error) {
-      console.error("Error pausing job:", error);
+      console.error(`Error ${message.toLowerCase()} job:`, error);
     }
   };
 
-  const handleActivateJob = async (jobId) => {
-    try {
-      const jobDocRef = doc(db, "jobs", jobId);
-      const jobSnapshot = await getDoc(jobDocRef);
-      const jobData = jobSnapshot.data();
+  const handleDeleteJob = (jobId) => {
+    handleJobAction(jobId, "Deleted", "deleted");
+  };
 
-      await updateDoc(jobDocRef, {
-        jobstatus: "Active",
-      });
-      alert(`Job '${jobData.jobTitle}' has been activated.`);
+  const handlePauseJob = (jobId) => {
+    handleJobAction(jobId, "Paused", "paused");
+  };
 
-      handleJobUpdate();
-    } catch (error) {
-      console.error("Error activating job:", error);
-    }
+  const handleActivateJob = (jobId) => {
+    handleJobAction(jobId, "Active", "activated");
   };
 
   return (
@@ -125,18 +105,17 @@ const ManageJobs = ({ walletAddress }) => {
               <p>Applicants: {job.applicantsCount}</p>
               <p>Status: {job.jobstatus}</p>
               {job.jobstatus === "Active" ? (
-                <button onClick={() => handlePauseJob(job.id)}>
-                  Pause Job
-                </button>
+                <button onClick={() => handlePauseJob(job.id)}>Pause Job</button>
               ) : (
-                <button onClick={() => handleActivateJob(job.id)}>
-                  Activate Job
-                </button>
+                <button onClick={() => handleActivateJob(job.id)}>Activate Job</button>
               )}
-              <button onClick={() => handleDeleteJob(job.id)}>
-                Delete Job
-              </button>
-              <JobActions jobId={job.id} onJobUpdate={handleJobUpdate} />
+              <button onClick={() => handleDeleteJob(job.id)}>Delete Job</button>
+              <JobActions
+                jobId={job.id}
+                onJobUpdate={handleJobUpdate}
+                walletAddress={walletAddress}
+                jobDetails={job}
+              />
             </li>
           ))}
         </ul>

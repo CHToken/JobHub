@@ -14,8 +14,6 @@ const AppliedJobsList = ({ walletAddress }) => {
   useEffect(() => {
     const fetchAppliedJobs = async () => {
       try {
-        console.log("Fetching applied jobs for wallet address:", walletAddress);
-
         // Fetch applied jobs for the specific wallet address
         const appliedJobsQuery = collection(db, "appliedJobs");
         const querySnapshot = await getDocs(appliedJobsQuery);
@@ -45,7 +43,7 @@ const AppliedJobsList = ({ walletAddress }) => {
           }
         }
 
-        console.log("Fetched applied jobs:", jobs);
+   
 
         setAppliedJobs(jobs);
       } catch (error) {
