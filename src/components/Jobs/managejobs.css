@@ -34,6 +34,26 @@
   padding: 0;
 }
 
+.overlay {
+  height: 100vh;
+  width: 100%;
+  background: #000000bf;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.applicant-container {
+  position: absolute;
+  top: 30%;
+  left: 35%;
+  background: #ffffffb8;
+  backdrop-filter: blur(1px);
+  padding: 20px;
+  border: 1px solid;
+  border-radius: 20px;
+}
+
 .applicant-item {
   border: 1px solid #ddd;
   padding: 10px;

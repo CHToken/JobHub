@@ -135,28 +135,37 @@ const ManageJobs = ({ walletAddress }) => {
   return (
     <div className="manage-jobs-container">
       <h2>Manage Jobs</h2>
-      {jobs.length === 0 ? (
-        <p>No jobs found.</p>
-      ) : (
-        <ul className="job-list">
-          {jobs.map((job) => (
-            <li key={job.id} className="job-item">
-              <div className="job-details">
-                <p>Job Title: {job.jobTitle}</p>
-                <p>Budget: {job.budget}</p>
-                <p>Applicants: {job.applicantsCount}</p>
-                <p>Status: {job.jobstatus}</p>
+      <div className="row">
+        {jobs.length === 0 ? (
+          <p>No jobs found.</p>
+        ) : (
+          <div class="col-md-6 card">
+            {jobs.map((job) => (
+              <div key={job.id}>
+                <div className="card-header">
+                  <h3>{job.jobTitle}</h3>
+                </div>
+                <div className="p-3">
+                  <p>Budget: {job.budget}</p>
+                  <p>Applicants: {job.applicantsCount}</p>
+                  <p>
+                    Status: &nbsp;&nbsp;
+                    <span className={`text-white badge bg-${job.jobstatus === 'Paused' ? 'danger' : 'success'}`}>
+                      {job.jobstatus}
+                    </span>
+                  </p>
+                </div>
+                <div className="card-footer">
+                  <button className="btn btn-info ml-2" onClick={() => handleViewApplicantProfile(job.id)}>View Applicants</button>
+                  <button className="btn btn-warning ml-2" onClick={() => handlePauseJob(job.id)}>Pause Job</button>
+                  <button className="btn btn-success ml-2" onClick={() => handleActivateJob(job.id)}>Activate Job</button>
+                  <button className="btn btn-danger ml-2" onClick={() => handleDeleteJob(job.id)}>Delete Job</button>
+                </div>
               </div>
-              <div className="job-actions">
-                <button onClick={() => handleViewApplicantProfile(job.id)}>View Applicants</button>
-                <button onClick={() => handlePauseJob(job.id)}>Pause Job</button>
-                <button onClick={() => handleActivateJob(job.id)}>Activate Job</button>
-                <button onClick={() => handleDeleteJob(job.id)}>Delete Job</button>
-              </div>
-            </li>
-          ))}
-        </ul>
-      )}
+            ))}
+          </div>
+        )}
+      </div>
 
       {selectedJob && (
         <div className="applicant-container">
@@ -172,7 +181,7 @@ const ManageJobs = ({ walletAddress }) => {
               </li>
             ))}
           </ul>
-          <button onClick={handleCloseApplicants}>Close</button>
+          <button className="btn btn-secondary" onClick={handleCloseApplicants}>Close</button>
         </div>
       )}
 
