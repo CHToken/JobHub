@@ -80,9 +80,16 @@ h2 {
   border-radius: 3px;
 }
 
-footer {
-  position: fixed;
-  width: 100%;
-  bottom: 0;
-  z-index: -1;
+.eclipse {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 50%;
+}
+
+@media (max-width: 768px) {
+  .applicant-container, .job-actions-container{
+    margin: 20px;
+    left: 0;
+  } 
 }

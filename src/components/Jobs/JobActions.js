@@ -123,11 +123,11 @@ const JobActions = ({ jobId, onJobUpdate, walletAddress, jobDetails }) => {
       {applicants.length === 0 ? (
         <p>No applicants found.</p>
       ) : (
-        <ul>
+        <div>
           {applicants.map((applicant) => (
-            <li key={applicant.id}>
+            <div key={applicant.id}>
               {/* Display applicant information */}
-              <p>Applicant ID: {applicant.applicantId}</p>
+              <p className="eclipse">Applicant ID: {applicant.applicantId}</p>
               <p>Applicant Status: {applicant.applicantStatus}</p>
               <p>Profession: {applicant.applicantDetails.role}</p>
               <p>About User: {applicant.applicantDetails.aboutuser}</p>
@@ -155,9 +155,9 @@ const JobActions = ({ jobId, onJobUpdate, walletAddress, jobDetails }) => {
               <button className="btn btn-info m-2" onClick={() => handleAssignApplicant(applicant.id)}>
                 Assign Applicant
               </button>
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
       )}
     </div>
   );
