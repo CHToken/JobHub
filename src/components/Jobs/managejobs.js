@@ -167,6 +167,8 @@ const ManageJobs = ({ walletAddress }) => {
         )}
       </div>
 
+      <div className="overlay"></div>
+
       {selectedJob && (
         <div className="applicant-container">
           <h5>Applicants for {selectedJob}</h5>
