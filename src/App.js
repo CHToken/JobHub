@@ -9,6 +9,7 @@ import JobPostingForm from "./components/JobPostSection/JobPostForm";
 import JobBoard from "./components/JobBoard/JobBoard";
 import JobDetails from "./components/Jobs/JobsDetails";
 import ManageJobs from "./components/Jobs/managejobs";
+import Payment from "./components/Jobs/payment"; 
 
 import "./global.css";
 
@@ -29,7 +30,7 @@ const App = () => {
       });
 
       // Check if the supported chainIds include the current chainId
-      const supportedChainIds = ["0x1", "0x38", "42161"]; // Ethereum: 1, BSC: 56, Arbitrum: 42161
+      const supportedChainIds = ["0x1", "0x38", "42161", "0x5"]; // Ethereum: 1, BSC: 56, Arbitrum: 42161
       if (!supportedChainIds.includes(chainId)) {
         window.alert("Unsupported chain. Please switch to Ethereum (chainId 1) or BSC BEP20 (chainId 56) or Arbitrum (42161).");
         return;
@@ -39,6 +40,7 @@ const App = () => {
       setWalletAddress(accounts[0]);
     } catch (error) {
       console.error("Failed to connect to MetaMask:", error);
+      setConnected(false); 
     }
   }, []);
 
@@ -102,6 +104,10 @@ const App = () => {
                   walletAddress={walletAddress}
                 />
               }
+            />
+            <Route
+              path="/payment"
+              element={<Payment  isConnected={isConnected}/>}
             />
           </Routes>
         </div>

@@ -9,7 +9,8 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import JobActions from "./JobActions"
+import JobApplicants from "./JobApplicants";
+import ApplicantProfile from "./ApplicantProfile";
 import "./managejobs.css";
 
 const ManageJobs = ({ walletAddress }) => {
@@ -96,11 +97,12 @@ const ManageJobs = ({ walletAddress }) => {
   };
 
   const handleViewApplicantProfile = async (jobId) => {
-    setSelectedJob(jobId);
-
     try {
-      const appliedJobsQuery = collection(db, "appliedJobs");
-      const querySnapshot = await getDocs(query(appliedJobsQuery, where("jobId", "==", jobId)));
+      const appliedJobsQuery = query(
+        collection(db, "appliedJobs"),
+        where("jobId", "==", jobId)
+      );
+      const querySnapshot = await getDocs(appliedJobsQuery);
 
       const applicantsData = querySnapshot.docs.map((applicantDoc) => {
         const data = applicantDoc.data();
@@ -110,26 +112,21 @@ const ManageJobs = ({ walletAddress }) => {
         };
       });
 
+      setSelectedJob(jobId);
+      setSelectedApplicant(null);
       setApplicants(applicantsData);
     } catch (error) {
       console.error("Error fetching applicants:", error);
     }
   };
 
-  const handleViewApplicantProfileDetails = (applicantId) => {
-    // Set the selected applicant to display JobActions
-    setSelectedApplicant(applicantId);
-  };
-
   const handleCloseApplicants = () => {
     setSelectedJob(null);
     setApplicants([]);
-    setSelectedApplicant(null);
   };
 
-  const truncateApplicantId = (applicantId) => {
-    const truncatedId = `${applicantId.slice(0, 6)}......${applicantId.slice(-6)}`;
-    return truncatedId;
+  const CloseApplicantsProfile = () => {
+    setSelectedApplicant(null);
   };
 
   return (
@@ -139,7 +136,7 @@ const ManageJobs = ({ walletAddress }) => {
         {jobs.length === 0 ? (
           <p>No jobs found.</p>
         ) : (
-          <div class="col-md-6 card">
+          <div className="col-md-6 card">
             {jobs.map((job) => (
               <div key={job.id}>
                 <div className="card-header">
@@ -150,16 +147,40 @@ const ManageJobs = ({ walletAddress }) => {
                   <p>Applicants: {job.applicantsCount}</p>
                   <p>
                     Status: &nbsp;&nbsp;
-                    <span className={`text-white badge bg-${job.jobstatus === 'Paused' ? 'danger' : 'success'}`}>
+                    <span
+                      className={`text-white badge bg-${
+                        job.jobstatus === "Paused" ? "danger" : "success"
+                      }`}
+                    >
                       {job.jobstatus}
                     </span>
                   </p>
                 </div>
                 <div className="card-footer">
-                  <button className="btn btn-info ml-2" onClick={() => handleViewApplicantProfile(job.id)}>View Applicants</button>
-                  <button className="btn btn-warning ml-2" onClick={() => handlePauseJob(job.id)}>Pause Job</button>
-                  <button className="btn btn-success ml-2" onClick={() => handleActivateJob(job.id)}>Activate Job</button>
-                  <button className="btn btn-danger ml-2" onClick={() => handleDeleteJob(job.id)}>Delete Job</button>
+                  <button
+                    className="btn btn-info ml-2"
+                    onClick={() => handleViewApplicantProfile(job.id)}
+                  >
+                    View Applicants
+                  </button>
+                  <button
+                    className="btn btn-warning ml-2"
+                    onClick={() => handlePauseJob(job.id)}
+                  >
+                    Pause Job
+                  </button>
+                  <button
+                    className="btn btn-success ml-2"
+                    onClick={() => handleActivateJob(job.id)}
+                  >
+                    Activate Job
+                  </button>
+                  <button
+                    className="btn btn-danger ml-2"
+                    onClick={() => handleDeleteJob(job.id)}
+                  >
+                    Delete Job
+                  </button>
                 </div>
               </div>
             ))}
@@ -170,33 +191,24 @@ const ManageJobs = ({ walletAddress }) => {
       <div className="overlay"></div>
 
       {selectedJob && (
-        <div className="applicant-container">
-          <h5>Applicants for {selectedJob}</h5>
-          <ul className="applicant-list">
-            {applicants.map((applicant) => (
-              <li key={applicant.id} className="applicant-item">
-                <p>Applicant ID: {truncateApplicantId(applicant.applicantId)}</p>
-                <p>Username: <small>@</small>{applicant.applicantUsername}</p>
-                <button onClick={() => handleViewApplicantProfileDetails(applicant.applicantId)}>
-                  View Profile
-                </button>
-              </li>
-            ))}
-          </ul>
-          <button className="btn btn-secondary" onClick={handleCloseApplicants}>Close</button>
-        </div>
+        <JobApplicants
+          jobId={selectedJob}
+          onViewApplicantProfile={setSelectedApplicant}
+          applicants={applicants}
+          onClose={handleCloseApplicants}
+        />
       )}
 
       {selectedApplicant && (
         <div className="job-actions-container">
-          <h5>Applicant Profile</h5>
-          <JobActions
+          <ApplicantProfile
             jobId={selectedJob}
+            applicantId={selectedApplicant}
             onJobUpdate={handleJobUpdate}
             walletAddress={walletAddress}
             jobDetails={selectedApplicant}
+            onClose={CloseApplicantsProfile}
           />
-          <button className="btn btn-secondary" onClick={() => setSelectedApplicant(null)}>Close Profile</button>
         </div>
       )}
     </div>

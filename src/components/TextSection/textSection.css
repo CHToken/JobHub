@@ -21,7 +21,7 @@
   color: #000;
   justify-content: space-between;
   align-items: stretch;
-  padding: 25px;
+  padding: 15px;
   width: 100%;
 }
 
@@ -58,7 +58,7 @@
 .get-started-button,
 .how-it-works-button {
   text-decoration: none;
-  padding: 10px 20px;
+  padding: 10px 15px;
   color: #ffffff;
   font-size: 16px;
   font-weight: bold;
