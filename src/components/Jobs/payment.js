@@ -132,11 +132,11 @@ const Payment = ({ isConnected }) => {
             onChange={(e) => setAmount(e.target.value)}
           />
           <br />
-          <button onClick={sendPayment}>Send Payment</button>
-          <button onClick={finalizePayment}>Finalize Payment</button>
-          <button onClick={releasePayment}>Release Payment</button>
-          <button onClick={withdrawBalance}>Withdraw Balance</button>
-          <button onClick={getJobSeekerBalance}>Get Job Seeker Balance</button>
+          <button onClick={sendPayment}>Pay Now</button>
+          <button onClick={finalizePayment}>Finalize</button>
+          <button onClick={releasePayment}>Release</button>
+          <button onClick={withdrawBalance}>Withdraw</button>
+          <button onClick={getJobSeekerBalance}>Check Balance</button>
         </>
       ) : (
         <p>Please connect your wallet to use the payment portal.</p>
