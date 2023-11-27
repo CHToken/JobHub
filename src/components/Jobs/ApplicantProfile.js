@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import { db } from "../../firebase";
 import { doc, updateDoc, getDoc } from "firebase/firestore";
+import ChatSystem from "./ChatSystem";
 
 const ApplicantProfile = ({ jobId, applicantId, onClose, onJobUpdate, jobDetails, walletAddress }) => {
   const [applicant, setApplicant] = useState(null);
+  const [showChatModal, setShowChatModal] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchApplicant = async () => {
@@ -96,6 +100,12 @@ const ApplicantProfile = ({ jobId, applicantId, onClose, onJobUpdate, jobDetails
     }
   };  
 
+  const handleChatButtonClick = () => {
+    // Redirect to the chat page with jobId and applicantId
+    navigate(`/chat/${jobId}/${applicantId}`);
+    setShowChatModal(true);
+};
+
   const truncateApplicantId = (applicantId) => {
     const truncatedId = `${applicantId.slice(0, 6)}......${applicantId.slice(-6)}`;
     return truncatedId;
@@ -142,9 +152,19 @@ const ApplicantProfile = ({ jobId, applicantId, onClose, onJobUpdate, jobDetails
           <button className="btn btn-secondary" onClick={onClose}>
             Close Profile
           </button>
+          <button className="btn btn-primary m-2" onClick={handleChatButtonClick}>
+            Open Chat
+          </button>
         </>
       ) : (
         <p>No applicant profile found.</p>
+      )}
+   {showChatModal && (
+        <ChatSystem
+          jobId={jobId}
+          applicantId={applicantId}
+          onClose={() => setShowChatModal(false)}
+        />
       )}
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import UserProfile from "./components/Profile/profile";
 import HeaderContainer from "./components/Header/header";
@@ -9,9 +9,12 @@ import JobPostingForm from "./components/JobPostSection/JobPostForm";
 import JobBoard from "./components/JobBoard/JobBoard";
 import JobDetails from "./components/Jobs/JobsDetails";
 import ManageJobs from "./components/Jobs/managejobs";
-import Payment from "./components/Jobs/payment"; 
+import Payment from "./components/Jobs/payment";
+import ChatPage from "./components/Jobs/ChatPage";
 
 import "./global.css";
+
+const supportedChainIds = ["0x1", "0x38", "42161", "0x5"]; // Ethereum: 1, BSC: 56, Arbitrum: 42161
 
 const App = () => {
   const [isConnected, setConnected] = useState(false);
@@ -19,20 +22,18 @@ const App = () => {
 
   const connectWallet = useCallback(async () => {
     try {
-      // Connect to MetaMask and get the accounts
       const accounts = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
 
-      // Get the chainId from MetaMask
       const chainId = await window.ethereum.request({
         method: "eth_chainId",
       });
 
-      // Check if the supported chainIds include the current chainId
-      const supportedChainIds = ["0x1", "0x38", "42161", "0x5"]; // Ethereum: 1, BSC: 56, Arbitrum: 42161
       if (!supportedChainIds.includes(chainId)) {
-        window.alert("Unsupported chain. Please switch to Ethereum (chainId 1) or BSC BEP20 (chainId 56) or Arbitrum (42161).");
+        window.alert(
+          "Unsupported chain. Please switch to Ethereum (chainId 1) or BSC BEP20 (chainId 56) or Arbitrum (42161)."
+        );
         return;
       }
 
@@ -40,21 +41,34 @@ const App = () => {
       setWalletAddress(accounts[0]);
     } catch (error) {
       console.error("Failed to connect to MetaMask:", error);
-      setConnected(false); 
+      setConnected(false);
     }
   }, []);
 
   const disconnectWallet = useCallback(() => {
     setConnected(false);
     setWalletAddress(null);
-    window.location.reload();
   }, []);
 
-  // Define the onSubmit function
   const handleJobSubmit = (jobData) => {
     console.log("Job submitted:", jobData);
-    // You can add any additional logic here
+    // Additional logic here
   };
+
+  useEffect(() => {
+    const handleChainChanged = (chainId) => {
+      if (!supportedChainIds.includes(chainId)) {
+        setConnected(false);
+        setWalletAddress(null);
+      }
+    };
+
+    window.ethereum.on("chainChanged", handleChainChanged);
+
+    return () => {
+      window.ethereum.off("chainChanged", handleChainChanged);
+    };
+  }, []);
 
   return (
     <MetaMaskProvider
@@ -105,9 +119,10 @@ const App = () => {
                 />
               }
             />
+            <Route path="/chat/:jobId/:applicantId" element={<ChatPage />} />
             <Route
               path="/payment"
-              element={<Payment  isConnected={isConnected}/>}
+              element={<Payment isConnected={isConnected} />}
             />
           </Routes>
         </div>

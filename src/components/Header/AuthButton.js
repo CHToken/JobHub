@@ -10,9 +10,14 @@ const AuthButton = ({ isConnected, connectWallet, disconnectWallet, walletAddres
     setShowProfileMenu(true);
   };
 
-  const handleMenuHover = () => {
-    // Keep the menu open when hovering over it
-    setShowProfileMenu(true);
+  const handleMenuHover = (event) => {
+    // Check if the event object is defined
+    if (event) {
+      // Keep the menu open when hovering over it
+      setShowProfileMenu(true);
+    } else {
+      setShowProfileMenu(false);
+    }
   };
 
   const handleMenuLeave = () => {
@@ -34,10 +39,10 @@ const AuthButton = ({ isConnected, connectWallet, disconnectWallet, walletAddres
       <div className="profile-icon" onMouseEnter={handleProfileHover}>
         <img src={userImage} alt="Profile" />
         {showProfileMenu && (
-          <div className="profile-menu" onMouseEnter={handleMenuHover} onMouseLeave={handleMenuLeave}>
+          <div className="profile-menu" onMouseEnter={(event) => handleMenuHover(event)} onMouseLeave={handleMenuLeave}>
             <Link to="/profile">Profile</Link>
             <Link to="/managejobs">Manage Jobs</Link>
-            <Link to="/payment">Payment Portal</Link>
+            <Link to="/payment">Portal</Link>
             {/* <Link to="/settings">Settings</Link> */}
           </div>
         )}

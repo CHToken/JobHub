@@ -15,7 +15,7 @@ const HeaderContainer = ({ isConnected, connectWallet, disconnectWallet }) => {
       <div className="topnav" id="topnav">
       <Link to="postjob">Post a Job</Link>
       {/* <Link to="#jobseeker">Job Seeker</Link> */}
-      <Link to="#buygem">Buy Gem</Link>
+      <Link to="">Buy Gem</Link>
       <Link to="jobboard">Job Board</Link>
       </div>
       <AuthButton isConnected={isConnected} connectWallet={connectWallet} disconnectWallet={disconnectWallet} />

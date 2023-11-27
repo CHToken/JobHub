@@ -12,8 +12,6 @@ const ApplicantInfo = ({ applicantId }) => {
           console.error("Applicant ID is undefined");
           return;
         }
-
-        // Assume 'appliedJobs' is the collection where you have applicant information
         const appliedJobsCollection = collection(db, "appliedJobs");
         const appliedJobsQuery = query(
           appliedJobsCollection,
@@ -22,7 +20,6 @@ const ApplicantInfo = ({ applicantId }) => {
         const appliedJobsSnapshot = await getDocs(appliedJobsQuery);
 
         if (!appliedJobsSnapshot.empty) {
-          // Since there might be multiple documents, you may want to choose one or handle them accordingly
           const applicantData = appliedJobsSnapshot.docs[0].data();
           setApplicantInfo(applicantData);
         } else {

@@ -1,52 +1,122 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Web3 from "web3";
 import contractABI from "./ABI";
+import { db } from "../../firebase";
+import {
+  collection,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 
 import "./payment.css";
 
-const contractAddress = "0x6830E7E45CdB1aDfF4Eb00526303f8f7755f07BD";
+const contractAddress = "0xE0b8c96D5D4B04e7FCeDdfaE3A0B4F23DA8cC9ab";
 
 const Payment = ({ isConnected }) => {
   const [web3, setWeb3] = useState(null);
   const [contract, setContract] = useState(null);
   const [signer, setSigner] = useState(null);
   const [jobSeekerAddress, setJobSeekerAddress] = useState("");
-  const [amount, setAmount] = useState("");
+  const [paymentAmount, setPaymentAmount] = useState("");
+  const [withdrawAmount, setWithdrawAmount] = useState("");
+  const [isJobPoster, setIsJobPoster] = useState(false);
+  const [isContractOwner, setIsContractOwner] = useState();
 
   const initializeContract = useCallback(async () => {
     if (!isConnected) {
       console.error("User is not connected");
       return;
     }
-  
+
     if (window.ethereum) {
       const web3Instance = new Web3(window.ethereum);
       try {
         await window.ethereum.request({ method: "eth_requestAccounts" });
         setWeb3(web3Instance);
-        const accounts = await window.ethereum.request({ method: "eth_accounts" });
+        const accounts = await window.ethereum.request({
+          method: "eth_accounts",
+        });
         setSigner(accounts[0]);
-        setContract(new web3Instance.eth.Contract(contractABI, contractAddress));
+        const contractInstance = new web3Instance.eth.Contract(
+          contractABI,
+          contractAddress
+        );
+        setContract(contractInstance);
+
+        // Check if the connected address is a job poster
+        checkIfJobPoster(accounts[0]);
+
+        // Check if the connected address is the owner of the contract
+        if (contractInstance) {
+          const contractOwners = await contractInstance.methods
+            .authorizedAccounts()
+            .call();
+
+          // Log connected address
+          console.log("Connected Address:", accounts[0]);
+
+          // Use includes to check ownership (ensure both addresses are in lowercase)
+          const lowercaseConnectedAddress =
+            accounts[0] && accounts[0].toLowerCase();
+          const isOwner =
+            contractOwners &&
+            lowercaseConnectedAddress &&
+            contractOwners.some(
+              (owner) => owner.toLowerCase() === lowercaseConnectedAddress
+            );
+
+          // Log contract ownership comparison
+          console.log("Is Contract Owner:", isOwner);
+
+          setIsContractOwner(isOwner);
+        }
       } catch (error) {
-        console.error("User denied account access or an error occurred", error);
+        console.error(
+          "User denied account access or an error occurred",
+          error
+        );
       }
     } else {
       console.error("Please install MetaMask!");
     }
   }, [isConnected, setWeb3, setSigner, setContract]);
-  
 
   useEffect(() => {
     initializeContract();
   }, [initializeContract]);
 
+  const checkIfJobPoster = async (walletAddress) => {
+    try {
+      const jobsCollection = collection(db, "jobs");
+      const q = query(
+        jobsCollection,
+        where("walletAddress", "==", walletAddress)
+      );
+      const jobSnapshot = await getDocs(q);
+
+      if (!jobSnapshot.empty) {
+        // Connected address is a job poster
+        setIsJobPoster(true);
+      }
+    } catch (error) {
+      console.error(
+        "Error checking if the connected address is a job poster:",
+        error
+      );
+    }
+  };
+
   const sendPayment = async () => {
     try {
       await initializeContract();
 
+      // Convert the paymentAmount to a string before passing it to web3.utils.toWei
+      const paymentAmountInWei = web3.utils.toWei(paymentAmount.toString(), "ether");
+
       const result = await contract.methods.sendPayment(jobSeekerAddress).send({
         from: signer,
-        value: web3.utils.toWei(amount, "ether"),
+        value: paymentAmountInWei,
       });
 
       console.log("Payment sent:", result);
@@ -59,8 +129,11 @@ const Payment = ({ isConnected }) => {
     try {
       await initializeContract();
 
+      // Convert the paymentAmount to a string before passing it to web3.utils.toWei
+      const paymentAmountInWei = web3.utils.toWei(paymentAmount.toString(), "ether");
+
       const result = await contract.methods
-        .finalizePayment(jobSeekerAddress, amount)
+        .finalizePayment(jobSeekerAddress, paymentAmountInWei)
         .send({
           from: signer,
         });
@@ -75,8 +148,11 @@ const Payment = ({ isConnected }) => {
     try {
       await initializeContract();
 
+      // Convert the paymentAmount to a string before passing it to web3.utils.toWei
+      const paymentAmountInWei = web3.utils.toWei(paymentAmount.toString(), "ether");
+
       const result = await contract.methods
-        .releasePayment(jobSeekerAddress, amount)
+        .releasePayment(jobSeekerAddress, paymentAmountInWei)
         .send({
           from: signer,
         });
@@ -91,7 +167,10 @@ const Payment = ({ isConnected }) => {
     try {
       await initializeContract();
 
-      const result = await contract.methods.withdrawBalance(amount).send({
+      // Convert the withdrawAmount to a string before passing it to web3.utils.toWei
+      const withdrawAmountInWei = web3.utils.toWei(withdrawAmount.toString(), "ether");
+
+      const result = await contract.methods.withdrawBalance(withdrawAmountInWei).send({
         from: signer,
       });
 
@@ -114,7 +193,11 @@ const Payment = ({ isConnected }) => {
   };
 
   return (
-    <div className="contract-container" style={{marginBottom:"130px"}} align="center">
+    <div
+      className="contract-container"
+      style={{ marginBottom: "130px" }}
+      align="center"
+    >
       {isConnected ? (
         <>
           <h2>JobHub Payment Portal</h2>
@@ -126,19 +209,58 @@ const Payment = ({ isConnected }) => {
             onChange={(e) => setJobSeekerAddress(e.target.value)}
           />
           <br />
-          <label>Amount (in Ether):</label>
+          <label>Amount for Payment (in Ether):</label>
           <input
             type="text"
-            value={amount}
+            value={paymentAmount}
             className="form-control"
-            onChange={(e) => setAmount(e.target.value)}
+            onChange={(e) => setPaymentAmount(e.target.value)}
           />
           <br />
-          <button className="btn btn-secondary ml-3" onClick={sendPayment}>Pay Now</button>
-          <button className="btn btn-secondary ml-3" onClick={finalizePayment}>Finalize</button>
-          <button className="btn btn-secondary ml-3" onClick={releasePayment}>Release</button>
-          <button className="btn btn-secondary ml-3" onClick={withdrawBalance}>Withdraw</button>
-          <button className="btn btn-secondary ml-3" onClick={getJobSeekerBalance}>Check Balance</button>
+          {isJobPoster && (
+            <>
+              <button className="btn btn-secondary ml-3" onClick={sendPayment}>
+                Pay Now
+              </button>
+              <button
+                className="btn btn-secondary ml-3"
+                onClick={finalizePayment}
+              >
+                Finalize
+              </button>
+            </>
+          )}
+          {isContractOwner && (
+            <>
+              <button
+                className="btn btn-secondary ml-3"
+                onClick={releasePayment}
+              >
+                Release
+              </button>
+              <div>
+              <label>Amount for Withdrawal (in Ether):</label>
+          <input
+            type="text"
+            value={withdrawAmount}
+            className="form-control"
+            onChange={(e) => setWithdrawAmount(e.target.value)}
+          />
+                <button
+                  className="btn btn-secondary ml-3"
+                  onClick={withdrawBalance}
+                >
+                  Withdraw
+                </button>
+              </div>
+            </>
+          )}
+          <button
+            className="btn btn-secondary ml-3"
+            onClick={getJobSeekerBalance}
+          >
+            Check Balance
+          </button>
         </>
       ) : (
         <p>Please connect your wallet to use the payment portal.</p>
