@@ -114,7 +114,7 @@ const Payment = ({ isConnected }) => {
   };
 
   return (
-    <div className="contract-container">
+    <div className="contract-container" style={{marginBottom:"130px"}} align="center">
       {isConnected ? (
         <>
           <h2>JobHub Payment Portal</h2>
@@ -122,6 +122,7 @@ const Payment = ({ isConnected }) => {
           <input
             type="text"
             value={jobSeekerAddress}
+            className="form-control"
             onChange={(e) => setJobSeekerAddress(e.target.value)}
           />
           <br />
@@ -129,14 +130,15 @@ const Payment = ({ isConnected }) => {
           <input
             type="text"
             value={amount}
+            className="form-control"
             onChange={(e) => setAmount(e.target.value)}
           />
           <br />
-          <button onClick={sendPayment}>Send Payment</button>
-          <button onClick={finalizePayment}>Finalize Payment</button>
-          <button onClick={releasePayment}>Release Payment</button>
-          <button onClick={withdrawBalance}>Withdraw Balance</button>
-          <button onClick={getJobSeekerBalance}>Get Job Seeker Balance</button>
+          <button className="btn btn-secondary ml-3" onClick={sendPayment}>Pay Now</button>
+          <button className="btn btn-secondary ml-3" onClick={finalizePayment}>Finalize</button>
+          <button className="btn btn-secondary ml-3" onClick={releasePayment}>Release</button>
+          <button className="btn btn-secondary ml-3" onClick={withdrawBalance}>Withdraw</button>
+          <button className="btn btn-secondary ml-3" onClick={getJobSeekerBalance}>Check Balance</button>
         </>
       ) : (
         <p>Please connect your wallet to use the payment portal.</p>
