@@ -102,7 +102,7 @@ const JobPostingForm = ({ isConnected, onSubmit }) => {
 
       const jobsCollection = collection(db, "jobs");
       const newJobDoc = await addDoc(jobsCollection, {
-        walletAddress,
+        senderId: walletAddress,
         company_name,
         jobTitle,
         jobDescription,
@@ -116,7 +116,7 @@ const JobPostingForm = ({ isConnected, onSubmit }) => {
       });
 
       onSubmit({
-        walletAddress,
+        senderId: walletAddress,
         company_name,
         jobTitle,
         jobDescription,

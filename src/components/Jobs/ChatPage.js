@@ -1,38 +1,91 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { db } from '../../firebase';
+import { doc, getDoc, collection, where, query, getDocs } from 'firebase/firestore';
 import ChatSystem from './ChatSystem';
-import { collection, getDocs } from 'firebase/firestore';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 const ChatPage = () => {
   const { jobId, applicantId } = useParams();
   const [messages, setMessages] = useState([]);
+  const [senderId, setSenderId] = useState('');
+  const navigate = useNavigate();
 
   const fetchMessages = useCallback(async () => {
     try {
-      const chatCollection = collection(db, 'chats');
-      const chatSnapshot = await getDocs(chatCollection);
-      const allMessages = chatSnapshot.docs.map((doc) => doc.data());
-      const filteredMessages = allMessages.filter(
-        (message) => message.jobId === jobId && message.applicantId === applicantId
-      );
-      setMessages(filteredMessages);
+      const chatDocRef = doc(db, 'chats', `${jobId}_${applicantId}`);
+      const chatDocSnapshot = await getDoc(chatDocRef);
+  
+      if (chatDocSnapshot.exists()) {
+        const chatData = chatDocSnapshot.data();
+        setMessages(chatData.messages);
+      }
+  
+      // Fetch senderId from the jobs collection
+      const jobDocRef = doc(db, 'jobs', jobId);
+      const jobDocSnap = await getDoc(jobDocRef);
+  
+      if (jobDocSnap.exists()) {
+        const jobData = jobDocSnap.data();
+        setSenderId(jobData.senderId.toLowerCase());
+
+        // Fetch all messages associated with the jobId
+        const messagesQuery = query(collection(db, 'chats'), where('jobId', '==', jobId));
+        const messagesSnapshot = await getDocs(messagesQuery);
+
+        let allMessages = [];
+
+        messagesSnapshot.forEach((doc) => {
+          const chatData = doc.data();
+          allMessages = allMessages.concat(chatData.messages);
+        });
+
+        // Set all messages to state
+        setMessages(allMessages);
+      }
     } catch (error) {
       console.error('Error fetching messages:', error);
     }
-  }, [jobId, applicantId]);
+  }, [jobId, applicantId]);  
 
   useEffect(() => {
-    fetchMessages();
-  }, [jobId, applicantId, fetchMessages]);
+    const checkWalletConnection = async () => {
+      try {
+        // Check if the wallet is connected initially
+        const connected = window.ethereum && window.ethereum.selectedAddress;
+
+        if (!connected) {
+          // Redirect or render a message when the wallet is not connected
+          navigate(`/chat/${jobId}/${applicantId}`);
+        } else {
+          await fetchMessages();
+        }
+      } catch (error) {
+        console.error('Error checking wallet connection:', error);
+      }
+    };
+
+    checkWalletConnection();
+  }, [navigate, jobId, applicantId, fetchMessages]);
 
   return (
     <div>
-      <h2>Chat Page</h2>
-      {messages ? (
-        <ChatSystem jobId={jobId} applicantId={applicantId} messages={messages} />
+      {window.ethereum && !window.ethereum.selectedAddress ? (
+        <p>Please connect your wallet to use the chat.</p>
       ) : (
-        <p>Loading messages...</p>
+        <>
+          {messages ? (
+            <ChatSystem jobId={jobId} applicantId={applicantId} messages={messages} senderId={senderId} />
+          ) : (
+            <p>Loading messages...</p>
+          )}
+          <div className="chat-container">
+          <div className="button-container">
+            <button className="btn btn-secondary" onClick={() => navigate(`/profile`)}>
+              Back to Profile
+            </button>
+          </div>
+          </div>
+        </>
       )}
     </div>
   );

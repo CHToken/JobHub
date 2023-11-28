@@ -17,7 +17,7 @@ const Homepage = () => {
           <div className="searchBox">
             <i className="fa fa-search"></i>
             <input type="text" placeholder="Search" />
-            <a className="get-started-button">Find Jobs</a>
+            <a href="/" className="get-started-button">Find Jobs</a>
           </div>
         </div>
       </div>

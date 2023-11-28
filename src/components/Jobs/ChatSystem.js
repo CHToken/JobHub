@@ -1,10 +1,14 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { db } from '../../firebase';
-import { collection, addDoc, onSnapshot, doc, setDoc, getDoc } from 'firebase/firestore';
+import { onSnapshot, doc, setDoc, getDoc } from 'firebase/firestore';
+import './chat.css';
+import { useNavigate } from 'react-router-dom';
 
-const ChatSystem = ({ jobId, applicantId, onClose, messages }) => {
+const ChatSystem = ({ jobId, applicantId, messages, senderId }) => {
   const [localMessages, setLocalMessages] = useState(messages);
   const [newMessage, setNewMessage] = useState('');
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     const chatDocRef = doc(db, 'chats', `${jobId}_${applicantId}`);
@@ -12,65 +16,75 @@ const ChatSystem = ({ jobId, applicantId, onClose, messages }) => {
       if (docSnapshot.exists()) {
         const chatData = docSnapshot.data();
         const messagesData = chatData.messages || [];
-        console.log('Real-Time Messages:', messagesData);
-  
+
         const newMessages = messagesData.filter(
           (message) => message.applicantId !== applicantId
         );
-  
+
         setLocalMessages(newMessages);
-  
+
         if (messagesData.length > localMessages.length) {
-          alert('New Message Received!');
+          // Do something if new messages are received
         }
       }
     });
-  
+
     return () => unsubscribe();
   }, [jobId, applicantId, localMessages]);
 
   const handleSendMessage = useCallback(async () => {
     if (newMessage.trim() === '') return;
-
+  
     try {
       const chatDocRef = doc(db, 'chats', `${jobId}_${applicantId}`);
       const chatDocSnapshot = await getDoc(chatDocRef);
-
-      const chatData = chatDocSnapshot.data();
-
+  
+      let chatData = {};
+  
       if (chatDocSnapshot.exists()) {
-        // Existing document
+        chatData = chatDocSnapshot.data();
+  
+        // Check if the sender is the job or the applicant
+        const isJobSender = senderId === chatData.jobSenderId.toLowerCase();
+  
         chatData.messages.push({
+          senderMessage: isJobSender,
+          applicantMessage: !isJobSender,
           message: newMessage,
           timestamp: new Date(),
         });
-        await setDoc(chatDocRef, chatData);
-        alert('Message Sent!');
       } else {
-        // Document does not exist, create a new one
-        await setDoc(chatDocRef, {
+        chatData = {
           jobId,
           applicantId,
-          messages: [{
-            message: newMessage,
-            timestamp: new Date(),
-          }],
-        });
-        alert('Message Sent!');
+          jobSenderId: senderId.toLowerCase(),
+          messages: [
+            {
+              senderMessage: false,
+              applicantMessage: true,
+              message: newMessage,
+              timestamp: new Date(),
+            },
+          ],
+        };
       }
-
+  
+      await setDoc(chatDocRef, chatData);
       setNewMessage('');
     } catch (error) {
       console.error('Error sending message:', error);
     }
-  }, [jobId, applicantId, newMessage]);
+  }, [jobId, applicantId, newMessage, senderId]);  
 
   return (
     <div className="chat-container">
-      <h5>Chat with Applicant</h5>
+      <h5>Chat Portal</h5>
       <div className="chat-messages">
         {localMessages.map((message, index) => (
-          <div key={`${message.timestamp}_${index}`} className={message.applicantId === applicantId ? 'received' : 'sent'}>
+          <div
+            key={`${message.timestamp}_${index}`}
+            className={message.senderMessage ? 'sent' : 'received'}
+          >
             <p>{message.message}</p>
           </div>
         ))}
@@ -84,9 +98,11 @@ const ChatSystem = ({ jobId, applicantId, onClose, messages }) => {
         ></textarea>
         <button onClick={handleSendMessage}>Send</button>
       </div>
-      <button className="btn btn-secondary" onClick={onClose}>
-        Close Chat
-      </button>
+      <div className="button-container">
+      <button className="btn btn-secondary" onClick={() => navigate(-1)}>
+          Back
+        </button>
+      </div>
     </div>
   );
 };

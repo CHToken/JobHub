@@ -39,14 +39,21 @@ const ApplicantProfile = ({ jobId, applicantId, onClose, onJobUpdate, jobDetails
   const handleAcceptApplicant = async (applicantId) => {
     try {
       // Check if the applicant has already been assigned
-      if (jobDetails.jobstatus === "Assigned") {
-        window.alert("This job has already been assigned. You cannot accept or reject applicants.");
+      if (applicant.applicantStatus === "Assigned" || jobDetails.jobstatus === "Assigned") {
+        window.alert("This job has already been assigned or the applicant has been assigned. You cannot accept or reject applicants.");
         return;
       }
 
+      // Update only the appliedJobs collection for acceptance
       await updateDoc(doc(db, "appliedJobs", applicantId), {
         applicantStatus: "Accepted",
       });
+
+      // Update the local state immediately
+      setApplicant((prevApplicant) => ({
+        ...prevApplicant,
+        applicantStatus: "Accepted",
+      }));
 
       onJobUpdate();
       window.alert("Applicant has been accepted.");
@@ -58,15 +65,21 @@ const ApplicantProfile = ({ jobId, applicantId, onClose, onJobUpdate, jobDetails
   const handleRejectApplicant = async (applicantId) => {
     try {
       // Check if the applicant has already been assigned
-      if (jobDetails.jobstatus === "Assigned") {
-        window.alert("This job has already been assigned. You cannot accept or reject applicants.");
+      if (applicant.applicantStatus === "Assigned" || jobDetails.jobstatus === "Assigned") {
+        window.alert("This job has already been assigned or the applicant has been assigned. You cannot accept or reject applicants.");
         return;
       }
 
-      // Update only the appliedJobs collection for assignment
+      // Update only the appliedJobs collection for rejection
       await updateDoc(doc(db, "appliedJobs", applicantId), {
         applicantStatus: "Rejected",
       });
+
+      // Update the local state immediately
+      setApplicant((prevApplicant) => ({
+        ...prevApplicant,
+        applicantStatus: "Rejected",
+      }));
 
       onJobUpdate();
       window.alert("Applicant has been rejected.");
@@ -78,33 +91,39 @@ const ApplicantProfile = ({ jobId, applicantId, onClose, onJobUpdate, jobDetails
   const handleAssignApplicant = async (applicantId) => {
     try {
       // Check if the applicant has already been assigned
-      if (jobDetails.jobstatus === "Assigned") {
-        window.alert("This job has already been assigned. You cannot assign applicants.");
+      if (applicant.applicantStatus === "Assigned" || jobDetails.jobstatus === "Assigned") {
+        window.alert("This job has already been assigned or the applicant has been assigned. You cannot assign applicants.");
         return;
       }
-  
+
       const jobDocRef = doc(db, "jobs", jobId);
       await updateDoc(jobDocRef, {
         jobstatus: "Assigned",
       });
-  
+
       // Update only the appliedJobs collection for assignment
       await updateDoc(doc(db, "appliedJobs", applicantId), {
         applicantStatus: "Assigned",
       });
-  
+
+      // Update the local state immediately
+      setApplicant((prevApplicant) => ({
+        ...prevApplicant,
+        applicantStatus: "Assigned",
+      }));
+
       onJobUpdate();
       window.alert("Applicant has been assigned.");
     } catch (error) {
       console.error("Error assigning applicant:", error);
     }
-  };  
+  };
 
   const handleChatButtonClick = () => {
     // Redirect to the chat page with jobId and applicantId
     navigate(`/chat/${jobId}/${applicantId}`);
     setShowChatModal(true);
-};
+  };
 
   const truncateApplicantId = (applicantId) => {
     const truncatedId = `${applicantId.slice(0, 6)}......${applicantId.slice(-6)}`;
@@ -140,15 +159,15 @@ const ApplicantProfile = ({ jobId, applicantId, onClose, onJobUpdate, jobDetails
               </li>
             ))}
           </ul>
-          <button className="btn btn-success m-2" onClick={() => handleAcceptApplicant(applicant.id)}>
-                Accept Applicant
-              </button>
-              <button className="btn btn-danger m-2" onClick={() => handleRejectApplicant(applicant.id)}>
-                Reject Applicant
-              </button>
-              <button className="btn btn-info m-2" onClick={() => handleAssignApplicant(applicant.id)}>
-                Assign Applicant
-              </button>
+          <button className="btn btn-success m-2" onClick={() => handleAcceptApplicant(applicant.id)} disabled={applicant.applicantStatus === "Assigned" || jobDetails.jobstatus === "Assigned"}>
+            Accept Applicant
+          </button>
+          <button className="btn btn-danger m-2" onClick={() => handleRejectApplicant(applicant.id)} disabled={applicant.applicantStatus === "Assigned" || jobDetails.jobstatus === "Assigned"}>
+            Reject Applicant
+          </button>
+          <button className="btn btn-info m-2" onClick={() => handleAssignApplicant(applicant.id)} disabled={applicant.applicantStatus === "Assigned" || jobDetails.jobstatus === "Assigned"}>
+            Assign Applicant
+          </button>
           <button className="btn btn-secondary" onClick={onClose}>
             Close Profile
           </button>
@@ -159,7 +178,7 @@ const ApplicantProfile = ({ jobId, applicantId, onClose, onJobUpdate, jobDetails
       ) : (
         <p>No applicant profile found.</p>
       )}
-   {showChatModal && (
+      {showChatModal && (
         <ChatSystem
           jobId={jobId}
           applicantId={applicantId}

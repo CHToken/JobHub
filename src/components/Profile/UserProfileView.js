@@ -1,4 +1,5 @@
 import React from "react";
+// import { useNavigate } from 'react-router-dom';
 import AboutUserSettings from "../AboutSection/aboutsettings";
 import SkillsSettings from "../SkillsSection/skillssettings";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -14,7 +15,9 @@ const UserProfileView = ({
   handleEditClick,
   handleAboutUserSave,
   handleSkillsSettingsSave,
-}) => (
+}) => {
+
+return (
   <>
     <Card>
       <div className="cover-image-container">
@@ -179,6 +182,7 @@ const UserProfileView = ({
       </div>
     </Card>
   </>
-);
+  );
+};
 
 export default UserProfileView;

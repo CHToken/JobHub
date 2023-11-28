@@ -13,7 +13,7 @@ import JobApplicants from "./JobApplicants";
 import ApplicantProfile from "./ApplicantProfile";
 import "./managejobs.css";
 
-const ManageJobs = ({ walletAddress }) => {
+const ManageJobs = ({ walletAddress, applicantId }) => {
   const [jobs, setJobs] = useState([]);
   const [selectedJob, setSelectedJob] = useState(null);
   const [selectedApplicant, setSelectedApplicant] = useState(null);
@@ -23,7 +23,7 @@ const ManageJobs = ({ walletAddress }) => {
     try {
       const jobsQuery = collection(db, "jobs");
       const querySnapshot = await getDocs(
-        query(jobsQuery, where("walletAddress", "==", walletAddress))
+        query(jobsQuery, where("senderId", "==", walletAddress))
       );
 
       const jobsData = await Promise.all(
@@ -199,7 +199,7 @@ const ManageJobs = ({ walletAddress }) => {
         />
       )}
 
-      {selectedApplicant && (
+{selectedApplicant && (
         <div className="job-actions-container">
           <ApplicantProfile
             jobId={selectedJob}

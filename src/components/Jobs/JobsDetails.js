@@ -51,7 +51,7 @@ const JobDetails = ({ isConnected, walletAddress }) => {
             query(
               appliedJobsQuery,
               where("jobId", "==", jobId),
-              where("walletAddress", "==", walletAddress)
+              where("senderId", "==", walletAddress)
             )
           );
 

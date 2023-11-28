@@ -7,9 +7,11 @@ import {
   getDoc,
 } from "firebase/firestore";
 import "./AppliedJobsList.css";
+import { useNavigate } from 'react-router-dom';
 
 const AppliedJobsList = ({ walletAddress }) => {
   const [appliedJobs, setAppliedJobs] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchAppliedJobs = async () => {
@@ -43,8 +45,6 @@ const AppliedJobsList = ({ walletAddress }) => {
           }
         }
 
-   
-
         setAppliedJobs(jobs);
       } catch (error) {
         console.error("Error fetching applied jobs:", error);
@@ -55,6 +55,12 @@ const AppliedJobsList = ({ walletAddress }) => {
       fetchAppliedJobs();
     }
   }, [walletAddress]);
+
+  const handleChatClick = (jobId, applicantId) => {
+    const chatPageURL = `/chat/${jobId}/${applicantId}`;
+    // Navigate to the chat page
+    navigate(chatPageURL);
+  };
 
   return (
     <div className="applied-jobs-container">
@@ -71,6 +77,13 @@ const AppliedJobsList = ({ walletAddress }) => {
               <p>Job ID: {job.jobId}</p>
               <p>Timestamp: {job.appliedAt.toLocaleString()}</p>
               <p>Status: {job.jobDetails.jobstatus}</p>
+              {/* Add Chat button */}
+              <button
+                className="btn btn-secondary"
+                onClick={() => handleChatClick(job.jobId, job.id)}
+              >
+                Chat
+              </button>
             </div>
           ))}
         </div>

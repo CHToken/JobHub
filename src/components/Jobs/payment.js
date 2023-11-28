@@ -25,7 +25,6 @@ const Payment = ({ isConnected }) => {
 
   const initializeContract = useCallback(async () => {
     if (!isConnected) {
-      console.error("User is not connected");
       return;
     }
 
@@ -45,7 +44,7 @@ const Payment = ({ isConnected }) => {
         setContract(contractInstance);
 
         // Check if the connected address is a job poster
-        checkIfJobPoster(accounts[0]);
+        await checkIfJobPoster(accounts[0]);
 
         // Check if the connected address is the owner of the contract
         if (contractInstance) {
@@ -53,10 +52,6 @@ const Payment = ({ isConnected }) => {
             .authorizedAccounts()
             .call();
 
-          // Log connected address
-          console.log("Connected Address:", accounts[0]);
-
-          // Use includes to check ownership (ensure both addresses are in lowercase)
           const lowercaseConnectedAddress =
             accounts[0] && accounts[0].toLowerCase();
           const isOwner =
@@ -66,19 +61,20 @@ const Payment = ({ isConnected }) => {
               (owner) => owner.toLowerCase() === lowercaseConnectedAddress
             );
 
-          // Log contract ownership comparison
-          console.log("Is Contract Owner:", isOwner);
-
           setIsContractOwner(isOwner);
         }
+
+        return Promise.resolve();
       } catch (error) {
         console.error(
           "User denied account access or an error occurred",
           error
         );
+        return Promise.reject(error);
       }
     } else {
       console.error("Please install MetaMask!");
+      return Promise.reject("Please install MetaMask");
     }
   }, [isConnected, setWeb3, setSigner, setContract]);
 
@@ -91,7 +87,7 @@ const Payment = ({ isConnected }) => {
       const jobsCollection = collection(db, "jobs");
       const q = query(
         jobsCollection,
-        where("walletAddress", "==", walletAddress)
+        where("senderId", "==", walletAddress)
       );
       const jobSnapshot = await getDocs(q);
 
