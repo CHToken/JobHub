@@ -1,12 +1,14 @@
 import React, { useState } from "react";
+import { Alert } from "antd";
 import "./pastproject.css";
 
 const PastProjects = ({ userData, onSave, onBack }) => {
   const [pastProjectsData, setPastProjectsData] = useState([...userData.pastProjects]);
+  const [alertInfo, setAlertInfo] = useState(null);
 
   const handleSaveClick = () => {
     onSave(pastProjectsData);
-    alert("Project saved successfully!");
+    showAlert("success", "Project saved successfully!");
   };
 
   const handleAddProject = () => {
@@ -22,6 +24,10 @@ const PastProjects = ({ userData, onSave, onBack }) => {
 
   const handleBackClick = () => {
     onBack();
+  };
+
+  const showAlert = (type, message) => {
+    setAlertInfo({ type, message });
   };
 
   return (
@@ -68,6 +74,17 @@ const PastProjects = ({ userData, onSave, onBack }) => {
           Add Project
         </button>
       </div>
+      {/* Ant Design Alert */}
+      {alertInfo && (
+        <Alert
+          message={alertInfo.message}
+          type={alertInfo.type}
+          showIcon
+          closable
+          onClose={() => setAlertInfo(null)}
+          className="custom-alert"
+        />
+      )}
     </div>
   );
 };

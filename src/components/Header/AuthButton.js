@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import WalletConnection from '../walletconnection';
 import { Link } from 'react-router-dom';
-import userImage from '../../assets/img/account-svgrepo-com.png';
+import userImage from '../../assets/img/man.png';
+import { useWallet } from '../WalletContext';
 
-const AuthButton = ({ isConnected, connectWallet, disconnectWallet, walletAddress }) => {
+const AuthButton = () => {
+  const { isConnected } = useWallet();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
 
   const handleProfileHover = () => {
@@ -11,9 +13,7 @@ const AuthButton = ({ isConnected, connectWallet, disconnectWallet, walletAddres
   };
 
   const handleMenuHover = (event) => {
-    // Check if the event object is defined
     if (event) {
-      // Keep the menu open when hovering over it
       setShowProfileMenu(true);
     } else {
       setShowProfileMenu(false);
@@ -43,12 +43,10 @@ const AuthButton = ({ isConnected, connectWallet, disconnectWallet, walletAddres
             <Link to="/profile">Profile</Link>
             <Link to="/managejobs">Manage Jobs</Link>
             <Link to="/payment">Portal</Link>
-            {/* <Link to="/settings">Settings</Link> */}
           </div>
         )}
       </div>
-      <WalletConnection isConnected={isConnected} connectWallet={connectWallet} disconnectWallet={disconnectWallet} />
-      {/* <JobDetails isConnected={isConnected} walletAddress={walletAddress} /> */}
+      <WalletConnection isConnected={isConnected}/>
     </div>
   );
 };

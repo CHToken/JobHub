@@ -9,7 +9,7 @@
 
 .job-posts-container {
   display: grid;
-  gap: 20px;
+  gap: 10px;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 }
 
@@ -106,25 +106,22 @@
 }
 
 .status-section h4 {
-  padding: 15px;
+  padding: 13px;
   background-color: #b1ffad;
-  font-weight: bold;
-  font-size: 20px;
-  font-family: 'Poppins';
-  font-weight: 700;
-  border-radius: 20px;
-  text-transform: capitalize;
+  border-radius: 15px!important;
+  font-size: 16px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  border-radius: 15px;
+  text-transform: uppercase;
   cursor: unset;
 }
 
 .details-section h4 {
-  padding: 10px;
-  background-color: #ade0ff;
-  font-size: 20px;
+  font-size: 15px;
   font-weight: bold;
-  font-family: 'Poppins';
-  text-transform: capitalize;
-  border-radius: 20px;
+  font-family: 'Poppins', sans-serif;
+  text-transform: uppercase;
   font-weight: 700;
   cursor: pointer;
 }

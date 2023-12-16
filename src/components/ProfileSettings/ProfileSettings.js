@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faCamera } from "@fortawesome/free-solid-svg-icons";
+import { Input, Button, Alert } from "antd";
 
 const ProfileSettings = ({
   userData,
@@ -15,10 +16,20 @@ const ProfileSettings = ({
   });
 
   const [profilePicturePreview, setProfilePicturePreview] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [alertInfo, setAlertInfo] = useState(null);
 
-  const handleSaveClick = () => {
-    onSave(ProfileSettingsData);
-    alert("Profile saved successfully!");
+  const handleSaveClick = async () => {
+    try {
+      setIsLoading(true);
+      await onSave(ProfileSettingsData);
+      setAlertInfo({ type: "success", message: "Profile saved successfully!" });
+    } catch (error) {
+      console.error("Error saving profile:", error);
+      setAlertInfo({ type: "error", message: "Error saving profile. Please try again." });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleBackClick = () => {
@@ -56,10 +67,7 @@ const ProfileSettings = ({
   return (
     <div className="profilesettings card">
       <div className="card-header d-flex">
-      <i
-          onClick={handleBackClick}
-          className="fa fa-arrow-left back-arrow"
-        ></i>
+        <i onClick={handleBackClick} className="fa fa-arrow-left back-arrow"></i>
         <h3>Profile Settings</h3>
       </div>
       <img
@@ -118,8 +126,7 @@ const ProfileSettings = ({
       <br />
       <div>
         <label htmlFor="name">Name:</label>
-        <input
-          type="text"
+        <Input
           id="name"
           value={ProfileSettingsData.name}
           onChange={(e) =>
@@ -132,8 +139,7 @@ const ProfileSettings = ({
       </div>
       <div>
         <label htmlFor="role">Role:</label>
-        <input
-          type="text"
+        <Input
           id="role"
           value={ProfileSettingsData.role}
           onChange={(e) =>
@@ -146,8 +152,7 @@ const ProfileSettings = ({
       </div>
       <div>
         <label htmlFor="username">Username:</label>
-        <input
-          type="text"
+        <Input
           id="username"
           value={ProfileSettingsData.username}
           onChange={(e) =>
@@ -160,14 +165,26 @@ const ProfileSettings = ({
       </div>
       <br />
       <div className="d-flex align-items-center justify-content-around">
-        <button
+        <Button
           onClick={handleSaveClick}
-          className="btn btn-success"
+          type="primary"
           style={{ width: "70%" }}
+          loading={isLoading}
         >
           Save
-        </button>
+        </Button>
       </div>
+      {/* Ant Design Alert */}
+      {alertInfo && (
+        <Alert
+          message={alertInfo.message}
+          type={alertInfo.type}
+          showIcon
+          closable
+          onClose={() => setAlertInfo(null)}
+          className="custom-alert"
+        />
+      )}
     </div>
   );
 };

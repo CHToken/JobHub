@@ -1,24 +1,23 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import AuthButton from './AuthButton';
+import { useWallet } from '../WalletContext';
 import "./header.css";
 
-const HeaderContainer = ({ isConnected, connectWallet, disconnectWallet }) => {
+const HeaderContainer = () => {
+  const { isConnected } = useWallet();
   return (
     <div className="header-container">
       <div className="logo-text">
-        {/* Link to the root URL */}
         <Link to="/">
           <h1>JobHub</h1>
         </Link>
       </div>
       <div className="topnav" id="topnav">
-      <Link to="postjob">Post a Job</Link>
-      {/* <Link to="#jobseeker">Job Seeker</Link> */}
-      <Link to="">Buy Gem</Link>
-      <Link to="jobboard">Job Board</Link>
+        <Link to="postjob">Post a Job</Link>
+        <Link to="jobboard">Job Board</Link>
       </div>
-      <AuthButton isConnected={isConnected} connectWallet={connectWallet} disconnectWallet={disconnectWallet} />
+      <AuthButton isConnected={isConnected}/>
     </div>
   );
 };

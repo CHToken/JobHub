@@ -1,19 +1,11 @@
+// WalletConnection.js
 import React from "react";
+import ConnectButton from './ConnectButton';
 
-const WalletConnection = ({ isConnected, connectWallet, disconnectWallet }) => {
-  const handleButtonClick = () => {
-    if (isConnected) {
-      disconnectWallet();
-    } else {
-      connectWallet();
-    }
-  };
-
+const WalletConnection = () => {
   return (
     <div className="wallet-connection">
-      <button onClick={handleButtonClick}>
-        {isConnected ? "Disconnect" : "Login"}
-      </button>
+      <ConnectButton />
     </div>
   );
 };

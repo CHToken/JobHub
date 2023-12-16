@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
+import { Alert, Spin } from "antd";
 import UserProfileEditing from "./UserProfileEditing";
 import UserProfileView from "./UserProfileView";
+import AppliedJobsList from "../Jobs/AppliedJobsList";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage } from "../../firebase";
 import "./profile.css";
-import AppliedJobsList from "../Jobs/AppliedJobsList";
+import { useWallet } from '../WalletContext';
 
 const initialUserData = {
   profilePicture: "",
@@ -24,21 +26,19 @@ const initialUserData = {
   socialMedia: {},
 };
 
-const UserProfile = ({ isConnected }) => {
+const UserProfile = () => {
+  const { isConnected } = useWallet();
   const [userData, setUserData] = useState(initialUserData);
   const [selectedProfilePicture, setSelectedProfilePicture] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [editMode, setEditMode] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [alertInfo, setAlertInfo] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (
-          !isConnected ||
-          !window.ethereum ||
-          !window.ethereum.selectedAddress
-        ) {
+        if (!isConnected || !window.ethereum || !window.ethereum.selectedAddress) {
           console.error("MetaMask not installed or not connected.");
           return;
         }
@@ -59,9 +59,7 @@ const UserProfile = ({ isConnected }) => {
       }
     };
 
-    if (isConnected) {
-      fetchData();
-    }
+    fetchData();
   }, [isConnected]);
 
   const handleEditClick = (mode) => {
@@ -69,7 +67,7 @@ const UserProfile = ({ isConnected }) => {
       setIsEditing(true);
       setEditMode(mode);
     } else {
-      alert("Please connect your wallet to edit your profile.");
+      showAlert("error", "Please connect your wallet to edit your profile.");
     }
   };
 
@@ -86,9 +84,10 @@ const UserProfile = ({ isConnected }) => {
       }
 
       setIsEditing(false);
-      alert("Your profile has been saved successfully!");
+      showAlert("success", "Your profile has been saved successfully!");
     } catch (error) {
       console.error("Error saving user data", error);
+      showAlert("error", "Error saving user data. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -115,6 +114,10 @@ const UserProfile = ({ isConnected }) => {
   const handleSkillsSettingsSave = (newSkills) => {
     setUserData({ ...userData, skills: newSkills });
     setIsEditing(false);
+  };
+
+  const showAlert = (type, message) => {
+    setAlertInfo({ type, message });
   };
 
   return (
@@ -155,7 +158,9 @@ const UserProfile = ({ isConnected }) => {
               handleSkillsSettingsSave={handleSkillsSettingsSave}
             />
             {isLoading ? (
-              <div className="loading-spinner">Loading...</div>
+              <div className="loading-spinner">
+                <Spin />
+              </div>
             ) : (
               <>
                 <button
@@ -184,6 +189,17 @@ const UserProfile = ({ isConnected }) => {
                     />
                   </div>
                 </div>
+                {/* Ant Design Alert */}
+                {alertInfo && (
+                  <Alert
+                    message={alertInfo.message}
+                    type={alertInfo.type}
+                    showIcon
+                    closable
+                    onClose={() => setAlertInfo(null)}
+                    className="custom-alert"
+                  />
+                )}
               </>
             )}
           </>

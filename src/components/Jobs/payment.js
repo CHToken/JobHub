@@ -8,6 +8,7 @@ import {
   query,
   where,
 } from "firebase/firestore";
+import { notification } from "antd";
 
 import "./payment.css";
 
@@ -31,7 +32,7 @@ const Payment = ({ isConnected }) => {
     if (window.ethereum) {
       const web3Instance = new Web3(window.ethereum);
       try {
-        await window.ethereum.request({ method: "eth_requestAccounts" });
+        // await window.ethereum.request({ method: "eth_requestAccounts" });
         setWeb3(web3Instance);
         const accounts = await window.ethereum.request({
           method: "eth_accounts",
@@ -114,10 +115,15 @@ const Payment = ({ isConnected }) => {
         from: signer,
         value: paymentAmountInWei,
       });
-
-      console.log("Payment sent:", result);
+      notification.success({
+        message: "Payment Sent",
+        description: `Payment successfully sent! Transaction Hash: ${result.transactionHash}`,
+      });
     } catch (error) {
-      console.error("Error sending payment:", error);
+      notification.error({
+        message: "Error Sending Payment",
+        description: `An error occurred while sending payment: ${error.message}`,
+      });
     }
   };
 
@@ -125,18 +131,21 @@ const Payment = ({ isConnected }) => {
     try {
       await initializeContract();
 
-      // Convert the paymentAmount to a string before passing it to web3.utils.toWei
       const paymentAmountInWei = web3.utils.toWei(paymentAmount.toString(), "ether");
 
-      const result = await contract.methods
-        .finalizePayment(jobSeekerAddress, paymentAmountInWei)
-        .send({
-          from: signer,
-        });
+      const result = await contract.methods.finalizePayment(jobSeekerAddress, paymentAmountInWei).send({
+        from: signer,
+      });
 
-      console.log("Payment finalized:", result);
+      notification.success({
+        message: "Payment Finalized",
+        description: `Payment successfully finalized! Transaction Hash: ${result.transactionHash}`,
+      });
     } catch (error) {
-      console.error("Error finalizing payment:", error);
+      notification.error({
+        message: "Error Finalizing Payment",
+        description: `An error occurred while finalizing payment: ${error.message}`,
+      });
     }
   };
 
@@ -144,18 +153,21 @@ const Payment = ({ isConnected }) => {
     try {
       await initializeContract();
 
-      // Convert the paymentAmount to a string before passing it to web3.utils.toWei
       const paymentAmountInWei = web3.utils.toWei(paymentAmount.toString(), "ether");
 
-      const result = await contract.methods
-        .releasePayment(jobSeekerAddress, paymentAmountInWei)
-        .send({
-          from: signer,
-        });
+      const result = await contract.methods.releasePayment(jobSeekerAddress, paymentAmountInWei).send({
+        from: signer,
+      });
 
-      console.log("Payment released:", result);
+      notification.success({
+        message: "Payment Released",
+        description: `Payment successfully released! Transaction Hash: ${result.transactionHash}`,
+      });
     } catch (error) {
-      console.error("Error releasing payment:", error);
+      notification.error({
+        message: "Error Releasing Payment",
+        description: `An error occurred while releasing payment: ${error.message}`,
+      });
     }
   };
 
@@ -163,30 +175,41 @@ const Payment = ({ isConnected }) => {
     try {
       await initializeContract();
 
-      // Convert the withdrawAmount to a string before passing it to web3.utils.toWei
       const withdrawAmountInWei = web3.utils.toWei(withdrawAmount.toString(), "ether");
 
       const result = await contract.methods.withdrawBalance(withdrawAmountInWei).send({
         from: signer,
       });
 
-      console.log("Balance withdrawn:", result);
+      notification.success({
+        message: "Balance Withdrawn",
+        description: `Balance successfully withdrawn! Transaction Hash: ${result.transactionHash}`,
+      });
     } catch (error) {
-      console.error("Error withdrawing balance:", error);
+      notification.error({
+        message: "Error Withdrawing Balance",
+        description: `An error occurred while withdrawing balance: ${error.message}`,
+      });
     }
   };
 
   const getJobSeekerBalance = async () => {
     try {
       await initializeContract();
-
+  
       const balance = await contract.methods.balances(jobSeekerAddress).call();
-
-      console.log("Job Seeker Balance:", balance);
+  
+      notification.info({
+        message: 'Job Seeker Balance',
+        description: `The job seeker's balance is ${web3.utils.fromWei(balance)} Ether.`,
+      });
     } catch (error) {
-      console.error("Error getting job seeker balance:", error);
+      notification.error({
+        message: 'Error Getting Job Seeker Balance',
+        description: `An error occurred while getting the job seeker balance: ${error.message}`,
+      });
     }
-  };
+  };  
 
   return (
     <div

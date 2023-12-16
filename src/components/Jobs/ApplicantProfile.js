@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import { db } from "../../firebase";
 import { doc, updateDoc, getDoc } from "firebase/firestore";
+import { Alert } from "antd";
 import ChatSystem from "./ChatSystem";
 
 const ApplicantProfile = ({ jobId, applicantId, onClose, onJobUpdate, jobDetails, walletAddress }) => {
   const [applicant, setApplicant] = useState(null);
   const [showChatModal, setShowChatModal] = useState(false);
+  const [alertInfo, setAlertInfo] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -36,11 +38,15 @@ const ApplicantProfile = ({ jobId, applicantId, onClose, onJobUpdate, jobDetails
     }
   }, [applicantId]);
 
+  const showAlert = (type, message) => {
+    setAlertInfo({ type, message });
+  };
+
   const handleAcceptApplicant = async (applicantId) => {
     try {
       // Check if the applicant has already been assigned
       if (applicant.applicantStatus === "Assigned" || jobDetails.jobstatus === "Assigned") {
-        window.alert("This job has already been assigned or the applicant has been assigned. You cannot accept or reject applicants.");
+        showAlert("warning", "This job has already been assigned or the applicant has been assigned. You cannot accept or reject applicants.");
         return;
       }
 
@@ -56,9 +62,10 @@ const ApplicantProfile = ({ jobId, applicantId, onClose, onJobUpdate, jobDetails
       }));
 
       onJobUpdate();
-      window.alert("Applicant has been accepted.");
+      showAlert("success", "Applicant has been accepted.");
     } catch (error) {
       console.error("Error accepting applicant:", error);
+      showAlert("error", "Error accepting applicant.");
     }
   };
 
@@ -66,7 +73,7 @@ const ApplicantProfile = ({ jobId, applicantId, onClose, onJobUpdate, jobDetails
     try {
       // Check if the applicant has already been assigned
       if (applicant.applicantStatus === "Assigned" || jobDetails.jobstatus === "Assigned") {
-        window.alert("This job has already been assigned or the applicant has been assigned. You cannot accept or reject applicants.");
+        showAlert("warning", "This job has already been assigned or the applicant has been assigned. You cannot accept or reject applicants.");
         return;
       }
 
@@ -82,9 +89,10 @@ const ApplicantProfile = ({ jobId, applicantId, onClose, onJobUpdate, jobDetails
       }));
 
       onJobUpdate();
-      window.alert("Applicant has been rejected.");
+      showAlert("success", "Applicant has been rejected.");
     } catch (error) {
       console.error("Error rejecting applicant:", error);
+      showAlert("error", "Error rejecting applicant.");
     }
   };
 
@@ -92,7 +100,7 @@ const ApplicantProfile = ({ jobId, applicantId, onClose, onJobUpdate, jobDetails
     try {
       // Check if the applicant has already been assigned
       if (applicant.applicantStatus === "Assigned" || jobDetails.jobstatus === "Assigned") {
-        window.alert("This job has already been assigned or the applicant has been assigned. You cannot assign applicants.");
+        showAlert("warning", "This job has already been assigned or the applicant has been assigned. You cannot assign applicants.");
         return;
       }
 
@@ -113,9 +121,10 @@ const ApplicantProfile = ({ jobId, applicantId, onClose, onJobUpdate, jobDetails
       }));
 
       onJobUpdate();
-      window.alert("Applicant has been assigned.");
+      showAlert("success", "Applicant has been assigned.");
     } catch (error) {
       console.error("Error assigning applicant:", error);
+      showAlert("error", "Error assigning applicant.");
     }
   };
 
@@ -176,13 +185,24 @@ const ApplicantProfile = ({ jobId, applicantId, onClose, onJobUpdate, jobDetails
           </button>
         </>
       ) : (
-        <p>No applicant profile found.</p>
+        <Alert message="No applicant profile found." type="warning" showIcon />
       )}
       {showChatModal && (
         <ChatSystem
           jobId={jobId}
           applicantId={applicantId}
           onClose={() => setShowChatModal(false)}
+        />
+      )}
+      {/* Ant Design Alert */}
+      {alertInfo && (
+        <Alert
+          message={alertInfo.message}
+          type={alertInfo.type}
+          showIcon
+          closable
+          onClose={() => setAlertInfo(null)}
+          className="custom-alert"
         />
       )}
     </div>

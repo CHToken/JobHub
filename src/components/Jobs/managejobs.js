@@ -8,12 +8,16 @@ import {
   updateDoc,
   query,
   where,
+  deleteDoc,
 } from "firebase/firestore";
 import JobApplicants from "./JobApplicants";
 import ApplicantProfile from "./ApplicantProfile";
+import { notification } from "antd";
 import "./managejobs.css";
+import { useWallet } from '../WalletContext';
 
-const ManageJobs = ({ walletAddress, applicantId }) => {
+const ManageJobs = () => {
+  const { walletAddress } = useWallet();
   const [jobs, setJobs] = useState([]);
   const [selectedJob, setSelectedJob] = useState(null);
   const [selectedApplicant, setSelectedApplicant] = useState(null);
@@ -21,9 +25,9 @@ const ManageJobs = ({ walletAddress, applicantId }) => {
 
   const fetchJobs = useCallback(async () => {
     try {
-      const jobsQuery = collection(db, "jobs");
+      const jobsQuery = collection(db, 'jobs');
       const querySnapshot = await getDocs(
-        query(jobsQuery, where("senderId", "==", walletAddress))
+        query(jobsQuery, where('senderId', '==', walletAddress))
       );
 
       const jobsData = await Promise.all(
@@ -40,7 +44,7 @@ const ManageJobs = ({ walletAddress, applicantId }) => {
 
       setJobs(jobsData);
     } catch (error) {
-      console.error("Error fetching jobs:", error);
+      console.error('Error fetching jobs:', error);
     }
   }, [walletAddress]);
 
@@ -77,16 +81,48 @@ const ManageJobs = ({ walletAddress, applicantId }) => {
         jobstatus: action,
       });
 
-      alert(`Job '${jobData.jobTitle}' has been ${message}.`);
+      notification.success({
+        message: `Job ${action}`,
+        description: `Job '${jobData.jobTitle}' has been ${message}.`,
+      });
+
       handleJobUpdate();
     } catch (error) {
-      console.error(`Error ${message.toLowerCase()} job:`, error);
+      notification.error({
+        message: `Error ${message.toLowerCase()} job`,
+        description: `An error occurred while ${message.toLowerCase()} job: ${error.message}`,
+      });
     }
   };
 
-  const handleDeleteJob = (jobId) => {
-    handleJobAction(jobId, "Deleted", "deleted");
-  };
+  const handleDeleteJob = async (jobId) => {
+    try {
+      // Display a confirmation dialog
+      const userConfirmed = window.confirm("Are you sure you want to delete this job?");
+  
+      if (!userConfirmed) {
+        // User clicked 'Cancel' or closed the dialog
+        return;
+      }
+  
+      const jobDocRef = doc(db, "jobs", jobId);
+  
+      // Delete the job document
+      await deleteDoc(jobDocRef);
+  
+      notification.success({
+        message: "Job Deleted",
+        description: "Job has been successfully deleted.",
+      });
+  
+      handleJobUpdate();
+    } catch (error) {
+      notification.error({
+        message: "Error deleting job",
+        description: `An error occurred while deleting job: ${error.message}`,
+      });
+    }
+  };  
 
   const handlePauseJob = (jobId) => {
     handleJobAction(jobId, "Paused", "paused");

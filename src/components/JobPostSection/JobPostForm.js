@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { db } from "../../firebase";
 import { collection, addDoc, getDoc, doc } from "firebase/firestore";
+import { Alert } from "antd";
 import "./JobPostingForm.css";
 
 const JobPostingForm = ({ isConnected, onSubmit }) => {
@@ -34,6 +35,8 @@ const JobPostingForm = ({ isConnected, onSubmit }) => {
     profilePicture: "",
   });
 
+  const [alertInfo, setAlertInfo] = useState(null);
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -58,11 +61,15 @@ const JobPostingForm = ({ isConnected, onSubmit }) => {
     fetchUserData();
   }, [isConnected]);
 
+  const showAlert = (type, message) => {
+    setAlertInfo({ type, message });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!isConnected) {
-      alert("Please connect your wallet before posting a job.");
+      showAlert("warning", "Please connect your wallet before posting a job.");
       return;
     }
 
@@ -89,6 +96,7 @@ const JobPostingForm = ({ isConnected, onSubmit }) => {
       !jobcategory
     ) {
       // Handle validation error
+      showAlert("error", "Please fill in all the required fields.");
       return;
     }
 
@@ -140,11 +148,11 @@ const JobPostingForm = ({ isConnected, onSubmit }) => {
         profilePicture: "",
       });
 
-      alert("Job posted successfully!");
-
+      showAlert("success", "Job posted successfully!");
       console.log("Job posted successfully with ID:", newJobDoc.id);
     } catch (error) {
       console.error("Error posting job:", error);
+      showAlert("error", "Error posting job.");
     }
   };
 
@@ -256,6 +264,17 @@ const JobPostingForm = ({ isConnected, onSubmit }) => {
       <button type="submit" className="job-button">
         Post Job
       </button>
+      {/* Ant Design Alert */}
+      {alertInfo && (
+        <Alert
+          message={alertInfo.message}
+          type={alertInfo.type}
+          showIcon
+          closable
+          onClose={() => setAlertInfo(null)}
+          className="custom-alert"
+        />
+      )}
     </form>
   );
 };

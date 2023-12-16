@@ -9,9 +9,11 @@ import {
   where,
   getDoc,
 } from "firebase/firestore";
+import { Alert } from "antd";
 
 const JobActions = ({ jobId, onJobUpdate, walletAddress, jobDetails }) => {
   const [applicants, setApplicants] = useState([]);
+  const [alertInfo, setAlertInfo] = useState(null);
 
   useEffect(() => {
     const fetchApplicants = async () => {
@@ -47,11 +49,15 @@ const JobActions = ({ jobId, onJobUpdate, walletAddress, jobDetails }) => {
     fetchApplicants();
   }, [jobId]);
 
+  const showAlert = (type, message) => {
+    setAlertInfo({ type, message });
+  };
+
   const handleAcceptApplicant = async (applicantId) => {
     try {
       // Check if the applicant has already been assigned
       if (jobDetails.jobstatus === "Assigned") {
-        window.alert("This job has already been assigned. You cannot accept or reject applicants.");
+        showAlert("warning", "This job has already been assigned. You cannot accept or reject applicants.");
         return;
       }
 
@@ -60,9 +66,10 @@ const JobActions = ({ jobId, onJobUpdate, walletAddress, jobDetails }) => {
       });
 
       onJobUpdate();
-      window.alert("Applicant has been accepted.");
+      showAlert("success", "Applicant has been accepted.");
     } catch (error) {
       console.error("Error accepting applicant:", error);
+      showAlert("error", "Error accepting applicant.");
     }
   };
 
@@ -70,19 +77,20 @@ const JobActions = ({ jobId, onJobUpdate, walletAddress, jobDetails }) => {
     try {
       // Check if the applicant has already been assigned
       if (jobDetails.jobstatus === "Assigned") {
-        window.alert("This job has already been assigned. You cannot accept or reject applicants.");
+        showAlert("warning", "This job has already been assigned. You cannot accept or reject applicants.");
         return;
       }
 
-      // Update only the appliedJobs collection for assignment
+      // Update only the appliedJobs collection for rejection
       await updateDoc(doc(db, "appliedJobs", applicantId), {
         applicantStatus: "Rejected",
       });
 
       onJobUpdate();
-      window.alert("Applicant has been rejected.");
+      showAlert("success", "Applicant has been rejected.");
     } catch (error) {
       console.error("Error rejecting applicant:", error);
+      showAlert("error", "Error rejecting applicant.");
     }
   };
 
@@ -90,13 +98,13 @@ const JobActions = ({ jobId, onJobUpdate, walletAddress, jobDetails }) => {
     try {
       // Check if the applicant has already been assigned
       if (jobDetails.jobstatus === "Assigned") {
-        window.alert("This job has already been assigned. You cannot assign applicants.");
+        showAlert("warning", "This job has already been assigned. You cannot assign applicants.");
         return;
       }
 
       // Check if the current user is the job poster
       if (walletAddress !== jobDetails.walletAddress) {
-        window.alert("You do not have permission to assign this applicant.");
+        showAlert("warning", "You do not have permission to assign this applicant.");
         return;
       }
 
@@ -111,9 +119,10 @@ const JobActions = ({ jobId, onJobUpdate, walletAddress, jobDetails }) => {
       });
 
       onJobUpdate();
-      window.alert("Applicant has been assigned.");
+      showAlert("success", "Applicant has been assigned.");
     } catch (error) {
       console.error("Error assigning applicant:", error);
+      showAlert("error", "Error assigning applicant.");
     }
   };
 
@@ -158,6 +167,15 @@ const JobActions = ({ jobId, onJobUpdate, walletAddress, jobDetails }) => {
             </div>
           ))}
         </div>
+      )}
+      {alertInfo && (
+        <Alert
+          message={alertInfo.message}
+          type={alertInfo.type}
+          showIcon
+          closable
+          onClose={() => setAlertInfo(null)}
+        />
       )}
     </div>
   );

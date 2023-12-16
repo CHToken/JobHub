@@ -23,13 +23,14 @@
 .status-details-section h4 {
   padding: 10px;
   background-color: #b1ffad;
-  font-size: 20px;
+  font-size: 1rem;
   padding-right: 20px;
   padding-left: 20px;
   font-family: 'Poppins';
+  margin: auto;
   font-weight: 700;
-  border-radius: 20px;
-  text-transform: capitalize;
+  border-radius: 0.25rem;
+  text-transform: uppercase;
   cursor: unset;
 }
 
@@ -38,4 +39,5 @@
   margin: auto;
   display: flex;
   justify-content: center;
+  align-items: center;
 }

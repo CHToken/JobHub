@@ -1,9 +1,7 @@
 import React from "react";
-// import { useNavigate } from 'react-router-dom';
+import userImage from '../../assets/img/man.png';
 import AboutUserSettings from "../AboutSection/aboutsettings";
 import SkillsSettings from "../SkillsSection/skillssettings";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
 import Card from "./Card";
 import EditButton from "./EditButton";
 
@@ -16,37 +14,37 @@ const UserProfileView = ({
   handleAboutUserSave,
   handleSkillsSettingsSave,
 }) => {
-
-return (
-  <>
-    <Card>
-      <div className="cover-image-container">
-        <img
-          src="https://placehold.co/600x400/000000/FFFFFF?text=Welcome&font=montserrat"
-          className="cover-image"
-          alt=""
-          loading="lazy"
-        />
-      </div>
-      <div className="profile-area">
-        {userData.profilePicture ? (
+  return (
+    <>
+      <Card>
+        <div className="cover-image-container">
           <img
-            src={userData.profilePicture}
-            alt="Profile"
-            className="circle-profile-Image"
+            src="https://img.freepik.com/free-photo/background-gradient-lights_23-2149304985.jpg?w=996&t=st=1702683019~exp=1702683619~hmac=1af15a5a9099a1987de9d7a23a2469166c8ca8e23f7f34580367e159c1616390"
+            className="cover-image"
+            alt=""
+            loading="lazy"
           />
-        ) : (
-          <FontAwesomeIcon
-            icon={faUser}
-            className="circle-profile-Image"
-            style={{
-              width: "100px",
-              height: "100px",
-              borderRadius: "50%",
-            }}
-          />
-        )}
-      </div>
+        </div>
+        <div className="profile-area">
+          {userData.profilePicture ? (
+            <img
+              src={userData.profilePicture}
+              alt="Profile"
+              className="circle-profile-Image"
+            />
+          ) : (
+            <img
+              src={userImage} 
+              alt="Default Profile"
+              className="circle-profile-Image"
+              style={{
+                width: "100px",
+                height: "100px",
+                borderRadius: "50%",
+              }}
+            />
+          )}
+        </div>
       {/* Include other profile information */}
       <EditButton onClick={() => handleEditClick("profilesettings")} />
       <h1>{userData.name}</h1>

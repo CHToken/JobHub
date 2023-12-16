@@ -74,7 +74,7 @@ const ChatPage = () => {
       ) : (
         <>
           {messages ? (
-            <ChatSystem jobId={jobId} applicantId={applicantId} messages={messages} senderId={senderId} />
+            <ChatSystem jobId={jobId} applicantId={applicantId} messages={messages} senderId={senderId}  />
           ) : (
             <p>Loading messages...</p>
           )}
