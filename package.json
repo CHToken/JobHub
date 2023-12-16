@@ -4,10 +4,7 @@
   "private": true,
   "proxy": "http://localhost:3001",
   "dependencies": {
-<<<<<<< HEAD
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
-=======
->>>>>>> e5f3a54bcf53ef90215093cdfb60d6acff6ba3a7
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
