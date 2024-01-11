@@ -3,6 +3,7 @@ import { db } from "../../firebase";
 import { collection, addDoc, getDoc, doc } from "firebase/firestore";
 import { Alert } from "antd";
 import "./JobPostingForm.css";
+import { useWallet } from '../WalletContext';
 
 const JobPostingForm = ({ isConnected, onSubmit }) => {
   const jobCategoryList = [
@@ -36,13 +37,13 @@ const JobPostingForm = ({ isConnected, onSubmit }) => {
   });
 
   const [alertInfo, setAlertInfo] = useState(null);
+  const { isConnected: walletConnected, walletAddress } = useWallet();
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        if (isConnected) {
-          const walletAddress = window.ethereum.selectedAddress.toLowerCase();
-          const userDocRef = doc(db, "users", walletAddress);
+        if (walletConnected) {
+          const userDocRef = doc(db, "users", walletAddress.toLowerCase());
           const userDocSnap = await getDoc(userDocRef);
 
           if (userDocSnap.exists()) {
@@ -59,7 +60,7 @@ const JobPostingForm = ({ isConnected, onSubmit }) => {
     };
 
     fetchUserData();
-  }, [isConnected]);
+  }, [walletConnected, walletAddress]);
 
   const showAlert = (type, message) => {
     setAlertInfo({ type, message });
@@ -68,12 +69,12 @@ const JobPostingForm = ({ isConnected, onSubmit }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!isConnected) {
+    if (!walletConnected) {
       showAlert("warning", "Please connect your wallet before posting a job.");
       return;
     }
 
-    const walletAddress = window.ethereum.selectedAddress.toLowerCase();
+    const walletAddressLowerCase = walletAddress.toLowerCase();
 
     const {
       company_name,
@@ -110,7 +111,7 @@ const JobPostingForm = ({ isConnected, onSubmit }) => {
 
       const jobsCollection = collection(db, "jobs");
       const newJobDoc = await addDoc(jobsCollection, {
-        senderId: walletAddress,
+        senderId: walletAddressLowerCase,
         company_name,
         jobTitle,
         jobDescription,
@@ -124,7 +125,7 @@ const JobPostingForm = ({ isConnected, onSubmit }) => {
       });
 
       onSubmit({
-        senderId: walletAddress,
+        senderId: walletAddressLowerCase,
         company_name,
         jobTitle,
         jobDescription,

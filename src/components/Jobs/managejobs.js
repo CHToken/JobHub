@@ -25,11 +25,17 @@ const ManageJobs = () => {
 
   const fetchJobs = useCallback(async () => {
     try {
+      if (!walletAddress) {
+        return;
+      }
+  
+      const walletAddressLowerCase = walletAddress.toLowerCase();
+  
       const jobsQuery = collection(db, 'jobs');
       const querySnapshot = await getDocs(
-        query(jobsQuery, where('senderId', '==', walletAddress))
+        query(jobsQuery, where('senderId', '==', walletAddressLowerCase))
       );
-
+  
       const jobsData = await Promise.all(
         querySnapshot.docs.map(async (jobDoc) => {
           const data = jobDoc.data();
@@ -41,12 +47,12 @@ const ManageJobs = () => {
           };
         })
       );
-
+  
       setJobs(jobsData);
     } catch (error) {
       console.error('Error fetching jobs:', error);
     }
-  }, [walletAddress]);
+  }, [walletAddress]);  
 
   const getApplicantsCount = async (jobId) => {
     try {

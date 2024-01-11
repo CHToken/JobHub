@@ -9,12 +9,13 @@ import {
   where,
 } from "firebase/firestore";
 import { notification } from "antd";
-
+import { useWallet } from '../WalletContext';
 import "./payment.css";
 
 const contractAddress = "0xE0b8c96D5D4B04e7FCeDdfaE3A0B4F23DA8cC9ab";
 
-const Payment = ({ isConnected }) => {
+const Payment = () => {
+  const { isConnected, connectWallet } = useWallet();
   const [web3, setWeb3] = useState(null);
   const [contract, setContract] = useState(null);
   const [signer, setSigner] = useState(null);
@@ -32,7 +33,6 @@ const Payment = ({ isConnected }) => {
     if (window.ethereum) {
       const web3Instance = new Web3(window.ethereum);
       try {
-        // await window.ethereum.request({ method: "eth_requestAccounts" });
         setWeb3(web3Instance);
         const accounts = await window.ethereum.request({
           method: "eth_accounts",
@@ -212,11 +212,7 @@ const Payment = ({ isConnected }) => {
   };  
 
   return (
-    <div
-      className="contract-container"
-      style={{ marginBottom: "130px" }}
-      align="center"
-    >
+    <div className="contract-container" style={{ marginBottom: "130px" }} align="center">
       {isConnected ? (
         <>
           <h2>JobHub Payment Portal</h2>
@@ -258,13 +254,13 @@ const Payment = ({ isConnected }) => {
                 Release
               </button>
               <div>
-              <label>Amount for Withdrawal (in Ether):</label>
-          <input
-            type="text"
-            value={withdrawAmount}
-            className="form-control"
-            onChange={(e) => setWithdrawAmount(e.target.value)}
-          />
+                <label>Amount for Withdrawal (in Ether):</label>
+                <input
+                  type="text"
+                  value={withdrawAmount}
+                  className="form-control"
+                  onChange={(e) => setWithdrawAmount(e.target.value)}
+                />
                 <button
                   className="btn btn-secondary ml-3"
                   onClick={withdrawBalance}
@@ -282,7 +278,12 @@ const Payment = ({ isConnected }) => {
           </button>
         </>
       ) : (
-        <p>Please connect your wallet to use the payment portal.</p>
+        <>
+          <p>Please connect your wallet to use the payment portal.</p>
+          <button className="btn btn-secondary" onClick={connectWallet}>
+            Connect Wallet
+          </button>
+        </>
       )}
     </div>
   );
