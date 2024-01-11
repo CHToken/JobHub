@@ -291,7 +291,7 @@ footer{
   .how-it-works-button {text-underline-offset: 3px;}
   .underlined{display: unset; }
   .buttons-section{flex-direction: column;}
-  .text-section{height: 45vh!important;}
+  .text-section{height: 59vh!important;}
 }
 
 .counter {

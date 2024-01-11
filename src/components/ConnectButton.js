@@ -12,24 +12,24 @@ const ethereumMainnet = {
     rpcUrl: 'https://cloudflare-eth.com'
 }
 
-const ethereumGoerli = {
-    chainId: 5,
-    name: 'Ethereum Goerli',
-    currency: 'GTH',
-    explorerUrl: 'https://goerli.etherscan.io',
-    rpcUrl: 'https://goerli.infura.io/v3/774a0b18d6ae4f9cabbb1458da880e5b'
-};
+// const ethereumGoerli = {
+//     chainId: 5,
+//     name: 'Ethereum Goerli',
+//     currency: 'GTH',
+//     explorerUrl: 'https://goerli.etherscan.io',
+//     rpcUrl: 'https://goerli.infura.io/v3/774a0b18d6ae4f9cabbb1458da880e5b'
+// };
 
 const metadata = {
-    name: 'Job Dapp',
+    name: 'Work AI',
     description: 'This is Dapp for the next revolution AI for getting job easily',
-    url: 'https://work.ai',
-    icons: ['https://swordbot.online/images/logo.png']
+    url: 'https://workai.vercel.app',
+    icons: ['./logo.png']
 };
 
 createWeb3Modal({
     ethersConfig: defaultConfig({ metadata }),
-    chains: [ethereumMainnet, ethereumGoerli],
+    chains: [ethereumMainnet],
     projectId
 })
 
