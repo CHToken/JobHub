@@ -27,7 +27,7 @@ const initialUserData = {
 };
 
 const UserProfile = () => {
-  const { isConnected } = useWallet();
+  const { isConnected, walletAddress } = useWallet();
   const [userData, setUserData] = useState(initialUserData);
   const [selectedProfilePicture, setSelectedProfilePicture] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -38,13 +38,13 @@ const UserProfile = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (!isConnected || !window.ethereum || !window.ethereum.selectedAddress) {
-          console.error("MetaMask not installed or not connected.");
+        if (!isConnected || !walletAddress) {
+          console.error("Wallet not connected.");
           return;
         }
 
-        const walletAddress = window.ethereum.selectedAddress.toLowerCase();
-        const docRef = doc(db, "users", walletAddress);
+        const userWalletAddress = walletAddress.toLowerCase();
+        const docRef = doc(db, "users", userWalletAddress);
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
@@ -60,7 +60,7 @@ const UserProfile = () => {
     };
 
     fetchData();
-  }, [isConnected]);
+  }, [isConnected, walletAddress]);
 
   const handleEditClick = (mode) => {
     if (isConnected) {
@@ -74,8 +74,7 @@ const UserProfile = () => {
   const handleSaveClick = async () => {
     try {
       setIsLoading(true);
-      const walletAddress = window.ethereum.selectedAddress.toLowerCase();
-      const docRef = doc(db, "users", walletAddress);
+      const docRef = doc(db, "users", walletAddress.toLowerCase());
 
       if (selectedProfilePicture) {
         await handleProfilePictureUpload(docRef);
@@ -181,11 +180,7 @@ const UserProfile = () => {
                   <div className="card">
                     {/* Pass the connected wallet address directly */}
                     <AppliedJobsList
-                      walletAddress={
-                        isConnected
-                          ? window.ethereum.selectedAddress.toLowerCase()
-                          : null
-                      }
+                      walletAddress={walletAddress}
                     />
                   </div>
                 </div>
