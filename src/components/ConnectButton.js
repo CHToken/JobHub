@@ -2,7 +2,7 @@ import React from "react";
 import { useWallet } from './WalletContext';
 import { createWeb3Modal, defaultConfig } from '@web3modal/ethers/react';
 
-const projectId = 'b12db8edf7f9cb0d92887047381eb85a';
+const projectId = '8d681534714d92a54e2496a95989c293';
 
 const ethereumMainnet = {
     chainId: 1,

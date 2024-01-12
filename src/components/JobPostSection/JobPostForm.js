@@ -5,7 +5,7 @@ import { Alert } from "antd";
 import "./JobPostingForm.css";
 import { useWallet } from '../WalletContext';
 
-const JobPostingForm = ({ isConnected, onSubmit }) => {
+const JobPostingForm = ({ onSubmit }) => {
   const jobCategoryList = [
     "Dapp Dev",
     "Smart Contract",

@@ -15,7 +15,7 @@ import { useWallet, WalletProvider } from './components/WalletContext';
 import "./global.css";
 
 const App = () => {
-  const { isConnected, setConnected } = useWallet();
+  const { isConnected, setConnected, setWalletAddress } = useWallet();
 
   // Define the onSubmit function
   const handleJobSubmit = (jobData) => {
@@ -27,6 +27,7 @@ const App = () => {
     const disconnect = () => {
       // Disconnect logic
       setConnected(false);
+      setWalletAddress(null);
     };
 
     return { disconnect };

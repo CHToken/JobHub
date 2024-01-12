@@ -6,6 +6,7 @@
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@lit/reactive-element": "^2.0.3",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -16,6 +17,7 @@
     "dotenv": "^16.3.1",
     "ethers": "^6.9.0",
     "firebase": "^10.6.0",
+    "js-cookie": "^3.0.5",
     "mongodb": "^6.3.0",
     "mongoose": "^8.0.1",
     "react": "^18.2.0",
@@ -53,6 +55,7 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "html-loader": "^4.2.0"
+    "html-loader": "^4.2.0",
+    "lit": "^3.1.1"
   }
 }

@@ -21,7 +21,7 @@
 .received {
   margin: 5px;
   padding: 5px 10px 0px 15px;
-  border-radius: 0px 15px 0px 15px;
+  border-radius: 15px; /* Adjust border-radius for both sides */
   width: max-content;
 }
 

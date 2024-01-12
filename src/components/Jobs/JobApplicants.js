@@ -17,7 +17,14 @@ const JobApplicants = ({ jobId, onViewApplicantProfile, applicants, onClose }) =
               Username: <small>@</small>
               {applicant.applicantUsername}
             </p>
-            <button onClick={() => onViewApplicantProfile(applicant.id)}>
+            <button onClick={() => {
+              if (applicant.id) {
+                console.log("View Profile Clicked - Applicant ID:", applicant.id);
+                onViewApplicantProfile(applicant.id);
+              } else {
+                console.error("Invalid Applicant ID");
+              }
+            }}>
               View Profile
             </button>
           </li>

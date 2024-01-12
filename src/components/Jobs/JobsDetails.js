@@ -18,7 +18,6 @@ const JobDetails = () => {
   const { jobId } = useParams();
   const [jobDetails, setJobDetails] = useState(null);
   const [applicantUsername, setApplicantUsername] = useState(null);
-  const [hasAppliedInSession, setHasAppliedInSession] = useState(false);
   const [hasAlreadyApplied, setHasAlreadyApplied] = useState(false);
   const [isJobPoster, setIsJobPoster] = useState(false);
 
@@ -128,11 +127,11 @@ const JobDetails = () => {
         return;
       }
 
-      if (hasAppliedInSession) {
-        alert("You have already applied for this job in this session.");
-        return;
-      }
-
+     // Check if the user has already applied for this job
+     if (hasAlreadyApplied) {
+      alert("You have already applied for this job.");
+      return;
+    }
       await addDoc(collection(db, "appliedJobs"), {
         jobId: jobDetails.id,
         walletAddress,
@@ -142,7 +141,8 @@ const JobDetails = () => {
         appliedjobstatus: "Applied",
       });
 
-      setHasAppliedInSession(true);
+      // Set a flag in local storage to indicate that the user has applied in this session
+      localStorage.setItem(`appliedInSession_${jobId}`, "true");
 
       alert("Job applied successfully!");
     } catch (error) {
@@ -192,7 +192,7 @@ const JobDetails = () => {
                 <button
                   className="btn btn-primary ml-1"
                   onClick={handleApplyNow}
-                  disabled={hasAlreadyApplied || hasAppliedInSession || isJobPoster}
+                  disabled={hasAlreadyApplied || isJobPoster}
                 >
                   Apply Now
                 </button>
