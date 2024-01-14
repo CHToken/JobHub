@@ -2,8 +2,8 @@ import React, { useState } from "react";
 
 const WalletInfo = ({ userData, onSave, onBack }) => {
   const [walletData, setWalletData] = useState({
-    bnbwalletAddress: userData.bnbwalletAddress,
-    usdtwalletAddress: userData.usdtwalletAddress,
+    // bnbwalletAddress: userData.bnbwalletAddress,
+    // usdtwalletAddress: userData.usdtwalletAddress,
     ethwalletAddress: userData.ethwalletAddress,
   });
 

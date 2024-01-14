@@ -15,11 +15,11 @@ const TextSection = () => {
             Elevate your career with WorkAI cutting-edge Dapp, where talent meets opportunity. Experience AI-driven job recommendations and top-notch security for a seamless job-searching journey.
           </p>
           <div className="buttons-section">
-            <Link to="/get-started" className="get-started-button">
-              Get Started
+            <Link to="#" className="get-started-button">
+              BUY
             </Link>
-            <Link to="/how-it-works" className="how-it-works-button">
-              How It Works?
+            <Link to="#" className="how-it-works-button">
+              CHART
             </Link>
           </div>
         </div>

@@ -9,6 +9,8 @@ const JobPostingForm = ({ onSubmit }) => {
   const jobCategoryList = [
     "Dapp Dev",
     "Smart Contract",
+    "CA Dev",
+    "Dextools Trending",
     "Callers",
     "Bug Fix",
     "Software",
@@ -18,7 +20,7 @@ const JobPostingForm = ({ onSubmit }) => {
     "Website Dev",
     "CA Audit",
     "Design",
-    "NFT",
+    "NFT Dev",
     "Mobile Apps",
     "TG Bot",
   ];

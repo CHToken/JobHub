@@ -165,14 +165,14 @@ const UserProfileView = ({
       onEditClick={() => handleEditClick("wallet")}
     >
       <div className="row wallet-row">
-        <div className="col-md-4 card m-2">
+        {/* <div className="col-md-4 card m-2">
           <strong id="bnbwallet">BNB Wallet: </strong>{" "}
           <p className="eclipse">{userData.bnbwalletAddress}</p>
         </div>
         <div className="col-md-4 card m-2">
           <strong>USDT Wallet: </strong>
           <p className="eclipse">{userData.usdtwalletAddress}</p>
-        </div>
+        </div> */}
         <div className="col-md-4 card m-2">
           <strong>ETH Wallet: </strong>
           <p className="eclipse">{userData.ethwalletAddress}</p>
