@@ -215,7 +215,7 @@ const Payment = () => {
     <div className="contract-container" style={{ marginBottom: "130px" }} align="center">
       {isConnected ? (
         <>
-          <h2>JobHub Payment Portal</h2>
+          <h2>Work AI Payment Portal</h2>
           <label>Applicant Address:</label>
           <input
             type="text"
